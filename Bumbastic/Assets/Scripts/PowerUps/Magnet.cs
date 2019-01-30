@@ -1,16 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Magnet : PowerUp
+﻿public class Magnet : PowerUp
 {
     protected override void Start()
     {
         base.Start();
+        Execute();
     }
 
-    protected override IEnumerator Execute()
+    void Execute()
     {
-        yield return null;
     }
 }

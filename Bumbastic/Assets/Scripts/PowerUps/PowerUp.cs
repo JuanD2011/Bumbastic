@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public abstract class PowerUp : MonoBehaviour
+public class PowerUp : MonoBehaviour, IPowerUp
 {
     protected float duration;
     protected Player player;
@@ -11,28 +10,25 @@ public abstract class PowerUp : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-    protected abstract IEnumerator Execute();
-
-    private void OnCollisionEnter(Collision collision)
+    public void PickPowerUp(Player _player)
     {
-        Player playerCollisioned = collision.gameObject.GetComponent<Player>();
-        if (playerCollisioned != null) {
-            byte randomPU = (byte)Random.Range(0, 3);
-            switch (randomPU)   
-            {
-                case 0:
-                    playerCollisioned.gameObject.AddComponent<Velocity>();
-                    break;
-                case 1:
-                    playerCollisioned.gameObject.AddComponent<Magnet>();
-                    break;
-                case 2:
-                    playerCollisioned.gameObject.AddComponent<Shield>();
-                    break;
-                default:
-                    break;
-            }
-            StartCoroutine(Execute());
+        int randomPU = Random.Range(0, 4);
+        switch (randomPU)
+        {
+            case 0:
+                _player.gameObject.AddComponent<Velocity>();
+                break;
+            case 1:
+                print("Velocity to the bomber");
+                break;
+            case 2:
+                _player.gameObject.AddComponent<Magnet>();
+                break;
+            case 3:
+                _player.gameObject.AddComponent<Shield>();
+                break;
+            default:
+                break;
         }
     }
 }

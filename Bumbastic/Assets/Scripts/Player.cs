@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-    private Vector2 input, inputDirection;
+    private Vector2 input, inputDirection, inputAiming, inputAim;
     private float targetRotation;
 
     protected float speedSmooothTime = 0.075f, animationSpeedPercent;
@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool speedPU;
 
     [SerializeField] Joystick joystickMovement;
+    [SerializeField] Joystick joystickAiming;
 
     public bool SpeedPU
     {
@@ -28,22 +29,10 @@ public class Player : MonoBehaviour
         }
     }
 
-    public float MoveSpeed
-    {
-        get
-        {
-            return moveSpeed;
-        }
-
-        set
-        {
-            moveSpeed = value;
-        }
-    }
-
     private void Update()
     {
         input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
+        inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
     }
 
     private void FixedUpdate()
@@ -51,21 +40,36 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    protected void Move()
+    private void Move()
     {
         inputDirection = input.normalized;
+        inputAim = inputAiming.normalized;
 
-        if (inputDirection != Vector2.zero)
+        if (inputAim != Vector2.zero) {
+            targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
+            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
+        }
+        else if(inputDirection != Vector2.zero)
         {
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
         }
 
-        targetSpeed = ((SpeedPU) ? powerUpSpeed : MoveSpeed) * inputDirection.magnitude;
+        targetSpeed = ((SpeedPU) ? powerUpSpeed : moveSpeed) * inputDirection.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVel, speedSmooothTime);
 
         transform.Translate(transform.forward * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<PowerUp>() != null)
+        { 
+            IPowerUp powerUp = collision.gameObject.GetComponent<IPowerUp>();
+            powerUp.PickPowerUp(GetComponent<Player>());
+            collision.gameObject.SetActive(false);
+        }
     }
 }

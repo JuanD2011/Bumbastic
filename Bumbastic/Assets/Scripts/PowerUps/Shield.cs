@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Shield : PowerUp
@@ -7,10 +6,14 @@ public class Shield : PowerUp
     protected override void Start()
     {
         base.Start();
+        duration = 5f;
+        StartCoroutine(Execute());
     }
 
-    protected override IEnumerator Execute()
+    IEnumerator Execute()
     {
-        yield return duration;
+        WaitForSeconds wait = new WaitForSeconds(duration);
+        yield return wait;
+        Destroy(this);
     }
 }
