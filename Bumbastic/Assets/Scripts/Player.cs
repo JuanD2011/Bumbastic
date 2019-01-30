@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
@@ -12,6 +14,8 @@ public class Player : MonoBehaviour
     float turnSmoothVel, currentSpeed, speedSmoothVel, targetSpeed;
 
     [SerializeField] private bool speedPU;
+    bool hasBomb = false;
+    float throwForce = 10f;
 
     [SerializeField] Joystick joystickMovement;
     [SerializeField] Joystick joystickAiming;
@@ -30,6 +34,7 @@ public class Player : MonoBehaviour
             speedPU = value;
         }
     }
+    public bool HasBomb { get => hasBomb;}
 
     private void Update()
     {
@@ -40,6 +45,8 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+        if (Input.GetKeyDown(KeyCode.Space))
+            ThrowBomb();
     }
 
     private void Move()
@@ -66,13 +73,37 @@ public class Player : MonoBehaviour
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
 
+    private void ThrowBomb() {
+        if (HasBomb)
+        {
+            GameManager.instance.bomb.transform.parent = null;
+            GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
+            GameManager.instance.bomb.RigidBody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            hasBomb = false;
+        }
+        else {
+            //The player has not the bomb
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<PowerUp>() != null)
+        if (collision.gameObject.GetComponent<PowerUp>() != null && !hasBomb && GetComponent<PowerUp>() == null)
         { 
             IPowerUp powerUp = collision.gameObject.GetComponent<IPowerUp>();
             powerUp.PickPowerUp(GetComponent<Player>());
             collision.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<Bomb>() != null && !hasBomb) {
+            hasBomb = true;
+            GameManager.instance.bombHolder = this;
+            other.transform.SetParent(transform);
+            other.transform.position = transform.GetChild(1).transform.position;
+            GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 }

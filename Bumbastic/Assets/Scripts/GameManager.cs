@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance;
+
+    private void Awake()
     {
-        
+        if (instance == null) instance = this;
+        else Destroy(this);
     }
 
-    // Update is called once per frame
-    void Update()
+    List<Player> playersInGame;
+    public Player bombHolder;
+    public Bomb bomb;
+
+    private void Start()
     {
-        
+        playersInGame = new List<Player>();
+        playersInGame.AddRange(FindObjectsOfType<Player>());
     }
 }
