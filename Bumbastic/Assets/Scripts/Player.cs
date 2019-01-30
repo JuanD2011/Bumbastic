@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
     [SerializeField] Joystick joystickMovement;
     [SerializeField] Joystick joystickAiming;
 
+    Vector3 movement;
+
     public bool SpeedPU
     {
         get
@@ -58,7 +60,8 @@ public class Player : MonoBehaviour
         targetSpeed = ((SpeedPU) ? powerUpSpeed : moveSpeed) * inputDirection.magnitude;
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVel, speedSmooothTime);
 
-        transform.Translate(inputDirection * currentSpeed * Time.deltaTime, Space.World);
+        movement = new Vector3(inputDirection.x, 0, inputDirection.y);
+        transform.Translate( movement * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
