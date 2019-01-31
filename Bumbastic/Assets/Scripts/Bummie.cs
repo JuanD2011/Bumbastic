@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Player : MonoBehaviour
+public class Bummie : MonoBehaviour
 {
     private Vector2 input, inputDirection, inputAiming, inputAim;
     private float targetRotation;
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.GetComponent<PowerUp>() != null && !hasBomb && GetComponent<PowerUp>() == null)
         { 
             IPowerUp powerUp = collision.gameObject.GetComponent<IPowerUp>();
-            powerUp.PickPowerUp(GetComponent<Player>());
+            powerUp.PickPowerUp(GetComponent<Bummie>());
             collision.gameObject.SetActive(false);
         }
     }

@@ -3,14 +3,14 @@
 public class PowerUp : MonoBehaviour, IPowerUp
 {
     protected float duration;
-    protected Player player;
+    protected Bummie player;
 
     protected virtual void Start()
     {
-        player = GetComponent<Player>();
+        player = GetComponent<Bummie>();
     }
 
-    public void PickPowerUp(Player _player)
+    public void PickPowerUp(Bummie _player)
     {
         if (!_player.HasBomb)
         {

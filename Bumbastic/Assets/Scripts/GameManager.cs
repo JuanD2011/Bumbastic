@@ -12,14 +12,14 @@ public class GameManager : MonoBehaviour
         else Destroy(this);
     }
 
-    List<Player> playersInGame;
-    public Player bombHolder;
+    List<Bummie> playersInGame;
+    public Bummie bombHolder;
     public Bomb bomb;
 
     private void Start()
     {
-        playersInGame = new List<Player>();
-        playersInGame.AddRange(FindObjectsOfType<Player>());
+        playersInGame = new List<Bummie>();
+        playersInGame.AddRange(FindObjectsOfType<Bummie>());
 
         Invoke("GiveBomb",1f);
     }

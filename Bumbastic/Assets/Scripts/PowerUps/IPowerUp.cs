@@ -1,4 +1,4 @@
 ﻿public interface IPowerUp
 {
-    void PickPowerUp(Player _player);
+    void PickPowerUp(Bummie _player);
 }
