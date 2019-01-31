@@ -20,5 +20,17 @@ public class GameManager : MonoBehaviour
     {
         playersInGame = new List<Player>();
         playersInGame.AddRange(FindObjectsOfType<Player>());
+
+        Invoke("GiveBomb",1f);
+    }
+
+    public void GiveBomb() {
+        byte random = (byte)Random.Range(0, playersInGame.Count);
+
+        bombHolder = playersInGame[random];
+        bombHolder.HasBomb = true;
+        bomb.transform.SetParent(bombHolder.transform);
+        bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
+        bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
