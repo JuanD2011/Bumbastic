@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
@@ -20,7 +18,8 @@ public class Bomb : MonoBehaviour
 
     private void Update()
     {
-        t += Time.deltaTime;
+        if(!exploded)
+            t += Time.deltaTime;
 
         if (t > Timer && !exploded) {
             Explode();

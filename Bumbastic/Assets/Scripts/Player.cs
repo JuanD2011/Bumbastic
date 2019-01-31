@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
             speedPU = value;
         }
     }
-    public bool HasBomb { get => hasBomb;}
+    public bool HasBomb { get => hasBomb; set => hasBomb = value; }
 
     private void Update()
     {
