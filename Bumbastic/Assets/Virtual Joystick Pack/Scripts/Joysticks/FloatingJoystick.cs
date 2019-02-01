@@ -4,10 +4,14 @@ using UnityEngine.EventSystems;
 public class FloatingJoystick : Joystick
 {
     Vector2 joystickCenter = Vector2.zero;
+    RectTransform initTransform;
+    RectTransform m_RectTransform;
+
 
     void Start()
     {
-        background.gameObject.SetActive(false);
+        m_RectTransform = GetComponent<RectTransform>();
+        //initTransform.anchoredPosition = m_RectTransform.anchoredPosition;  
     }
 
     public override void OnDrag(PointerEventData eventData)
@@ -28,7 +32,11 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        background.gameObject.SetActive(false);
+        //background.gameObject.SetActive(false);
+        //m_RectTransform.anchoredPosition = initTransform.anchoredPosition;
+        //handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
+        if(gameObject.name == "AimingJoystick")
+            GameManager.instance.bombHolder.ThrowBomb();
     }
 }

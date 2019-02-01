@@ -71,7 +71,7 @@ public class Bummie : MonoBehaviour
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
 
-    private void ThrowBomb() {
+    public void ThrowBomb() {
         if (HasBomb)
         {
             GameManager.instance.bomb.transform.parent = null;
