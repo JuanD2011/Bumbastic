@@ -28,6 +28,8 @@ MonoBehaviour:
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
-  RpcList: []
+  RpcList:
+  - RPC_CreatePlayer
+  - RPC_LoadedGameScene
   DisableAutoOpenWizard: 1
   ShowSettings: 1

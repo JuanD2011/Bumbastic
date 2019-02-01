@@ -34,11 +34,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         cancelButton.SetActive(true);
     }
 
-    public override void OnJoinedRoom()
-    {
-        Debug.Log("Joinning room succesful");
-        //base.OnJoinedRoom();
-    }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
