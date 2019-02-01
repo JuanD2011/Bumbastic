@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bummie : MonoBehaviour

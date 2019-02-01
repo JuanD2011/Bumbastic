@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -218,6 +216,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [PunRPC]
     private void RPC_CreatePlayer()
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonNetworkPlayer"), transform.position, Quaternion.identity, 0);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), transform.position, Quaternion.identity, 0);
     }
 }
