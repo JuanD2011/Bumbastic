@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using EZCameraShake;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
-    float timer = 30f;
+    float timer;
     float t = 0f;
     bool exploded = false;
     Rigidbody m_rigidBody;
+    float minTime = 25f, maxTime = 35f;
 
     public float Timer { get => timer; set => timer = value; }
     public Rigidbody RigidBody { get => m_rigidBody; set => m_rigidBody = value; }
@@ -14,6 +16,7 @@ public class Bomb : MonoBehaviour
     private void Start()
     {
         m_rigidBody = GetComponent<Rigidbody>();
+        timer = Random.Range(minTime, maxTime);
     }
 
     private void Update()
@@ -28,7 +31,9 @@ public class Bomb : MonoBehaviour
 
     void Explode()
     {
+        CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
         exploded = true;
+        gameObject.transform.parent.gameObject.SetActive(false);
         print("Explode");
     }
 }

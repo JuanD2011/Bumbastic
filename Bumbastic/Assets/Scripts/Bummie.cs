@@ -98,12 +98,26 @@ public class Bummie : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Bomb>() != null && !hasBomb) {
+        //This is when they trhow the bomb
+        if (other.gameObject.GetComponent<Bomb>() != null && !hasBomb)
+        {
             hasBomb = true;
-            GameManager.instance.bombHolder = this;
-            other.transform.SetParent(transform);
-            other.transform.position = transform.GetChild(1).transform.position;
-            GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+            PassBomb();
         }
+        //When a player touches another player
+        else if (other.gameObject.GetComponentInChildren<Bomb>() != null && !hasBomb)
+        {
+            hasBomb = true;
+            other.gameObject.GetComponent<Bummie>().HasBomb = false;
+            PassBomb();
+        }
+    }
+
+    private void PassBomb() {
+        GameManager.instance.bombHolder = this;
+        GameManager.instance.bomb.transform.parent = null;
+        GameManager.instance.bomb.transform.SetParent(transform);
+        GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
+        GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 }
