@@ -52,7 +52,7 @@ public class Bummie : MonoBehaviour
         inputDirection = input.normalized;
         inputAim = inputAiming.normalized;
 
-        if (inputAim != Vector2.zero) {
+        if (inputAim != Vector2.zero && joystickAiming.Direction.magnitude >= 0.2f) {
             targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
         }

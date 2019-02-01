@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     public void GiveBomb() {
         byte random = (byte)Random.Range(0, playersInGame.Count);
-
         bombHolder = playersInGame[random];
         bombHolder.HasBomb = true;
         bomb.transform.SetParent(bombHolder.transform);
