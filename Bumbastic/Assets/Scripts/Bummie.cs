@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bummie : MonoBehaviour
@@ -18,6 +19,8 @@ public class Bummie : MonoBehaviour
     [SerializeField] Joystick joystickMovement;
     [SerializeField] Joystick joystickAiming;
 
+    private PhotonView pV;
+
     Vector3 movement;
 
     public bool SpeedPU
@@ -34,10 +37,18 @@ public class Bummie : MonoBehaviour
     }
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
 
+    private void Start()
+    {
+        pV = GetComponent<PhotonView>();
+    }
+
     private void Update()
     {
-        input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
-        inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
+        if (pV.IsMine)
+        {
+            input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
+            inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical); 
+        }
     }
 
     private void FixedUpdate()
