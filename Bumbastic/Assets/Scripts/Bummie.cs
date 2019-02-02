@@ -16,8 +16,9 @@ public class Bummie : MonoBehaviour
     bool hasBomb = false;
     float throwForce = 10f;
 
-    [SerializeField] Joystick joystickMovement;
-    [SerializeField] Joystick joystickAiming;
+    private Joystick[] joysticks;
+    private Joystick joystickMovement;
+    private Joystick joystickAiming;
 
     private PhotonView pV;
 
@@ -40,6 +41,18 @@ public class Bummie : MonoBehaviour
     private void Start()
     {
         pV = GetComponent<PhotonView>();
+        joysticks = FindObjectsOfType<FloatingJoystick>();
+        foreach(FloatingJoystick joystick in joysticks)
+        {
+            if(joystick.type == JoystickType.Movement)
+            {
+                joystickMovement = joystick;
+            }
+            else if(joystick.type == JoystickType.Aiming)
+            {
+                joystickAiming = joystick;
+            }
+        }
     }
 
     private void Update()

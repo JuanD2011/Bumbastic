@@ -33,7 +33,10 @@ public class Bomb : MonoBehaviour
     {
         CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
         exploded = true;
-        gameObject.transform.parent.gameObject.SetActive(false);
+        if (transform.parent != null)
+        {
+            gameObject.transform.parent.gameObject.SetActive(false); 
+        }
         print("Explode");
     }
 }

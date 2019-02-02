@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
+public enum JoystickType
+{
+    Movement,
+    Aiming
+}
+
 public class FloatingJoystick : Joystick
 {
     Vector2 joystickCenter = Vector2.zero;
     RectTransform m_RectTransform;
     Vector2 m_initPos;
+
+    public JoystickType type;
 
     void Start()
     {
