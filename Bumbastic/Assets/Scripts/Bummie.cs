@@ -61,15 +61,6 @@ public class Bummie : MonoBehaviour
         }
     }
 
-    private float Z() {
-        float bombY = transform.GetChild(1).position.y;
-        return (g * bombY) / (throwForce * throwForce);
-    }
-
-    private float MaxDistance() {
-        return ((throwForce * throwForce) / g) * (Mathf.Sqrt(2f * Z()));
-    }
-
     private void ResetTime() {
         elapsedTime = 0f;
     }
@@ -86,13 +77,15 @@ public class Bummie : MonoBehaviour
             inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
         }
 
+        //Move Or Bum
         if (!joystickMovement.IsMoving && !exploded)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime > timeBeforeBum)
             {
-                print("explode");
                 exploded = true;
+                EZCameraShake.CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
+                gameObject.SetActive(false);
             }
         }
         //else if (joystickMovement.Direction.magnitude >= 0.2f && !isMoving){
