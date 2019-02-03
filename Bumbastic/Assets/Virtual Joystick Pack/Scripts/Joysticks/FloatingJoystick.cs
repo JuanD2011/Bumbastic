@@ -43,7 +43,7 @@ public class FloatingJoystick : Joystick
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
-        if(gameObject.name == "AimingJoystick")
+        if(gameObject.name == "AimingJoystick" && GameManager.instance.bombHolder != null)
             GameManager.instance.bombHolder.ThrowBomb();
     }
 }

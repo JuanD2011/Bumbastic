@@ -1,42 +1,37 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bummie : MonoBehaviour
 {
+    #region Movement
     private Vector2 input, inputDirection, inputAiming, inputAim;
     private float targetRotation;
-
     protected float speedSmooothTime = 0.075f, animationSpeedPercent;
-
     [SerializeField] float moveSpeed, turnSmooth, powerUpSpeed;
     float turnSmoothVel, currentSpeed, speedSmoothVel, targetSpeed;
-
-    [SerializeField] private bool speedPU;
-    bool hasBomb = false;
-    float throwForce = 10f;
-
     private Joystick[] joysticks;
     private Joystick joystickMovement;
     private Joystick joystickAiming;
+    Vector3 movement;
+    #endregion
 
+    #region Move or bum
+    float timeBeforeBum = 5f;
+    bool canBum = false;
+    #endregion
+
+    #region HasBomb
+    bool hasBomb = false;
+    float throwForce = 10f;
+    #endregion
+
+    [SerializeField] private bool speedPU;
     private PhotonView pV;
 
-    Vector3 movement;
-
-    public bool SpeedPU
-    {
-        get
-        {
-            return speedPU;
-        }
-
-        set
-        {
-            speedPU = value;
-        }
-    }
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
+    public bool SpeedPU { get => speedPU; set => speedPU = value; }
 
     private void Start()
     {
@@ -67,8 +62,10 @@ public class Bummie : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
             ThrowBomb();
+#endif
     }
 
     private void Move()
