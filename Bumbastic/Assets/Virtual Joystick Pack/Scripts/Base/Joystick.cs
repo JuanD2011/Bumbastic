@@ -24,6 +24,9 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     public delegate void DelJoystick();
     public DelJoystick OnResetTime;
 
+    public delegate void DelJoystickAim(bool _show);
+    public DelJoystickAim OnPathShown;
+
     public virtual void OnDrag(PointerEventData eventData)
     {
 

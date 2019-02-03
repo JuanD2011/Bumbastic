@@ -30,6 +30,8 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+        if(type == JoystickType.Aiming)
+            OnPathShown?.Invoke(true);
         if (type == JoystickType.Movement) OnResetTime?.Invoke();
         isMoving = true;
         background.gameObject.SetActive(true);
@@ -40,6 +42,8 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
+        if(type == JoystickType.Aiming)
+            OnPathShown?.Invoke(false);
         isMoving = false;
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;

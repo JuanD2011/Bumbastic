@@ -6,15 +6,18 @@ using System.Collections;
 public class Bummie : MonoBehaviour
 {
     #region Movement
-    private Vector2 input, inputDirection, inputAiming, inputAim;
     private float targetRotation;
     protected float speedSmooothTime = 0.075f, animationSpeedPercent;
     [SerializeField] float moveSpeed, turnSmooth, powerUpSpeed;
     float turnSmoothVel, currentSpeed, speedSmoothVel, targetSpeed;
+
+    private Vector2 input, inputDirection, inputAiming, inputAim;
     private Joystick[] joysticks;
     private Joystick joystickMovement;
     private Joystick joystickAiming;
     Vector3 movement;
+
+    LineRenderer m_AimPath;
     #endregion
 
     #region Move or bum
@@ -23,9 +26,10 @@ public class Bummie : MonoBehaviour
     bool exploded = false;
     #endregion
 
-    #region HasBomb
+    #region Bomb
     bool hasBomb = false;
-    float throwForce = 10f;
+    float throwForce = 1000f;
+    float g = Mathf.Abs(Physics.gravity.y);
     #endregion
 
     [SerializeField] private bool speedPU;
@@ -39,6 +43,9 @@ public class Bummie : MonoBehaviour
         pV = GetComponent<PhotonView>();
         joysticks = FindObjectsOfType<FloatingJoystick>();
 
+        m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
+        m_AimPath.SetPosition(1, new Vector3(0, 0, 10f));
+
         foreach(FloatingJoystick joystick in joysticks)
         {
             if(joystick.type == JoystickType.Movement)
@@ -49,12 +56,26 @@ public class Bummie : MonoBehaviour
             else if(joystick.type == JoystickType.Aiming)
             {
                 joystickAiming = joystick;
+                joystickAiming.OnPathShown += SetPath;
             }
         }
     }
 
+    private float Z() {
+        float bombY = transform.GetChild(1).position.y;
+        return (g * bombY) / (throwForce * throwForce);
+    }
+
+    private float MaxDistance() {
+        return ((throwForce * throwForce) / g) * (Mathf.Sqrt(2f * Z()));
+    }
+
     private void ResetTime() {
         elapsedTime = 0f;
+    }
+
+    private void SetPath(bool _show) {
+        m_AimPath.gameObject.SetActive(_show);
     }
 
     private void Update()
@@ -62,7 +83,7 @@ public class Bummie : MonoBehaviour
         if (pV.IsMine)
         {
             input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
-            inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical); 
+            inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
         }
 
         if (!joystickMovement.IsMoving && !exploded)
@@ -119,7 +140,7 @@ public class Bummie : MonoBehaviour
         {
             GameManager.instance.bomb.transform.parent = null;
             GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
-            GameManager.instance.bomb.RigidBody.AddForce(transform.forward * throwForce, ForceMode.Impulse);
+            GameManager.instance.bomb.RigidBody.AddForce(transform.forward * throwForce);
             hasBomb = false;
         }
         else {
