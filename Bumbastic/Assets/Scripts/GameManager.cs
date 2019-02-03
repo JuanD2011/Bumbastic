@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -24,7 +23,8 @@ public class GameManager : MonoBehaviour
         Invoke("GiveBomb",1f);
     }
 
-    public void GiveBomb() {
+    public void GiveBomb()
+    {
         if (playersInGame.Count != 0) {
             byte random = (byte)Random.Range(0, playersInGame.Count);
             bombHolder = playersInGame[random];

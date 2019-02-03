@@ -19,7 +19,8 @@ public class Bummie : MonoBehaviour
 
     #region Move or bum
     float timeBeforeBum = 5f;
-    bool canBum = false;
+    float elapsedTime = 0f;
+    bool exploded = false;
     #endregion
 
     #region HasBomb
@@ -37,10 +38,12 @@ public class Bummie : MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
         joysticks = FindObjectsOfType<FloatingJoystick>();
+
         foreach(FloatingJoystick joystick in joysticks)
         {
             if(joystick.type == JoystickType.Movement)
             {
+                joystick.OnResetTime += ResetTime;
                 joystickMovement = joystick;
             }
             else if(joystick.type == JoystickType.Aiming)
@@ -50,6 +53,10 @@ public class Bummie : MonoBehaviour
         }
     }
 
+    private void ResetTime() {
+        elapsedTime = 0f;
+    }
+
     private void Update()
     {
         if (pV.IsMine)
@@ -57,6 +64,21 @@ public class Bummie : MonoBehaviour
             input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
             inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical); 
         }
+
+        if (!joystickMovement.IsMoving && !exploded)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime > timeBeforeBum)
+            {
+                print("explode");
+                exploded = true;
+            }
+        }
+        //else if (joystickMovement.Direction.magnitude >= 0.2f && !isMoving){
+        //    elapsedTime = 0f;
+        //    isMoving = true;
+        //    print(elapsedTime);
+        //}
     }
 
     private void FixedUpdate()
@@ -82,13 +104,13 @@ public class Bummie : MonoBehaviour
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
         }
-
         targetSpeed = ((SpeedPU) ? powerUpSpeed : moveSpeed) * inputDirection.magnitude;
-        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVel, speedSmooothTime);
 
         movement = new Vector3(inputDirection.x, 0, inputDirection.y);
+        currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVel, speedSmooothTime);
         transform.Translate( movement * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
+
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
 

@@ -13,8 +13,6 @@ public class FloatingJoystick : Joystick
     RectTransform m_RectTransform;
     Vector2 m_initPos;
 
-    public JoystickType type;
-
     void Start()
     {
         m_RectTransform = transform.GetChild(0).GetComponent<RectTransform>();
@@ -32,6 +30,8 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerDown(PointerEventData eventData)
     {
+        if (type == JoystickType.Movement) OnResetTime?.Invoke();
+        isMoving = true;
         background.gameObject.SetActive(true);
         background.position = eventData.position;
         handle.anchoredPosition = Vector2.zero;
@@ -40,10 +40,11 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
+        isMoving = false;
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
-        if(gameObject.name == "AimingJoystick" && GameManager.instance.bombHolder != null)
+        if(type == JoystickType.Aiming && GameManager.instance.bombHolder != null)
             GameManager.instance.bombHolder.ThrowBomb();
     }
 }
