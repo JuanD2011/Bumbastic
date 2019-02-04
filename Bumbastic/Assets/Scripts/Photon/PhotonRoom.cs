@@ -13,7 +13,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public bool isGameLoaded;
     public int currentScene;
 
-    private Player[] photonPlayers;
+    public Player[] photonPlayers;
 
     public int playersInRoom;
     public int myNumberInRoom;
