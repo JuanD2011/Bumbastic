@@ -21,7 +21,7 @@ public class Bomb : MonoBehaviour
 
     private void Update()
     {
-        if(!exploded)
+        if(!exploded && transform.parent != null)
             t += Time.deltaTime;
 
         if (t > Timer && !exploded) {
@@ -31,15 +31,10 @@ public class Bomb : MonoBehaviour
 
     void Explode()
     {
-       // Bummie pBummie = transform.parent.GetComponent<Bummie>();
-        CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
         exploded = true;
-        if (transform.parent != null)
-        {
-            gameObject.transform.parent.gameObject.SetActive(false);
-            //GameManager.instance.PlayersInGame.Remove();
-            //GameManager.instance.bombHolder = null;
-        }
+        CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
+        GameManager.instance.bombHolder.gameObject.SetActive(false);
+        GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
     }
 
     private void OnCollisionEnter(Collision collision)

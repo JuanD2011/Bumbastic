@@ -78,7 +78,6 @@ public class Bummie : MonoBehaviour
             {
                 input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
                 inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
-
             }
         }
 
@@ -93,7 +92,7 @@ public class Bummie : MonoBehaviour
                 gameObject.SetActive(false);
                 GameManager.instance.PlayersInGame.Remove(this);
                 if (hasBomb)
-                    GameManager.instance.bombHolder = null;
+                    GameManager.instance.GiveBomb();
             }
         }
         //else if (joystickMovement.Direction.magnitude >= 0.2f && !isMoving){
@@ -192,5 +191,4 @@ public class Bummie : MonoBehaviour
         canMove = true;
 
     }
-
 }
