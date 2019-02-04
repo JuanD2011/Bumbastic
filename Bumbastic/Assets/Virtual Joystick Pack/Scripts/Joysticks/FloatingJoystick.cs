@@ -42,7 +42,7 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        if(type == JoystickType.Aiming)
+        if (type == JoystickType.Aiming)
             OnPathShown?.Invoke(false);
         isMoving = false;
         m_RectTransform.anchoredPosition = m_initPos;

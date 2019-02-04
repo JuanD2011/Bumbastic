@@ -28,12 +28,13 @@ public class Bummie : MonoBehaviour
 
     #region Bomb
     bool hasBomb = false;
-    float throwForce = 1000f;
-    float g = Mathf.Abs(Physics.gravity.y);
+    float throwForce = 700f;
     #endregion
 
     [SerializeField] private bool speedPU;
     private PhotonView pV;
+
+    bool canMove = true;
 
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
@@ -44,7 +45,7 @@ public class Bummie : MonoBehaviour
         joysticks = FindObjectsOfType<FloatingJoystick>();
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
-        m_AimPath.SetPosition(1, new Vector3(0, 0, 10f));
+        m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
 
         foreach(FloatingJoystick joystick in joysticks)
         {
@@ -73,8 +74,12 @@ public class Bummie : MonoBehaviour
     {
         if (pV.IsMine)
         {
-            input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
-            inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
+            if (canMove)
+            {
+                input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
+                inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
+
+            }
         }
 
         //Move Or Bum
@@ -86,6 +91,9 @@ public class Bummie : MonoBehaviour
                 exploded = true;
                 EZCameraShake.CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
                 gameObject.SetActive(false);
+                GameManager.instance.PlayersInGame.Remove(this);
+                if (hasBomb)
+                    GameManager.instance.bombHolder = null;
             }
         }
         //else if (joystickMovement.Direction.magnitude >= 0.2f && !isMoving){
@@ -109,11 +117,12 @@ public class Bummie : MonoBehaviour
         inputDirection = input.normalized;
         inputAim = inputAiming.normalized;
 
-        if (inputAim != Vector2.zero && joystickAiming.Direction.magnitude >= 0.2f) {
+        if (inputAim != Vector2.zero && joystickAiming.Direction.magnitude >= 0.2f)
+        {
             targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
         }
-        else if(inputDirection != Vector2.zero)
+        else if (inputDirection != Vector2.zero)
         {
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.y) * Mathf.Rad2Deg;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
@@ -122,7 +131,7 @@ public class Bummie : MonoBehaviour
 
         movement = new Vector3(inputDirection.x, 0, inputDirection.y);
         currentSpeed = Mathf.SmoothDamp(currentSpeed, targetSpeed, ref speedSmoothVel, speedSmooothTime);
-        transform.Translate( movement * currentSpeed * Time.deltaTime, Space.World);
+        transform.Translate(movement * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
 
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
@@ -175,4 +184,13 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
         GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
+
+    public IEnumerator CantMove(float _time) {
+        WaitForSeconds wait = new WaitForSeconds(_time);
+        canMove = false;
+        yield return wait;
+        canMove = true;
+
+    }
+
 }

@@ -31,11 +31,14 @@ public class Bomb : MonoBehaviour
 
     void Explode()
     {
+       // Bummie pBummie = transform.parent.GetComponent<Bummie>();
         CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
         exploded = true;
         if (transform.parent != null)
         {
-            gameObject.transform.parent.gameObject.SetActive(false); 
+            gameObject.transform.parent.gameObject.SetActive(false);
+            //GameManager.instance.PlayersInGame.Remove();
+            //GameManager.instance.bombHolder = null;
         }
     }
 
