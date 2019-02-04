@@ -37,6 +37,15 @@ public class Bomb : MonoBehaviour
         {
             gameObject.transform.parent.gameObject.SetActive(false); 
         }
-        print("Explode");
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "Floor") {
+            GameManager.instance.bombHolder.HasBomb = true;
+            transform.SetParent(GameManager.instance.bombHolder.transform);
+            gameObject.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
+            RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        }
     }
 }
