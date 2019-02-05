@@ -22,7 +22,11 @@ public class Bomb : MonoBehaviour
     private void Update()
     {
         if(!exploded && transform.parent != null)
+        {
             t += Time.deltaTime;
+            Debug.Log(t);
+        }
+
 
         if (t > Timer && !exploded)
         {
