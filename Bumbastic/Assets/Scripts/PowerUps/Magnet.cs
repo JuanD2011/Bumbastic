@@ -14,7 +14,7 @@ public class Magnet : PowerUp
         GameManager.instance.bombHolder = player;
         GameManager.instance.bomb.transform.SetParent(player.transform);
         GameManager.instance.bomb.gameObject.transform.position = player.transform.GetChild(1).transform.position;
-        GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
         Destroy(this);
     }
 }

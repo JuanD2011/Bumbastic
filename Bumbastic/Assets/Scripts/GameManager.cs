@@ -1,7 +1,9 @@
 ﻿using Photon.Realtime;
 using Photon.Pun;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     List<Bummie> playersInGame;
     public Bummie bombHolder;
-    public Bomb bomb;
+    public GameObject bomb;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
 
@@ -29,30 +31,36 @@ public class GameManager : MonoBehaviour
 
         if(PhotonNetwork.IsMasterClient)
         {
-            PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
-            Invoke("GiveBomb", 1f); 
-        }
-    }
-
-    public void GiveBomb()
-    {
-        if (PlayersInGame.Count != 0)
-        {
-            byte random = (byte)Random.Range(0, PlayersInGame.Count);
-            bombHolder = PlayersInGame[random];
-            bombHolder.HasBomb = true;
-            
-            pV.RPC("WhoHasTheBomb", RpcTarget.AllBuffered, bombHolder);
+            Debug.Log("Soy yo");
+            Invoke("GiveBomb", 1f);
         }
     }
 
     [PunRPC]
-    void WhoHasTheBomb(Bummie _bombHolder)
+    void WhoHasTheBomb(int _bombHolderID)
     {
-        GameManager.instance.bombHolder = _bombHolder;
+        GameManager.instance.bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
         bombHolder.HasBomb = true;
         bomb.transform.SetParent(bombHolder.transform);
         bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
-        bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        Debug.Log("Holi");
+    }
+
+    public void GiveBomb()
+    {
+        PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+        Debug.Log(PlayersInGame.Count);
+        int spawnPicker = Random.Range(0, PlayersInGame.Count);
+        bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
+
+        if (PlayersInGame.Count != 0)
+        {
+            bombHolder = PlayersInGame[spawnPicker];
+            bombHolder.HasBomb = true;
+            Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+
+            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+        }
     }
 }

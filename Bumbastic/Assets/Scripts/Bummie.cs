@@ -140,8 +140,8 @@ public class Bummie : MonoBehaviour
         if (HasBomb)
         {
             GameManager.instance.bomb.transform.parent = null;
-            GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
-            GameManager.instance.bomb.RigidBody.AddForce(transform.forward * throwForce);
+            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
+            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
             hasBomb = false;
         }
         else {
@@ -181,7 +181,7 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.parent = null;
         GameManager.instance.bomb.transform.SetParent(transform);
         GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
-        GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public IEnumerator CantMove(float _time) {

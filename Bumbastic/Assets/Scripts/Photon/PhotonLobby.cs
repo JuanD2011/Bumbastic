@@ -1,6 +1,7 @@
 ﻿using Photon.Realtime;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
@@ -22,7 +23,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         Debug.Log("Player has connected to the Photon server");
         PhotonNetwork.AutomaticallySyncScene = true;
-        playButton.SetActive(true);
+        playButton.GetComponent<Button>().interactable = true;
     }
 
     public void OnPlayButtonClicked()

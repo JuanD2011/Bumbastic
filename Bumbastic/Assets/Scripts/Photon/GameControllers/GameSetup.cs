@@ -13,14 +13,4 @@ public class GameSetup : MonoBehaviour
             GameSetup.gameSetup = this;
         }       
     }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 }

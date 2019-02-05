@@ -3,6 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
@@ -27,6 +28,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     private float lessThanMaxPlayers;
     private float atMaxPlayers;
     private float timeToStart;
+
+    [SerializeField] private Text matchMaking;
 
     private void Awake()
     {
@@ -66,7 +69,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         readyToCount = false;
         readyToStart = false;
         lessThanMaxPlayers = startingTime;
-        atMaxPlayers = 6;
+        atMaxPlayers = 4;
         timeToStart = startingTime;
     }
 
@@ -92,7 +95,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
                     lessThanMaxPlayers -= Time.deltaTime;
                     timeToStart = lessThanMaxPlayers;
                 }
-                Debug.Log("Display time to start to the players " + timeToStart);
+                //Debug.Log("Display time to start to the players " + timeToStart);
 
                 if (timeToStart <= 0)
                 {
@@ -114,8 +117,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if(MultiplayerSetting.multiplayerSetting.delayStart)
         {
             Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + MultiplayerSetting.multiplayerSetting.maxPlayers + ")");
+            matchMaking.text = playersInRoom + " / " + MultiplayerSetting.multiplayerSetting.maxPlayers + " Players";
 
-            if(playersInRoom > 1)
+            if (playersInRoom > 1)
             {
                 readyToCount = true;
             }
@@ -144,6 +148,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         if(MultiplayerSetting.multiplayerSetting.delayStart)
         {
             Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + MultiplayerSetting.multiplayerSetting.maxPlayers + ")");
+            matchMaking.text = playersInRoom + " / " + MultiplayerSetting.multiplayerSetting.maxPlayers + " Players";
 
             if (playersInRoom > 1)
             {
@@ -180,7 +185,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         lessThanMaxPlayers = startingTime;
         timeToStart = startingTime;
-        atMaxPlayers = 6;
+        atMaxPlayers = 4;
         readyToCount = false;
         readyToStart = false;
     }
