@@ -32,14 +32,15 @@ public class GameManager : MonoBehaviour
         if(PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Soy yo");
-            Invoke("GiveBomb", 1f);
+            Invoke("FillList", 1f);
+            Invoke("GiveBomb", 1.5f);
         }
     }
 
     [PunRPC]
     void WhoHasTheBomb(int _bombHolderID)
     {
-        GameManager.instance.bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
+        bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
         bombHolder.HasBomb = true;
         bomb.transform.SetParent(bombHolder.transform);
         bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
@@ -49,18 +50,29 @@ public class GameManager : MonoBehaviour
 
     public void GiveBomb()
     {
-        PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
         Debug.Log(PlayersInGame.Count);
-        int spawnPicker = Random.Range(0, PlayersInGame.Count);
-        bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
-
-        if (PlayersInGame.Count != 0)
+        if (PlayersInGame.Count > 1)
         {
-            bombHolder = PlayersInGame[spawnPicker];
-            bombHolder.HasBomb = true;
-            Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            int spawnPicker = Random.Range(0, PlayersInGame.Count);
+            bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
 
-            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            if (PlayersInGame.Count != 0)
+            {
+                bombHolder = PlayersInGame[spawnPicker];
+                bombHolder.HasBomb = true;
+                Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+
+                pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            } 
         }
+        else if(PlayersInGame.Count == 0)
+        {
+            //Condición Victoria
+        }
+    }
+
+    private void FillList()
+    {
+        PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
     }
 }

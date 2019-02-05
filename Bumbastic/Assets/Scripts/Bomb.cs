@@ -24,7 +24,8 @@ public class Bomb : MonoBehaviour
         if(!exploded && transform.parent != null)
             t += Time.deltaTime;
 
-        if (t > Timer && !exploded) {
+        if (t > Timer && !exploded)
+        {
             Explode();
         }
     }

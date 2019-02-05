@@ -82,19 +82,19 @@ public class Bummie : MonoBehaviour
         }
 
         //Move Or Bum
-        if (!joystickMovement.IsMoving && !exploded)
-        {
-            elapsedTime += Time.deltaTime;
-            if (elapsedTime > timeBeforeBum)
-            {
-                exploded = true;
-                EZCameraShake.CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
-                gameObject.SetActive(false);
-                GameManager.instance.PlayersInGame.Remove(this);
-                if (hasBomb)
-                    GameManager.instance.GiveBomb();
-            }
-        }
+        //if (!joystickMovement.IsMoving && !exploded)
+        //{
+        //    elapsedTime += Time.deltaTime;
+        //    if (elapsedTime > timeBeforeBum)
+        //    {
+        //        exploded = true;
+        //        EZCameraShake.CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
+        //        gameObject.SetActive(false);
+        //        GameManager.instance.PlayersInGame.Remove(this);
+        //        if (hasBomb)
+        //            GameManager.instance.GiveBomb();
+        //    }
+        //}
         //else if (joystickMovement.Direction.magnitude >= 0.2f && !isMoving){
         //    elapsedTime = 0f;
         //    isMoving = true;

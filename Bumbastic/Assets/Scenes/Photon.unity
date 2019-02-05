@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayStart: 1
-  maxPlayers: 2
+  maxPlayers: 3
   menuScene: 0
   multiplayerScene: 1
 --- !u!4 &1036105806
@@ -784,7 +784,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: v_0.0.62
+  m_Text: v_0.0.63
 --- !u!222 &1210465551
 CanvasRenderer:
   m_ObjectHideFlags: 0
