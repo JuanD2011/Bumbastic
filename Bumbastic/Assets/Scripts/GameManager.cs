@@ -29,10 +29,11 @@ public class GameManager : MonoBehaviour
 
         PlayersInGame = new List<Bummie>();
 
+        Invoke("FillList", 1f);
+
         if(PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Soy yo");
-            Invoke("FillList", 1f);
             Invoke("GiveBomb", 1.5f);
         }
     }

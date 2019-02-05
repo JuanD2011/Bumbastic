@@ -136,7 +136,8 @@ public class Bummie : MonoBehaviour
         //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
 
-    public void ThrowBomb() {
+    public void ThrowBomb()
+    {
         if (HasBomb)
         {
             GameManager.instance.bomb.transform.parent = null;
@@ -176,7 +177,8 @@ public class Bummie : MonoBehaviour
         }
     }
 
-    private void PassBomb() {
+    private void PassBomb()
+    {
         GameManager.instance.bombHolder = this;
         GameManager.instance.bomb.transform.parent = null;
         GameManager.instance.bomb.transform.SetParent(transform);
@@ -184,11 +186,11 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 
-    public IEnumerator CantMove(float _time) {
+    public IEnumerator CantMove(float _time)
+    {
         WaitForSeconds wait = new WaitForSeconds(_time);
         canMove = false;
         yield return wait;
         canMove = true;
-
     }
 }
