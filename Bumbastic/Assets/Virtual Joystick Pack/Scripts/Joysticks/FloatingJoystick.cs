@@ -46,16 +46,15 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerUp(PointerEventData eventData)
     {
-        if (pV.IsMine)
+        if (type == JoystickType.Aiming)
+            OnPathShown?.Invoke(false);
+        isMoving = false;
+        m_RectTransform.anchoredPosition = m_initPos;
+        handle.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+        if (type == JoystickType.Aiming && GameManager.instance.bombHolder != null && pV.IsMine)
         {
-            if (type == JoystickType.Aiming)
-                OnPathShown?.Invoke(false);
-            isMoving = false;
-            m_RectTransform.anchoredPosition = m_initPos;
-            handle.anchoredPosition = Vector2.zero;
-            inputVector = Vector2.zero;
-            if (type == JoystickType.Aiming && GameManager.instance.bombHolder != null)
-                GameManager.instance.bombHolder.ThrowBomb(); 
+            GameManager.instance.bombHolder.ThrowBomb();
         }
     }
 }
