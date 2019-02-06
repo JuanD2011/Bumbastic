@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     {
         bomb = PhotonView.Find(bombID).gameObject;
         bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
+        Debug.Log(bombHolder);
         foreach(Bummie bummie in PlayersInGame)
         {
             bummie.HasBomb = false;
@@ -47,7 +48,6 @@ public class GameManager : MonoBehaviour
         bomb.transform.SetParent(bombHolder.transform);
         bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
         bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        Debug.Log("Holi");
     }
 
     public void GiveBomb()
@@ -84,14 +84,12 @@ public class GameManager : MonoBehaviour
 
     public void PlayersSpawn()
     {
-        Debug.Log("Aló");
         playersSpawned++;
         if(playersSpawned == PhotonRoom.room.playersInRoom)
         {
             FillList();
             if (PhotonNetwork.IsMasterClient)
             {
-                Debug.Log("Soy yo");
                 GiveBomb();
             }
         }

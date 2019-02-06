@@ -54,7 +54,7 @@ public class FloatingJoystick : Joystick
         inputVector = Vector2.zero;
         if (type == JoystickType.Aiming)
         {
-            gameObject.GetComponent<Bummie>().ThrowBomb();
+            gameObject.GetComponentInParent<Bummie>().ThrowBomb();
         }
     }
 }
