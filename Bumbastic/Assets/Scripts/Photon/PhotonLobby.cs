@@ -9,6 +9,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     [SerializeField] private GameObject playButton, cancelButton;
 
+    [SerializeField] private Text matchMaking;
+
     private void Awake()
     {
         lobby = this;
@@ -60,6 +62,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         playButton.SetActive(true);
         cancelButton.SetActive(false);
+        matchMaking.text = "...";
         PhotonNetwork.LeaveRoom();
     }
 

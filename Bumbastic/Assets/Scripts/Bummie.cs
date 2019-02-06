@@ -138,19 +138,16 @@ public class Bummie : MonoBehaviour
 
     public void ThrowBomb()
     {
-        if (pV.IsMine)
+        if (HasBomb)
         {
-            if (HasBomb)
-            {
-                GameManager.instance.bomb.transform.parent = null;
-                GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
-                GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
-                hasBomb = false;
-            }
-            else
-            {
-                //The player has not the bomb
-            } 
+            GameManager.instance.bomb.transform.parent = null;
+            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
+            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
+            hasBomb = false;
+        }
+        else
+        {
+            //The player has not the bomb
         }
     }
 
@@ -204,5 +201,9 @@ public class Bummie : MonoBehaviour
     void SyncBomb(int bombHolderID)
     {
         GameManager.instance.bombHolder = PhotonView.Find(bombHolderID).gameObject.GetComponent<Bummie>();
+        GameManager.instance.bomb.transform.parent = null;
+        GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
+        GameManager.instance.bomb.transform.position = GameManager.instance.bomb.transform.GetChild(1).transform.position;
+        GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 }

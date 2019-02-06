@@ -32,5 +32,7 @@ MonoBehaviour:
   - RPC_CreatePlayer
   - RPC_LoadedGameScene
   - WhoHasTheBomb
+  - GameOver
+  - SyncBomb
   DisableAutoOpenWizard: 1
   ShowSettings: 1
