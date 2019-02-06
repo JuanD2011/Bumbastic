@@ -54,7 +54,10 @@ public class Bummie : MonoBehaviour
 
         foreach (FloatingJoystick joystick in joysticks)
         {
-            joystick.gameObject.SetActive(true);
+            if (pV.IsMine)
+            {
+                joystick.gameObject.SetActive(true); 
+            }
 
             if (joystick.type == JoystickType.Movement)
             {
