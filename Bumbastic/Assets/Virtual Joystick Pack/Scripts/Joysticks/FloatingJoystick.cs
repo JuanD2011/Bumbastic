@@ -52,7 +52,7 @@ public class FloatingJoystick : Joystick
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
-        if (type == JoystickType.Aiming && GameManager.instance.bombHolder != null)
+        if (type == JoystickType.Aiming && GameManager.instance.bombHolder && gameObject.GetComponent<Bummie>() == GameManager.instance.bombHolder)
         {
             GameManager.instance.bombHolder.ThrowBomb();
         }
