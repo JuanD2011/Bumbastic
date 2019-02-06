@@ -33,7 +33,6 @@ public class Crow : StateMachineBehaviour
             GameManager.instance.powerUp.transform.position = animator.transform.GetChild(0).position;
             GameManager.instance.powerUp.gameObject.SetActive(true);
         }
-        Debug.LogWarning(dir);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
