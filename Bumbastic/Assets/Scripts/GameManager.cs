@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     List<Bummie> playersInGame;
     public Bummie bombHolder;
     public GameObject bomb;
+    public PowerUp powerUp;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
 

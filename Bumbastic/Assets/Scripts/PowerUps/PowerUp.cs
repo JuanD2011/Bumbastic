@@ -14,20 +14,20 @@ public class PowerUp : MonoBehaviour, IPowerUp
     {
         if (!_player.HasBomb)
         {
-            int randomPU = Random.Range(0, 4);
+            int randomPU = Random.Range(0, 3);
             switch (randomPU)
             {
                 case 0:
                     _player.gameObject.AddComponent<Velocity>();
                     break;
                 case 1:
-                    GameManager.instance.bombHolder.gameObject.AddComponent<Velocity>();
-                    break;
-                case 2:
                     _player.gameObject.AddComponent<Magnet>();
                     break;
-                case 3:
+                case 2:
                     _player.gameObject.AddComponent<Shield>();
+                    break;
+                case 3:
+                    GameManager.instance.bombHolder.gameObject.AddComponent<Velocity>();
                     break;
                 default:
                     break;
