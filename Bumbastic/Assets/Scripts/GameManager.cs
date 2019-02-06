@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
     {
         bomb = PhotonView.Find(bombID).gameObject;
         bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
+        foreach(Bummie bummie in PlayersInGame)
+        {
+            bummie.HasBomb = false;
+        }
         bombHolder.HasBomb = true;
         bomb.transform.SetParent(bombHolder.transform);
         bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
