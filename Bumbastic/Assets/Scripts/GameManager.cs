@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour
         pV = GetComponent<PhotonView>();
 
         PlayersInGame = new List<Bummie>();
-
-        PhotonPlayer.OnPlayerSpawn += PlayersSpawn;
     }
 
     [PunRPC]
@@ -80,8 +78,9 @@ public class GameManager : MonoBehaviour
         winner.transform.localScale *= 2; 
     }
 
-    private void PlayersSpawn()
+    public void PlayersSpawn()
     {
+        Debug.Log("Aló");
         playersSpawned++;
         if(playersSpawned == PhotonRoom.room.playersInRoom)
         {
