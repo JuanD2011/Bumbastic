@@ -166,7 +166,7 @@ public class Bummie : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //This is when they trhow the bomb
+        //This is when they throw the bomb
         if (other.gameObject.GetComponent<Bomb>() != null && !hasBomb)
         {
             hasBomb = true;
@@ -188,6 +188,8 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.SetParent(transform);
         GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
+
+        pV.RPC("SyncBomb", RpcTarget.All, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
     }
 
     public IEnumerator CantMove(float _time)
@@ -196,5 +198,11 @@ public class Bummie : MonoBehaviour
         canMove = false;
         yield return wait;
         canMove = true;
+    }
+
+    [PunRPC]
+    void SyncBomb(int bombHolderID)
+    {
+        GameManager.instance.bombHolder = PhotonView.Find(bombHolderID).gameObject.GetComponent<Bummie>();
     }
 }
