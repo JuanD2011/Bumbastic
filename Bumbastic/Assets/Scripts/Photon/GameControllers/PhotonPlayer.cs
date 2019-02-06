@@ -13,15 +13,16 @@ public class PhotonPlayer : MonoBehaviour
         pV = GetComponent<PhotonView>();
         int spawnPicker = Random.Range(0, GameSetup.gameSetup.spawnPoints.Length);
 
-        if(pV.IsMine) 
+        if (pV.IsMine)
         {
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), GameSetup.gameSetup.spawnPoints[spawnPicker].position, GameSetup.gameSetup.spawnPoints[spawnPicker].rotation, 0);
-            GameManager.instance.PlayersSpawn();
+            pV.RPC("SyncPlayerSpawn", RpcTarget.All);
         }
     }
 
-    void Update()
+    [PunRPC]
+    void SyncPlayerSpawn()
     {
-        
+        GameManager.instance.PlayersSpawn();
     }
 }
