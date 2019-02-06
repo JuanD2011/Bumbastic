@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FlyUp : StateMachineBehaviour
 {
-    //Vector3 crowPos;
-    //public Vector3 CrowPos { get => crowPos; set => crowPos = value; }
     [SerializeField] float timeToUp;
     float distance;
     Vector3 target;
