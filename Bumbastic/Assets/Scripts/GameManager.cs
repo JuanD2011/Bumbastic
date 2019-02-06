@@ -57,23 +57,26 @@ public class GameManager : MonoBehaviour
             int spawnPicker = Random.Range(0, PlayersInGame.Count);
             bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
 
-            if (PlayersInGame.Count != 0)
-            {
-                bombHolder = PlayersInGame[spawnPicker];
-                bombHolder.HasBomb = true;
-                Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            bombHolder = PlayersInGame[spawnPicker];
+            bombHolder.HasBomb = true;
+            Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
 
-                pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
-            } 
+            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
         }
         else if(PlayersInGame.Count == 0)
         {
-            //Condición Victoria
+            pV.RPC("GameOver", RpcTarget.All, PlayersInGame[0]);
         }
     }
 
     private void FillList()
     {
         PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+    }
+
+    [PunRPC]
+    void GameOver(Bummie winner)
+    {
+        winner.transform.localScale *= 2; 
     }
 }
