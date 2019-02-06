@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FlyUp : StateMachineBehaviour
 {
@@ -20,7 +18,12 @@ public class FlyUp : StateMachineBehaviour
         animator.transform.localPosition = Vector3.MoveTowards(animator.transform.localPosition, target, (Time.deltaTime * distance) / timeToUp);
         if (animator.transform.localPosition == target)
         {
-            animator.SetTrigger("IsFlying");
+            animator.SetBool("Flying",true);
         }
+    }
+
+    public override void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
+    {
+        animator.SetBool("Flying", false);
     }
 }
