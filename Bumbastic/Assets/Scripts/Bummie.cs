@@ -49,24 +49,31 @@ public class Bummie : MonoBehaviour
 
         foreach(FloatingJoystick joystick in joysticks)
         {
-            if(joystick.type == JoystickType.Movement)
+            if (pV.IsMine)
             {
-                joystick.OnResetTime += ResetTime;
-                joystickMovement = joystick;
-            }
-            else if(joystick.type == JoystickType.Aiming)
-            {
-                joystickAiming = joystick;
-                joystickAiming.OnPathShown += SetPath;
+                joystick.gameObject.SetActive(true);
+
+                if (joystick.type == JoystickType.Movement)
+                {
+                    joystick.OnResetTime += ResetTime;
+                    joystickMovement = joystick;
+                }
+                else if (joystick.type == JoystickType.Aiming)
+                {
+                    joystickAiming = joystick;
+                    joystickAiming.OnPathShown += SetPath;
+                } 
             }
         }
     }
 
-    private void ResetTime() {
+    private void ResetTime()
+    {
         elapsedTime = 0f;
     }
 
-    private void SetPath(bool _show) {
+    private void SetPath(bool _show)
+    {
         m_AimPath.gameObject.SetActive(_show);
     }
 
