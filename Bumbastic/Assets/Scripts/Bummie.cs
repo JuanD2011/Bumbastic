@@ -203,7 +203,7 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bombHolder = PhotonView.Find(bombHolderID).gameObject.GetComponent<Bummie>();
         GameManager.instance.bomb.transform.parent = null;
         GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
-        GameManager.instance.bomb.transform.position = GameManager.instance.bomb.transform.GetChild(1).transform.position;
+        GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.FreezeAll;
     }
 }

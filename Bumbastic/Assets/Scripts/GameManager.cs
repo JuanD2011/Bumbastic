@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
 
     private PhotonView pV;
+    private int playersSpawned;
 
     Vector3 crowPos;
     public Vector3 CrowPos { get => crowPos; set => crowPos = value; }
@@ -32,13 +33,13 @@ public class GameManager : MonoBehaviour
 
         PlayersInGame = new List<Bummie>();
 
-        Invoke("FillList", 1f);
-
         if(PhotonNetwork.IsMasterClient)
         {
             Debug.Log("Soy yo");
             Invoke("GiveBomb", 1.5f);
         }
+
+        PhotonPlayer.OnPlayerSpawn += PlayersSpawn;
     }
 
     [PunRPC]
@@ -67,7 +68,7 @@ public class GameManager : MonoBehaviour
 
             pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID, bomb.GetComponent<PhotonView>().ViewID);
         }
-        else if(PlayersInGame.Count == 0)
+        else if(PlayersInGame.Count == 1)
         {
             pV.RPC("GameOver", RpcTarget.All, PlayersInGame[0].gameObject.GetComponent<PhotonView>().ViewID);
         }
@@ -83,5 +84,19 @@ public class GameManager : MonoBehaviour
     {
         GameObject winner = PhotonView.Find(IDwinner).gameObject; 
         winner.transform.localScale *= 2; 
+    }
+
+    private void PlayersSpawn()
+    {
+        playersSpawned++;
+        if(playersSpawned == PhotonRoom.room.playersInRoom)
+        {
+            FillList();
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("Soy yo");
+                GiveBomb();
+            }
+        }
     }
 }
