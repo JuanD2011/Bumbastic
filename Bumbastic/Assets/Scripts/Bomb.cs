@@ -17,6 +17,7 @@ public class Bomb : MonoBehaviour
     {
         m_rigidBody = GetComponent<Rigidbody>();
         timer = Random.Range(minTime, maxTime);
+        Debug.Log(timer);
     }
 
     private void Update()
@@ -24,7 +25,6 @@ public class Bomb : MonoBehaviour
         if(!exploded && transform.parent != null)
         {
             t += Time.deltaTime;
-            Debug.Log(t);
         }
 
 

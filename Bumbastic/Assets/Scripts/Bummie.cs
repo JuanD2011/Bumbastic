@@ -138,15 +138,19 @@ public class Bummie : MonoBehaviour
 
     public void ThrowBomb()
     {
-        if (HasBomb)
+        if (pV.IsMine)
         {
-            GameManager.instance.bomb.transform.parent = null;
-            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
-            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
-            hasBomb = false;
-        }
-        else {
-            //The player has not the bomb
+            if (HasBomb)
+            {
+                GameManager.instance.bomb.transform.parent = null;
+                GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
+                GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
+                hasBomb = false;
+            }
+            else
+            {
+                //The player has not the bomb
+            } 
         }
     }
 

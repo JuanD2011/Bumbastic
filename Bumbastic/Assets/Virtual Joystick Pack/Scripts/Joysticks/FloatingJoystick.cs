@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
 
 public enum JoystickType
 {
@@ -30,7 +31,7 @@ public class FloatingJoystick : Joystick
 
     public override void OnPointerDown(PointerEventData eventData)
     {
-        if(type == JoystickType.Aiming)
+        if (type == JoystickType.Aiming)
             OnPathShown?.Invoke(true);
         if (type == JoystickType.Movement) OnResetTime?.Invoke();
         isMoving = true;
@@ -48,7 +49,7 @@ public class FloatingJoystick : Joystick
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
-        if(type == JoystickType.Aiming && GameManager.instance.bombHolder != null)
+        if (type == JoystickType.Aiming && GameManager.instance.bombHolder != null)
             GameManager.instance.bombHolder.ThrowBomb();
     }
 }
