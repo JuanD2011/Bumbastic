@@ -33,12 +33,6 @@ public class GameManager : MonoBehaviour
 
         PlayersInGame = new List<Bummie>();
 
-        if(PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("Soy yo");
-            Invoke("GiveBomb", 1.5f);
-        }
-
         PhotonPlayer.OnPlayerSpawn += PlayersSpawn;
     }
 
