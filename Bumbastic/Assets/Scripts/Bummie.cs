@@ -42,7 +42,7 @@ public class Bummie : MonoBehaviour
     private void Start()
     {
         pV = GetComponent<PhotonView>();
-        joysticks = FindObjectsOfType<FloatingJoystick>();
+        joysticks = GetComponentsInChildren<FloatingJoystick>();
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
         m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
