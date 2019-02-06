@@ -42,27 +42,29 @@ public class Bummie : MonoBehaviour
     private void Start()
     {
         pV = GetComponent<PhotonView>();
-        joysticks = GetComponentsInChildren<FloatingJoystick>();
+        joysticks = GetComponentsInChildren<FloatingJoystick>(true);
+
+        if(joysticks == null)
+        {
+            Debug.Log("Ups");
+        }
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
         m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
 
-        foreach(FloatingJoystick joystick in joysticks)
+        foreach (FloatingJoystick joystick in joysticks)
         {
-            if (pV.IsMine)
-            {
-                joystick.gameObject.SetActive(true);
+            joystick.gameObject.SetActive(true);
 
-                if (joystick.type == JoystickType.Movement)
-                {
-                    joystick.OnResetTime += ResetTime;
-                    joystickMovement = joystick;
-                }
-                else if (joystick.type == JoystickType.Aiming)
-                {
-                    joystickAiming = joystick;
-                    joystickAiming.OnPathShown += SetPath;
-                } 
+            if (joystick.type == JoystickType.Movement)
+            {
+                joystick.OnResetTime += ResetTime;
+                joystickMovement = joystick;
+            }
+            else if (joystick.type == JoystickType.Aiming)
+            {
+                joystickAiming = joystick;
+                joystickAiming.OnPathShown += SetPath;
             }
         }
     }
