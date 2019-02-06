@@ -39,8 +39,9 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void WhoHasTheBomb(int _bombHolderID)
+    void WhoHasTheBomb(int _bombHolderID, GameObject _bomb)
     {
+        bomb = _bomb;
         bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
         bombHolder.HasBomb = true;
         bomb.transform.SetParent(bombHolder.transform);
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour
             bombHolder.HasBomb = true;
             Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
 
-            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID, bomb);
         }
         else if(PlayersInGame.Count == 0)
         {
