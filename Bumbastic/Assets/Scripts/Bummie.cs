@@ -202,7 +202,7 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.SetParent(transform);
         GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-
+        GameManager.instance.bomb.GetComponent<PhotonView>().TransferOwnership(GameManager.instance.bombHolder.transform.GetComponent<PhotonView>().ViewID);
         pV.RPC("SyncBomb", RpcTarget.All, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
     }
 
