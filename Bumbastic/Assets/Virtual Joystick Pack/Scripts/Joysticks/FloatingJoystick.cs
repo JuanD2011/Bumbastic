@@ -14,6 +14,7 @@ public class FloatingJoystick : Joystick
     RectTransform m_RectTransform;
     Vector2 m_initPos;
     private PhotonView pV;
+    float magnitude;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class FloatingJoystick : Joystick
         inputVector = (direction.magnitude > background.sizeDelta.x / 2f) ? direction.normalized : direction / (background.sizeDelta.x / 2f);
         ClampJoystick();
         handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
+        magnitude = Direction.magnitude;
     }
 
     public override void OnPointerDown(PointerEventData eventData)
@@ -50,8 +52,7 @@ public class FloatingJoystick : Joystick
         m_RectTransform.anchoredPosition = m_initPos;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
-        Debug.Log(Direction.magnitude);
-        if (type == JoystickType.Aiming)
+        if (type == JoystickType.Aiming && magnitude >= 0.2f)
         {
             gameObject.GetComponentInParent<Bummie>().ThrowBomb();
             Debug.LogWarning("Hey");
