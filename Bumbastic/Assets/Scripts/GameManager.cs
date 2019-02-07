@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
             bummie.HasBomb = false;
         }
         bombHolder.HasBomb = true;
+        bomb.GetComponent<PhotonView>().TransferOwnership(bombHolder.transform.GetComponent<PhotonView>().ViewID);
         bomb.transform.SetParent(bombHolder.transform);
         bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
         bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour
 
             bombHolder = PlayersInGame[spawnPicker];
             bombHolder.HasBomb = true;
-            Debug.Log(bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+            bomb.GetComponent<PhotonView>().TransferOwnership(bombHolder.transform.GetComponent<PhotonView>().ViewID);
 
             pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID, bomb.GetComponent<PhotonView>().ViewID);
         }
