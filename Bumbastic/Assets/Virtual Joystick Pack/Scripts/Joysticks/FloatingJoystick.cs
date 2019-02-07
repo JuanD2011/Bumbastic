@@ -50,8 +50,8 @@ public class FloatingJoystick : Joystick
         if (type == JoystickType.Aiming) OnPathShown?.Invoke(false);
         isMoving = false;
         m_RectTransform.anchoredPosition = m_initPos;
-        handle.anchoredPosition = Vector2.zero;
-        inputVector = Vector2.zero;
+        handle.anchoredPosition = joystickCenter;
+        inputVector = joystickCenter;
         if (type == JoystickType.Aiming && magnitude >= 0.2f)
         {
             gameObject.GetComponentInParent<Bummie>().ThrowBomb();
