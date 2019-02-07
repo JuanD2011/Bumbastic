@@ -128,10 +128,15 @@ public class Bummie : MonoBehaviour
         inputDirection = input.normalized;
         inputAim = inputAiming.normalized;
 
-        if (inputAim != Vector2.zero && joystickAiming.Direction.magnitude >= 0.2f)
+        if (inputAim != Vector2.zero)
         {
-            targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
-            transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
+            if (joystickAiming.Direction.magnitude >= 0.2f)
+            {
+                m_AimPath.gameObject.SetActive(true);
+                targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
+            }
+            else m_AimPath.gameObject.SetActive(false);
         }
         else if (inputDirection != Vector2.zero)
         {
