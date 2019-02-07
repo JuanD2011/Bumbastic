@@ -202,6 +202,7 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.SetParent(transform);
         GameManager.instance.bomb.transform.position = transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        GameManager.instance.bomb.GetComponent<PhotonView>().TransferOwnership(GameManager.instance.bombHolder.transform.GetComponent<PhotonView>().ViewID);
         pV.RPC("SyncBomb", RpcTarget.All, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
     }
 
@@ -217,6 +218,12 @@ public class Bummie : MonoBehaviour
     void SyncBomb(int bombHolderID)
     {
         GameManager.instance.bombHolder = PhotonView.Find(bombHolderID).gameObject.GetComponent<Bummie>();
+        foreach (Bummie bummie in GameManager.instance.PlayersInGame)
+        {
+            bummie.HasBomb = false;
+        }
+        GameManager.instance.bombHolder.HasBomb = true;
+        GameManager.instance.bomb.GetComponent<PhotonView>().TransferOwnership(GameManager.instance.bombHolder.transform.GetComponent<PhotonView>().ViewID);
         GameManager.instance.bomb.transform.parent = null;
         GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
         GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;

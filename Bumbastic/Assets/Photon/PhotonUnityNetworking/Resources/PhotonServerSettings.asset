@@ -35,5 +35,6 @@ MonoBehaviour:
   - GameOver
   - SyncBomb
   - SyncPlayerSpawn
+  - SyncSpawns
   DisableAutoOpenWizard: 1
   ShowSettings: 1

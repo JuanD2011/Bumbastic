@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private PhotonView pV;
     private int playersSpawned;
 
+    public List<Transform> spawnPoints;
+
     Vector3 crowPos;
     public Vector3 CrowPos { get => crowPos; set => crowPos = value; }
 
@@ -36,20 +38,9 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    void WhoHasTheBomb(int _bombHolderID, int bombID)
+    void TheBomb(int bombID)
     {
         bomb = PhotonView.Find(bombID).gameObject;
-        bombHolder = PhotonView.Find(_bombHolderID).gameObject.GetComponent<Bummie>();
-        Debug.Log(bombHolder);
-        foreach(Bummie bummie in PlayersInGame)
-        {
-            bummie.HasBomb = false;
-        }
-        bombHolder.HasBomb = true;
-        bomb.GetComponent<PhotonView>().TransferOwnership(bombHolder.transform.GetComponent<PhotonView>().ViewID);
-        bomb.transform.SetParent(bombHolder.transform);
-        bomb.gameObject.transform.position = bombHolder.transform.GetChild(1).transform.position;
-        bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public void GiveBomb()
@@ -58,12 +49,12 @@ public class GameManager : MonoBehaviour
         if (PlayersInGame.Count > 1)
         {
             int spawnPicker = Random.Range(0, PlayersInGame.Count);
-            bomb = PhotonNetwork.InstantiateSceneObject(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
+            bomb = PhotonNetwork.InstantiateSceneObject(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
 
             bombHolder = PlayersInGame[spawnPicker];
             bombHolder.HasBomb = true;
 
-            pV.RPC("WhoHasTheBomb", RpcTarget.All, bombHolder.gameObject.GetComponent<PhotonView>().ViewID, bomb.GetComponent<PhotonView>().ViewID);
+            pV.RPC("TheBomb", RpcTarget.All, bomb.GetComponent<PhotonView>().ViewID);
         }
         else if(PlayersInGame.Count == 1)
         {
@@ -94,5 +85,20 @@ public class GameManager : MonoBehaviour
                 GiveBomb();
             }
         }
+    }
+
+    public Transform GetSpawnPoint()
+    {
+        int random = Random.Range(0, spawnPoints.Count);
+        Transform spawnPos = spawnPoints[random];
+        spawnPoints.RemoveAt(random);
+        pV.RPC("SyncSpawns", RpcTarget.All, spawnPoints);
+        return spawnPos;
+    }
+
+    [PunRPC]
+    void SyncSpawns(List<Transform> _spawnPoints)
+    {
+        spawnPoints = _spawnPoints;
     }
 }

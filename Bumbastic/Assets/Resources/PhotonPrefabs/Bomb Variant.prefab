@@ -44,6 +44,10 @@ PrefabInstance:
       propertyPath: ObservedComponents.Array.data[1]
       value: 
       objectReference: {fileID: 5949149249615388628}
+    - target: {fileID: 145314710, guid: b0db37ca1fff89d46a4f87fe2bef950a, type: 3}
+      propertyPath: OwnershipTransfer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3626111542099895050, guid: b0db37ca1fff89d46a4f87fe2bef950a,
         type: 3}
       propertyPath: m_LocalPosition.x
