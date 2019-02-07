@@ -37,7 +37,7 @@ public class FloatingJoystick : Joystick
     public override void OnPointerDown(PointerEventData eventData)
     {
         if (type == JoystickType.Aiming) OnPathShown?.Invoke(true);
-        if (type == JoystickType.Movement) OnResetTime?.Invoke();
+        else if (type == JoystickType.Movement) OnResetTime?.Invoke();
         isMoving = true;
         background.gameObject.SetActive(true);
         background.position = eventData.position;
@@ -55,7 +55,6 @@ public class FloatingJoystick : Joystick
         if (type == JoystickType.Aiming && magnitude >= 0.2f)
         {
             gameObject.GetComponentInParent<Bummie>().ThrowBomb();
-            Debug.LogWarning("Hey");
         }
     }
 }
