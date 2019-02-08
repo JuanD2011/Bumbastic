@@ -91,14 +91,14 @@ public class GameManager : MonoBehaviour
     {
         int random = Random.Range(0, spawnPoints.Count);
         Transform spawnPos = spawnPoints[random];
-        spawnPoints.RemoveAt(random);
-        pV.RPC("SyncSpawns", RpcTarget.All, spawnPoints);
+        spawnPoints.Remove(spawnPos);
+        pV.RPC("SyncSpawns", RpcTarget.All, spawnPos);
         return spawnPos;
     }
 
     [PunRPC]
     void SyncSpawns(List<Transform> _spawnPoints)
     {
-        spawnPoints = _spawnPoints;
+        spawnPoints.Remove(spawnPos);
     }
 }
