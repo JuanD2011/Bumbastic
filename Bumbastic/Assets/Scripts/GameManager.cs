@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private PhotonView pV;
     private int playersSpawned;
 
-    public List<Vector3> spawnPoints;
+    public List<Transform> spawnPoints;
 
     Vector3 crowPos;
     public Vector3 CrowPos { get => crowPos; set => crowPos = value; }
@@ -90,15 +90,15 @@ public class GameManager : MonoBehaviour
     public Vector3 GetSpawnPoint()
     {
         int random = Random.Range(0, spawnPoints.Count);
-        Vector3 spawnPos = spawnPoints[random];
-        spawnPoints.Remove(spawnPos);
-        pV.RPC("SyncSpawns", RpcTarget.All, spawnPos);
+        Vector3 spawnPos = spawnPoints[random].position;
+        spawnPoints.RemoveAt(random);
+        pV.RPC("SyncSpawns", RpcTarget.All, random);
         return spawnPos;
     }
 
     [PunRPC]
-    void SyncSpawns(Vector3 _spawnPos)
+    void SyncSpawns(int _random)
     {
-        spawnPoints.Remove(_spawnPos);
+        spawnPoints.RemoveAt(_random);
     }
 }
