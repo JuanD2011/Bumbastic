@@ -36,5 +36,6 @@ MonoBehaviour:
   - SyncBomb
   - SyncPlayerSpawn
   - SyncSpawns
+  - TheBomb
   DisableAutoOpenWizard: 1
   ShowSettings: 1

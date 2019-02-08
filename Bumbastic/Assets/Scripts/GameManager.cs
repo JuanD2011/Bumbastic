@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         if (PlayersInGame.Count > 1)
         {
             int spawnPicker = Random.Range(0, PlayersInGame.Count);
-            bomb = PhotonNetwork.InstantiateSceneObject(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
+            bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
 
             bombHolder = PlayersInGame[spawnPicker];
             bombHolder.HasBomb = true;
