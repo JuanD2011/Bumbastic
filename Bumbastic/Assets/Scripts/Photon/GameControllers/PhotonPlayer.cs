@@ -14,8 +14,8 @@ public class PhotonPlayer : MonoBehaviour
 
         if (pV.IsMine)
         {
-            Transform spawnPoint = GameManager.instance.GetSpawnPoint();
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), spawnPoint.position, spawnPoint.rotation, 0);
+            Vector3 spawnPoint = GameManager.instance.GetSpawnPoint();
+            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), spawnPoint, Quaternion.identity, 0);
             pV.RPC("SyncPlayerSpawn", RpcTarget.All);
         }
     }
