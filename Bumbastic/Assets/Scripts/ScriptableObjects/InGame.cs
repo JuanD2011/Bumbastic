@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameSetup",menuName = "GameSetup")]
-public class GameSetup : ScriptableObject
+[CreateAssetMenu(fileName = "InGame",menuName = "InGame")]
+public class InGame : ScriptableObject
 {
     //public PowerUp powerUp;
 

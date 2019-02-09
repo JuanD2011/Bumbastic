@@ -7,13 +7,13 @@ public class Crow : StateMachineBehaviour
     [SerializeField] float flyingVel;
     //float tSpawnPU;
     Vector3 dir;
-    [SerializeField] GameSetup gameSetup;
+    [SerializeField] InGame inGame;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateinfo, int layerindex)
     {
         //GameManager.instance.CrowPos = animator.transform.localPosition;
-        gameSetup.CrowPos = animator.transform.localPosition;
+        inGame.CrowPos = animator.transform.localPosition;
         //tSpawnPU = Random.Range(4f, 8f);
     }
 
