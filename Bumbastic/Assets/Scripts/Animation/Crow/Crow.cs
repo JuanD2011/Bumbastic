@@ -7,11 +7,13 @@ public class Crow : StateMachineBehaviour
     [SerializeField] float flyingVel;
     //float tSpawnPU;
     Vector3 dir;
+    [SerializeField] GameSetup gameSetup;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateinfo, int layerindex)
     {
-        GameManager.instance.CrowPos = animator.transform.localPosition;
+        //GameManager.instance.CrowPos = animator.transform.localPosition;
+        gameSetup.CrowPos = animator.transform.localPosition;
         //tSpawnPU = Random.Range(4f, 8f);
     }
 
@@ -28,7 +30,8 @@ public class Crow : StateMachineBehaviour
         {
             animator.SetBool("DropPU", true);
         }
-        else if (Mathf.Round(dir.x) == 0 && Mathf.Round(dir.z) == 1 && !GameManager.instance.powerUp.gameObject.activeInHierarchy) {
+        else if (Mathf.Round(dir.x) == 0 && Mathf.Round(dir.z) == 1 && !GameManager.instance.powerUp.gameObject.activeInHierarchy)
+        {
             GameManager.instance.powerUp.transform.parent = animator.gameObject.transform;
             GameManager.instance.powerUp.transform.position = animator.transform.GetChild(0).position;
             GameManager.instance.powerUp.gameObject.SetActive(true);

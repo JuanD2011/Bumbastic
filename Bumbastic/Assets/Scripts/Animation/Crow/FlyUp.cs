@@ -5,10 +5,12 @@ public class FlyUp : StateMachineBehaviour
     [SerializeField] float timeToUp;
     float distance;
     Vector3 target;
+    [SerializeField]GameSetup gameSetup;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateinfo, int layerindex)
     {
-        target = new Vector3(-GameManager.instance.CrowPos.x, GameManager.instance.CrowPos.y, 0f);
+        //target = new Vector3(-GameManager.instance.CrowPos.x, GameManager.instance.CrowPos.y, 0f);
+        target = new Vector3(-gameSetup.CrowPos.x, gameSetup.CrowPos.y, 0f);
         distance = Vector3.Distance(animator.transform.position, target);
     }
 
