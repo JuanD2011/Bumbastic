@@ -33,6 +33,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     [SerializeField] private Text matchMaking;
 
+    public delegate void DelEnteredRoom();
+    public static DelEnteredRoom OnPlayerEntered;
+
     private void Awake()
     {
         if(PhotonRoom.room == null)
@@ -147,7 +150,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom++;
 
-        if(multiplayerSetting.delayStart)
+        OnPlayerEntered?.Invoke();//Event to instantiate a player in principal menu
+
+        if (multiplayerSetting.delayStart)
         {
             Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + multiplayerSetting.maxPlayers + ")");
             matchMaking.text = playersInRoom + " / " + multiplayerSetting.maxPlayers + " Players";

@@ -37,5 +37,6 @@ MonoBehaviour:
   - SyncPlayerSpawn
   - SyncSpawns
   - TheBomb
+  - InstantiateBummie
   DisableAutoOpenWizard: 1
   ShowSettings: 1
