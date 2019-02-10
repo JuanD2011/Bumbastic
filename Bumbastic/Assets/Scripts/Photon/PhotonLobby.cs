@@ -7,6 +7,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
+    public MultiplayerSetting multiplayerSetting;
+
     [SerializeField] private GameObject playButton, cancelButton;
 
     [SerializeField] private Text matchMaking;
@@ -47,7 +49,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         Debug.Log("Trying to create a new room");
         int randomRoomName = Random.Range(0, 6);
-        RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)MultiplayerSetting.multiplayerSetting.maxPlayers };
+        RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
         PhotonNetwork.CreateRoom("Room " + randomRoomName, roomOptions);
     }
 
@@ -64,10 +66,5 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         cancelButton.SetActive(false);
         matchMaking.text = "...";
         PhotonNetwork.LeaveRoom();
-    }
-
-    void Update()
-    {
-        
     }
 }

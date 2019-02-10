@@ -243,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb103d7cecb9a64bb43c3c64ab55a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayerSetting: {fileID: 11400000, guid: 9b497a2c1e7bf4a4f9161794cfd16f51, type: 2}
   isGameLoaded: 0
   currentScene: 0
   playersInRoom: 0
@@ -262,7 +263,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &484993363
 GameObject:
@@ -490,6 +491,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dc6e779666511468339b3861cbbf58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiplayerSetting: {fileID: 11400000, guid: 9b497a2c1e7bf4a4f9161794cfd16f51, type: 2}
   playButton: {fileID: 2039388909}
   cancelButton: {fileID: 1571581346}
   matchMaking: {fileID: 1210465550}
@@ -586,53 +588,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896185900}
   m_CullTransparentMesh: 0
---- !u!1 &1036105804
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1036105806}
-  - component: {fileID: 1036105805}
-  m_Layer: 0
-  m_Name: MultiplayerSetting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1036105805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036105804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa776eeb2b394145b6504949d789622, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delayStart: 1
-  maxPlayers: 2
-  menuScene: 0
-  multiplayerScene: 1
---- !u!4 &1036105806
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1036105804}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1090547355
 GameObject:
   m_ObjectHideFlags: 0
