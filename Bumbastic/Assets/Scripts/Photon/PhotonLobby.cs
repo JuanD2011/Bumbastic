@@ -33,8 +33,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public void OnPlayButtonClicked()
     {
         PhotonNetwork.JoinRandomRoom();
-        playButton.SetActive(false);
-        cancelButton.SetActive(true);
     }
 
 
@@ -62,8 +60,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     public void OnCancelButtonClicked()
     {
-        playButton.SetActive(true);
-        cancelButton.SetActive(false);
         matchMaking.text = "...";
         PhotonNetwork.LeaveRoom();
     }
