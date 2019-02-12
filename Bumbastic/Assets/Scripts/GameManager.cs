@@ -91,7 +91,6 @@ public class GameManager : MonoBehaviour
     {
         int random = Random.Range(0, spawnPoints.Count);
         Vector3 spawnPos = spawnPoints[random].position;
-        spawnPoints.RemoveAt(random);
         pV.RPC("RPC_SyncSpawns", RpcTarget.All, random);
         return spawnPos;
     }
