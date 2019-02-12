@@ -157,10 +157,11 @@ public class Bummie : MonoBehaviour
     {
         if (HasBomb && pV.IsMine)
         {
+            GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             GameManager.instance.bomb.transform.parent = null;
-            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.constraints = RigidbodyConstraints.None;
-            GameManager.instance.bomb.GetComponent<Bomb>().RigidBody.AddForce(transform.forward * throwForce);
+            GameManager.instance.bomb.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce);
             hasBomb = false;
+            pV.RPC("RPC_ThrowBomb", RpcTarget.AllBuffered);
         }
     }
 
@@ -222,5 +223,14 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
         GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+    [PunRPC]
+    void RPC_ThrowBomb()
+    {
+        GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GameManager.instance.bomb.transform.parent = null;
+        GameManager.instance.bomb.GetComponent<Rigidbody>().AddForce(GameManager.instance.bombHolder.transform.forward * throwForce);
+        hasBomb = false;
     }
 }
