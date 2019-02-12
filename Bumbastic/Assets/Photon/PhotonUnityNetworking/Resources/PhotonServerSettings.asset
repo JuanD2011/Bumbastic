@@ -39,5 +39,7 @@ MonoBehaviour:
   - TheBomb
   - InstantiateBummie
   - RPC_SyncBomb
+  - RPC_SyncSpawns
+  - RPC_ThrowBomb
   DisableAutoOpenWizard: 1
   ShowSettings: 1

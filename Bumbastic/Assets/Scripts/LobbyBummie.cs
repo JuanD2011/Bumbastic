@@ -15,7 +15,7 @@ public class LobbyBummie : MonoBehaviour
 
     [PunRPC]
     private void InstantiateBummie() {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
         count++;
     }
 }
