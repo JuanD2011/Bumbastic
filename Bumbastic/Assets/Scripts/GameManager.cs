@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayersSpawn()
     {
+        Debug.Log(PhotonRoom.room.playersInRoom);
         playersSpawned++;
         if(playersSpawned == PhotonRoom.room.playersInRoom)
         {
@@ -85,14 +86,17 @@ public class GameManager : MonoBehaviour
                 GiveBomb();
             }
         }
+        else if(playersSpawned > PhotonRoom.room.playersInRoom)
+        {
+            Debug.Log("Ay amá");
+        }
     }
 
     public Vector3 GetSpawnPoint()
     {
         int random = Random.Range(0, spawnPoints.Count);
         Vector3 spawnPos = spawnPoints[random].position;
-        spawnPoints.RemoveAt(random);
-        pV.RPC("RPC_SyncSpawns", RpcTarget.All, random);
+        pV.RPC("RPC_SyncSpawns", RpcTarget.AllBuffered, random);
         return spawnPos;
     }
 
