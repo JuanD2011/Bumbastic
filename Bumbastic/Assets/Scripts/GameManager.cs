@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     void TheBomb(int bombID)
     {
+        bombHolder.HasBomb = true;
         bomb = PhotonView.Find(bombID).gameObject;
     }
 
@@ -52,7 +53,6 @@ public class GameManager : MonoBehaviour
             bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
 
             bombHolder = PlayersInGame[spawnPicker];
-            bombHolder.HasBomb = true;
 
             pV.RPC("TheBomb", RpcTarget.All, bomb.GetComponent<PhotonView>().ViewID);
         }
