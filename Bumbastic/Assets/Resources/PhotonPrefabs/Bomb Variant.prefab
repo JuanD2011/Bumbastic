@@ -56,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 145314710, guid: b0db37ca1fff89d46a4f87fe2bef950a, type: 3}
       propertyPath: ObservedComponents.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5239961654407175474}
     - target: {fileID: 145314710, guid: b0db37ca1fff89d46a4f87fe2bef950a, type: 3}
       propertyPath: ObservedComponents.Array.data[1]
       value: 
