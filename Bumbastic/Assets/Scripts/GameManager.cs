@@ -40,13 +40,12 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     void TheBomb(int bombID)
     {
-        bombHolder.HasBomb = true;
         bomb = PhotonView.Find(bombID).gameObject;
+        bombHolder.HasBomb = true;
     }
 
     public void GiveBomb()
     {
-        Debug.Log(PlayersInGame.Count);
         if (PlayersInGame.Count > 1)
         {
             int spawnPicker = Random.Range(0, PlayersInGame.Count);
