@@ -33,7 +33,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pV = GetComponent<PhotonView>();
-
         PlayersInGame = new List<Bummie>();
     }
 

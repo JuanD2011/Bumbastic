@@ -225,4 +225,9 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
         GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
+
+    private void OnDisable()
+    {
+        GameManager.instance.GiveBomb();
+    }
 }
