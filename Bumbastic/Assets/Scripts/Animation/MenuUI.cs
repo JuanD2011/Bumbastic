@@ -7,4 +7,8 @@ public class MenuUI : MonoBehaviour
     public void IsSearchingGame(bool _bool) {
         canvasAnimator.SetBool("Play",_bool);
     }
+
+    public void ConfigurationPanel(bool _bool) {
+        canvasAnimator.SetBool("Configuration", _bool);
+    }
 }
