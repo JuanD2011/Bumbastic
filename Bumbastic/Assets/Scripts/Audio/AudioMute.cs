@@ -2,25 +2,16 @@
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "AudioMute", menuName = "AudioMute")]
-public class AudioMute : ScriptableObject {
+public class AudioMute : MonoBehaviour {
 
     [SerializeField] AudioMixer audioMixer;
+
     float musicVolValue;
     float sFxVolValue;
-
     float mutedVolume = -80f; //Volume for the group that is going to be muted
 
     Color disabledColor = new Color(1f, 0.3f, 0.3f);
-    Image image;
-
-    /// <summary>
-    /// Get button Image
-    /// </summary>
-    /// <param name="m_Image"></param>
-    public void GetImage(Image m_Image) {
-        image = m_Image;
-    }
+    [SerializeField] Image musicImage, sFxImage;
 
     /// <summary>
     /// Function to mute audio
@@ -36,12 +27,12 @@ public class AudioMute : ScriptableObject {
                 if (value > mutedVolume)
                 {
                     audioMixer.SetFloat("MusicVol", mutedVolume);
-                    image.color = disabledColor;
+                    musicImage.color = disabledColor;
                 }
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("MusicVol");
-                    image.color = Color.white;
+                    musicImage.color = Color.white;
                 }
                 break;
             case 1:
@@ -49,12 +40,12 @@ public class AudioMute : ScriptableObject {
                 if (value > mutedVolume)
                 {
                     audioMixer.SetFloat("SFxVol", mutedVolume);
-                    image.color = disabledColor;
+                    sFxImage.color = disabledColor;
                 }
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("SFxVol");
-                    image.color = Color.white;
+                    sFxImage.color = Color.white;
                 }
                 break;
             default:
