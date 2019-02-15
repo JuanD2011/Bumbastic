@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class AudioMute : MonoBehaviour {
 
     [SerializeField] AudioMixer audioMixer;
+
     float musicVolValue;
     float sFxVolValue;
-
     float mutedVolume = -80f; //Volume for the group that is going to be muted
 
-    [SerializeField] Image musicImage, sFxImage;
     Color disabledColor = new Color(1f, 0.3f, 0.3f);
+    [SerializeField] Image musicImage, sFxImage;
 
     /// <summary>
     /// Function to mute audio
