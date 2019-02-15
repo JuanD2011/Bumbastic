@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63875528f97127744929e5c3128262a2, type: 3}
   m_Name: InGame
   m_EditorClassIdentifier: 
+  posDropPU: {fileID: 930839126329981298, guid: 4672fa1d1ae9a814185d4529f9f2541f,
+    type: 3}

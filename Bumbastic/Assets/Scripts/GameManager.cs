@@ -27,9 +27,6 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> spawnPoints;
 
-    //Vector3 crowPos;
-    //public Vector3 CrowPos { get => crowPos; set => crowPos = value; }
-
     private void Start()
     {
         pV = GetComponent<PhotonView>();

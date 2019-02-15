@@ -3,19 +3,19 @@
 public class DropPU : StateMachineBehaviour
 {
     [SerializeField] float timeToDrop;
+    [SerializeField] InGame inGame;
     float distance;
-    Vector3 center = new Vector3(0f, -9.95f, 0f);
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateinfo, int layerindex)
     {
-        distance = Vector3.Distance(animator.transform.localPosition, center);
+        distance = Vector3.Distance(animator.transform.localPosition, inGame.posDropPU.position);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.localPosition = Vector3.MoveTowards(animator.transform.localPosition, center, (Time.deltaTime * distance)/timeToDrop);
-        if (animator.transform.localPosition == center)
+        animator.transform.localPosition = Vector3.MoveTowards(animator.transform.localPosition, inGame.posDropPU.position, (Time.deltaTime * distance)/timeToDrop);
+        if (animator.transform.localPosition == inGame.posDropPU.position)
         {
             if (animator.transform.childCount > 1) {
                 animator.transform.GetChild(1).parent = null;

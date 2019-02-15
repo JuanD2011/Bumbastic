@@ -73,6 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeToDrop: 1
+  inGame: {fileID: 11400000, guid: 8dbda846fd8462c43812bcc38aca06ee, type: 2}
 --- !u!114 &114336246805904846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ebb47b9247b8a40b77f93c91f36647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToUp: 1
+  timeToUp: 2
   inGame: {fileID: 11400000, guid: 8dbda846fd8462c43812bcc38aca06ee, type: 2}
 --- !u!1101 &1101237768728081062
 AnimatorStateTransition:
