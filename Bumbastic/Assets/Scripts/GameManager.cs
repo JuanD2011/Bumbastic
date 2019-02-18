@@ -100,11 +100,14 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void ConfettiBomb() 
     {
-        foreach(Bummie bummie in PlayersInGame) 
+        foreach (Bummie bummie in PlayersInGame)
         {
-            if (!bummie.HasBomb)
+            if (PhotonNetwork.IsMasterClient)
             {
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummie.transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
+                if (!bummie.HasBomb)
+                {
+                    PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummie.transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
+                } 
             }
         }
     }
