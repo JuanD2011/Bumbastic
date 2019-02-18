@@ -6,7 +6,7 @@ public class ConfettiBomb : MonoBehaviour
     private Renderer m_Renderer;
     void Start()
     {
-        m_Particle = GetComponent<ParticleSystem>();
+        m_Particle = GetComponentInChildren<ParticleSystem>();
         m_Renderer = GetComponent<Renderer>();
         Invoke("Bum", 3f);
     }
