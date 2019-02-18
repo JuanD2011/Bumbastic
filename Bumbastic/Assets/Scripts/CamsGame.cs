@@ -11,7 +11,7 @@ public class CamsGame : MonoBehaviour
     {
         for (int i = 0; i < GameManager.instance.PlayersInGame.Count; i++)
         {
-            if (GameManager.instance.PlayersInGame[i].transform.GetComponentInChildren<Bomb>() == null)
+            if (!GameManager.instance.PlayersInGame[i].HasBomb)
             {
                 virtualCameras[i].LookAt = GameManager.instance.PlayersInGame[i].transform; 
             }
