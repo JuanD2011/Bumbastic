@@ -2,15 +2,18 @@
 
 public class ConfettiBomb : MonoBehaviour
 {
-    private ParticleSystem particleSystem;
+    private ParticleSystem m_Particle;
+    private Renderer m_Renderer;
     void Start()
     {
-        particleSystem = GetComponent<ParticleSystem>();
+        m_Particle = GetComponent<ParticleSystem>();
+        m_Renderer = GetComponent<Renderer>();
         Invoke("Bum", 3f);
     }
 
     private void Bum()
     {
-        particleSystem.Play();
+        m_Renderer.enabled = false;
+        m_Particle.Play();
     }
 }
