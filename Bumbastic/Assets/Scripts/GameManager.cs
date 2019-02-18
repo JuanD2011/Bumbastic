@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
             bombHolder = PlayersInGame[spawnPicker];
 
             pV.RPC("TheBomb", RpcTarget.All, bomb.GetComponent<PhotonView>().ViewID);
+            pV.RPC("ConfettiBomb", RpcTarget.All);
         }
         else if(PlayersInGame.Count == 1)
         {
@@ -94,5 +95,17 @@ public class GameManager : MonoBehaviour
     void RPC_SyncSpawns(int _random)
     {
         spawnPoints.RemoveAt(_random);
+    }
+
+    [PunRPC]
+    private void ConfettiBomb() 
+    {
+        foreach(Bummie bummie in PlayersInGame) 
+        {
+            if (!bummie.HasBomb)
+            {
+                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummie.transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
+            }
+        }
     }
 }
