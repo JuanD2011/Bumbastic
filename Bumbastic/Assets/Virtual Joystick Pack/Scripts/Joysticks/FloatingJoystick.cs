@@ -32,7 +32,6 @@ public class FloatingJoystick : Joystick
         ClampJoystick();
         handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
         magnitude = Direction.magnitude;
-        Debug.Log(magnitude);
     }
 
     public override void OnPointerDown(PointerEventData eventData)
