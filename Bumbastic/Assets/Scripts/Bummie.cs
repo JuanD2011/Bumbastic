@@ -228,6 +228,6 @@ public class Bummie : MonoBehaviour
 
     private void OnDisable()
     {
-        GameManager.instance.GiveBomb();
+        GameManager.instance.GiveBombs();
     }
 }
