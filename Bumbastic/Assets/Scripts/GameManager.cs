@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < bummies.Count - 1; i++)
             {
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummies[i].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
+                bummies.RemoveAt(i);
             }
             bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), bummies[0].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
 
