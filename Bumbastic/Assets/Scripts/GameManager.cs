@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     List<Bummie> playersInGame;
     public Bummie bombHolder;
-    public GameObject bomb;
+    public Bomb bomb;
     public PowerUp powerUp;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
@@ -39,28 +39,12 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     void TheBomb(int bombID)
     {
-        bomb = PhotonView.Find(bombID).gameObject;
-        //bombHolder.HasBomb = true;
+        bomb = PhotonView.Find(bombID).gameObject.GetComponent<Bomb>();
         OnCamerasInit?.Invoke();//CamsGame is listening to it
     }
 
     public void GiveBombs()
     {
-        //if (PlayersInGame.Count > 1)
-        //{
-        //    int spawnPicker = Random.Range(0, PlayersInGame.Count);
-        //    bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), PlayersInGame[spawnPicker].transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
-
-        //    bombHolder = PlayersInGame[spawnPicker];
-
-        //    pV.RPC("TheBomb", RpcTarget.All, bomb.GetComponent<PhotonView>().ViewID);
-        //    pV.RPC("ConfettiBomb", RpcTarget.All);
-        //}
-        //else if(PlayersInGame.Count == 1)
-        //{
-        //    pV.RPC("GameOver", RpcTarget.All, PlayersInGame[0].gameObject.GetComponent<PhotonView>().ViewID);
-        //}
-
         if (PlayersInGame.Count > 1)
         {
             List<Bummie> bummies = RandomizeBummieList();
@@ -70,9 +54,9 @@ public class GameManager : MonoBehaviour
                 PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummies[i].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
                 bummies.RemoveAt(i);
             }
-            bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), bummies[0].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
+            bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), bummies[0].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0).GetComponent<Bomb>();
 
-            pV.RPC("TheBomb", RpcTarget.All, bomb.GetComponent<PhotonView>().ViewID);
+            pV.RPC("TheBomb", RpcTarget.All, bomb.gameObject.GetComponent<PhotonView>().ViewID);
         }
         else if (PlayersInGame.Count == 1)
         {
@@ -133,19 +117,4 @@ public class GameManager : MonoBehaviour
     {
         spawnPoints.RemoveAt(_random);
     }
-
-    //[PunRPC]
-    //private void ConfettiBomb() 
-    //{
-    //    foreach (Bummie bummie in PlayersInGame)
-    //    {
-    //        if (PhotonNetwork.IsMasterClient)
-    //        {
-    //            if (!bummie.HasBomb)
-    //            {
-    //                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummie.transform.position + new Vector3(0, 6, 0), Quaternion.identity, 0);
-    //            } 
-    //        }
-    //    }
-    //}
 }

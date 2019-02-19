@@ -165,8 +165,8 @@ public class Bummie : MonoBehaviour
     void RPC_ThrowBomb()
     {
         GameManager.instance.bomb.transform.parent = null;
-        GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        GameManager.instance.bomb.GetComponent<Rigidbody>().AddForce(GameManager.instance.bombHolder.transform.forward * throwForce);
+        GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
+        GameManager.instance.bomb.RigidBody.AddForce(GameManager.instance.bombHolder.transform.forward * throwForce);
         hasBomb = false;
     }
 
@@ -185,13 +185,11 @@ public class Bummie : MonoBehaviour
         //This is when they throw the bomb
         if (other.gameObject.GetComponent<Bomb>() != null && !hasBomb)
         {
-            hasBomb = true;
             PassBomb();
         }
         //When a player touches another player
         else if (other.gameObject.GetComponentInChildren<Bomb>() != null && !hasBomb)
         {
-            hasBomb = true;
             other.gameObject.GetComponent<Bummie>().HasBomb = false;
             PassBomb();
         }
