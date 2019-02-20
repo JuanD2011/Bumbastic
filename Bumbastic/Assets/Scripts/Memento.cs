@@ -46,4 +46,18 @@ public class Memento : MonoBehaviour
                 break;
         }
     }
+
+    private void LoadGame() {
+        if (!Directory.Exists(Application.persistentDataPath + "/game_save/settings_data"))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/game_save/settings_data");
+        }
+        BinaryFormatter bf = new BinaryFormatter();
+        if (File.Exists(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt"))
+        {
+            FileStream file = File.Open(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt", FileMode.Open);
+            JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), Resources.Load("ScriptableObjects/Settings"));
+            file.Close();
+        }  
+    }
 }
