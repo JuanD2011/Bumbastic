@@ -15,9 +15,11 @@ public class FloatingJoystick : Joystick
     Vector2 m_initPos;
     private PhotonView pV;
     float magnitude;
+    private bool joystickLocked;
 
     void Start()
     {
+        joystickLocked = true;
         pV = GetComponent<PhotonView>();
 
         m_RectTransform = transform.GetChild(0).GetComponent<RectTransform>();
@@ -32,11 +34,17 @@ public class FloatingJoystick : Joystick
         ClampJoystick();
         handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
         magnitude = Direction.magnitude;
+    }
 
-        //if (direction.magnitude > handle.anchoredPosition.magnitude )
-        //{
-        //    joystickCenter += new Vector2(0.5f,0.5f);
-        //}
+    public void Update()
+    {
+        if (!joystickLocked)
+        {
+            if (Direction.magnitude > handleLimit)
+            {
+                background.anchoredPosition += Direction.normalized * 5f;
+            } 
+        }
     }
 
     public override void OnPointerDown(PointerEventData eventData)
