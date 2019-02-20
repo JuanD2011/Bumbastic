@@ -32,6 +32,11 @@ public class FloatingJoystick : Joystick
         ClampJoystick();
         handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
         magnitude = Direction.magnitude;
+
+        //if (direction.magnitude > handle.anchoredPosition.magnitude )
+        //{
+        //    joystickCenter += new Vector2(0.5f,0.5f);
+        //}
     }
 
     public override void OnPointerDown(PointerEventData eventData)
