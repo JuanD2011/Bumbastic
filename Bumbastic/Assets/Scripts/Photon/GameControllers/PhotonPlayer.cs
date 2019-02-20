@@ -2,7 +2,6 @@
 using UnityEngine;
 using System.IO;
 
-
 public class PhotonPlayer : MonoBehaviour
 {
     private PhotonView pV;
