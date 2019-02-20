@@ -26,9 +26,6 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> spawnPoints;
 
-    public delegate void DelManager();
-    public DelManager OnCamerasInit;
-
     private void Start()
     {
         pV = GetComponent<PhotonView>();
@@ -39,7 +36,6 @@ public class GameManager : MonoBehaviour
     void TheBomb(int bombID)
     {
         bomb = PhotonView.Find(bombID).gameObject.GetComponent<Bomb>();
-        OnCamerasInit?.Invoke();//CamsGame is listening to it
     }
 
     public void GiveBombs()
