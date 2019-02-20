@@ -15,9 +15,8 @@ public class FloatingJoystick : Joystick
     Vector2 m_initPos;
     private PhotonView pV;
     float magnitude;
-    private bool joystickLocked;
-
     Vector2 pointerPos;
+    [SerializeField] Settings settings;
 
     void Start()
     {
@@ -41,7 +40,7 @@ public class FloatingJoystick : Joystick
 
     public void Update()
     {
-        if (!joystickLocked)
+        if (!settings.isJoysitckLocked)
         {
             Vector2 vector = pointerPos - joystickCenter;
             if (Vector2.Distance(pointerPos,joystickCenter) > 2f && Direction.magnitude > handleLimit)

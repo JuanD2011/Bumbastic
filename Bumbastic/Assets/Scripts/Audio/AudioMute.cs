@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class AudioMute : MonoBehaviour {
 
     [SerializeField] AudioMixer audioMixer;
+    [SerializeField] Settings settings;
 
     float musicVolValue;
     float sFxVolValue;
@@ -12,6 +13,24 @@ public class AudioMute : MonoBehaviour {
 
     Color disabledColor = new Color(1f, 0.3f, 0.3f);
     [SerializeField] Image musicImage, sFxImage;
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        if (!settings.isMusicActive)
+        {
+            musicImage.color = disabledColor;
+            audioMixer.SetFloat("MusicVol", mutedVolume);
+        }
+        if (!settings.isSfxActive) {
+            sFxImage.color = disabledColor;
+            audioMixer.SetFloat("SFxVol", mutedVolume);
+        }
+    }
 
     /// <summary>
     /// Function to mute audio
@@ -28,11 +47,13 @@ public class AudioMute : MonoBehaviour {
                 {
                     audioMixer.SetFloat("MusicVol", mutedVolume);
                     musicImage.color = disabledColor;
+                    settings.isMusicActive = false;
                 }
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("MusicVol");
                     musicImage.color = Color.white;
+                    settings.isMusicActive = true;
                 }
                 break;
             case 1:
@@ -41,11 +62,13 @@ public class AudioMute : MonoBehaviour {
                 {
                     audioMixer.SetFloat("SFxVol", mutedVolume);
                     sFxImage.color = disabledColor;
+                    settings.isSfxActive = false;
                 }
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("SFxVol");
                     sFxImage.color = Color.white;
+                    settings.isSfxActive = true;
                 }
                 break;
             default:
