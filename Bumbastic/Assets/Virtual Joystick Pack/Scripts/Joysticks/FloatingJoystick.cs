@@ -17,9 +17,11 @@ public class FloatingJoystick : Joystick
     float magnitude;
     private bool joystickLocked;
 
+    Vector2 pointerPos;
+
     void Start()
     {
-        joystickLocked = true;
+        joystickLocked = false;
         pV = GetComponent<PhotonView>();
 
         m_RectTransform = transform.GetChild(0).GetComponent<RectTransform>();
@@ -34,15 +36,25 @@ public class FloatingJoystick : Joystick
         ClampJoystick();
         handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
         magnitude = Direction.magnitude;
+
+        pointerPos = eventData.position;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(pointerPos, joystickCenter);
     }
 
     public void Update()
     {
         if (!joystickLocked)
         {
-            if (Direction.magnitude > handleLimit)
+            Vector2 magnitude = pointerPos - joystickCenter;
+            if (Vector2.Distance(pointerPos,joystickCenter) > 2f && Direction.magnitude > handleLimit)
             {
-                background.anchoredPosition += Direction.normalized * 5f;
+                background.anchoredPosition += Direction.normalized;
+                joystickCenter += Direction.normalized;
+                Debug.Log(joystickCenter);
             } 
         }
     }
