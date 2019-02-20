@@ -21,7 +21,6 @@ public class FloatingJoystick : Joystick
 
     void Start()
     {
-        joystickLocked = false;
         pV = GetComponent<PhotonView>();
 
         m_RectTransform = transform.GetChild(0).GetComponent<RectTransform>();
@@ -40,20 +39,15 @@ public class FloatingJoystick : Joystick
         pointerPos = eventData.position;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawLine(pointerPos, joystickCenter);
-    }
-
     public void Update()
     {
         if (!joystickLocked)
         {
-            Vector2 magnitude = pointerPos - joystickCenter;
+            Vector2 vector = pointerPos - joystickCenter;
             if (Vector2.Distance(pointerPos,joystickCenter) > 2f && Direction.magnitude > handleLimit)
             {
-                background.anchoredPosition += Direction.normalized;
-                joystickCenter += Direction.normalized;
+                background.anchoredPosition += Direction.normalized * (vector.magnitude/20f);
+                joystickCenter += Direction.normalized * (vector.magnitude/20f);
                 Debug.Log(joystickCenter);
             } 
         }
