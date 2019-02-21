@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
                 _bummies[i] = bummies[i].gameObject.GetComponent<PhotonView>().ViewID;
             }
 
+            Debug.Log(_bummies);
+
             pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies);
         }
         else if (PlayersInGame.Count == 1)
@@ -59,6 +61,8 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies)
     {
+        Debug.Log(_bummies);
+
         for (int i = 0; i < _bummies.Length; i++)
         {
             bummies.Add(PhotonView.Find(_bummies[i]).gameObject.GetComponent<Bummie>());
@@ -70,6 +74,7 @@ public class GameManager : MonoBehaviour
             bummies.RemoveAt(i);
         }
         bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
+        bomb.gameObject.SetActive(true);
     }
 
     private List<Bummie> RandomizeBummieList()
