@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
                 _bummies[i] = bummies[i].gameObject.GetComponent<PhotonView>().ViewID;
             }
 
-            foreach (int i in _bummies)
+            for (int i = 0; i < _bummies.Length; i++)
             {
                 Debug.Log(_bummies[i]);
             }
@@ -64,9 +64,9 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies)
     {
-        foreach (int i in _bummies)
+        for (int i = 0; i < _bummies.Length; i++)
         {
-            Debug.Log(_bummies[i]); 
+            Debug.Log(_bummies[i]);
         }
 
         for (int i = 0; i < _bummies.Length; i++)
