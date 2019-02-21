@@ -1,8 +1,11 @@
 ﻿using Photon.Realtime;
 using Photon.Pun;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
     public List<Transform> spawnPoints;
 
     private List<Bummie> bummies;
+    BinaryFormatter binaryFormatter = new BinaryFormatter();
 
     private void Start()
     {
@@ -41,7 +45,12 @@ public class GameManager : MonoBehaviour
         {
             bummies = RandomizeBummieList();
 
-            pV.RPC("RPC_BombSpawn", RpcTarget.All, bummies);
+            MemoryStream mS = new MemoryStream();
+            
+            binaryFormatter.Serialize(mS, bummies);
+            string _bummies = System.Convert.ToBase64String(mS.GetBuffer());
+
+            pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies);
         }
         else if (PlayersInGame.Count == 1)
         {
@@ -50,10 +59,11 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_BombSpawn(List<Bummie> _bummies)
+    private void RPC_BombSpawn(string _bummies)
     {
-        Debug.Log("Holi");
-        bummies = _bummies;
+        MemoryStream mS = new MemoryStream(System.Convert.FromBase64String(_bummies));
+        bummies = (List<Bummie>)binaryFormatter.Deserialize(mS);
+
         for (int i = 0; i < bummies.Count - 1; i++)
         {
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
