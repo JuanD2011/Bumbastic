@@ -71,7 +71,8 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < _bummies.Length; i++)
         {
-            bummies.Add(PhotonView.Find(_bummies[i]).gameObject.GetComponent<Bummie>());
+            Bummie newBummie = PhotonView.Find(_bummies[i]).gameObject.GetComponent<Bummie>();
+            bummies.Add(newBummie);
         }
 
         for (int i = 0; i < bummies.Count - 1; i++)
