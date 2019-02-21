@@ -13,15 +13,12 @@ public class FloatingJoystick : Joystick
     Vector2 joystickCenter = Vector2.zero;
     RectTransform m_RectTransform;
     Vector2 m_initPos;
-    private PhotonView pV;
     float magnitude;
     Vector2 pointerPos;
     [SerializeField] Settings settings;
 
     void Start()
     {
-        pV = GetComponent<PhotonView>();
-
         m_RectTransform = transform.GetChild(0).GetComponent<RectTransform>();
         if (m_RectTransform != null)
             m_initPos = m_RectTransform.anchoredPosition;
@@ -42,13 +39,15 @@ public class FloatingJoystick : Joystick
     {
         if (!settings.isJoysitckLocked)
         {
-            Vector2 vector = pointerPos - joystickCenter;
-            if (Vector2.Distance(pointerPos,joystickCenter) > 2f && Direction.magnitude > handleLimit)
+            if (type == JoystickType.Movement)
             {
-                background.anchoredPosition += Direction.normalized * (vector.magnitude/20f);
-                joystickCenter += Direction.normalized * (vector.magnitude/20f);
-                Debug.Log(joystickCenter);
-            } 
+                Vector2 vector = pointerPos - joystickCenter;
+                if (Vector2.Distance(pointerPos, joystickCenter) > 2f && Direction.magnitude > handleLimit)
+                {
+                    background.anchoredPosition += Direction.normalized * (vector.magnitude / 20f);
+                    joystickCenter += Direction.normalized * (vector.magnitude / 20f);
+                }
+            }
         }
     }
 

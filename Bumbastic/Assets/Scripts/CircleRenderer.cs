@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Photon.Pun;
 
 public class CircleRenderer : MonoBehaviour
 {
@@ -10,15 +9,23 @@ public class CircleRenderer : MonoBehaviour
     [SerializeField] bool circleFillScreen;
 
     LineRenderer mLineRenderer;
+    PhotonView pPhotonView;
 
     private void Start()
     {
         mLineRenderer = GetComponent<LineRenderer>();
-        SetCircle();
+        pPhotonView = GetComponentInParent<PhotonView>();
+
+        if (pPhotonView.IsMine)
+        {
+            SetCircle();
+        }
     }
 
     private void SetCircle()
     {
+        if(!mLineRenderer.enabled)
+            mLineRenderer.enabled = true;
         mLineRenderer.widthMultiplier = lineWidth;
 
         if (circleFillScreen)
