@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     List<Bummie> playersInGame;
     public Bummie bombHolder;
     public Bomb bomb;
+    [SerializeField] private ConfettiBomb confettiBomb;
     public PowerUp powerUp;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
@@ -26,37 +27,39 @@ public class GameManager : MonoBehaviour
 
     public List<Transform> spawnPoints;
 
+    private List<Bummie> bummies;
+
     private void Start()
     {
         pV = GetComponent<PhotonView>();
         PlayersInGame = new List<Bummie>();
     }
 
-    [PunRPC]
-    void TheBomb(int bombID)
-    {
-        bomb = PhotonView.Find(bombID).gameObject.GetComponent<Bomb>();
-    }
-
     public void GiveBombs()
     {
         if (PlayersInGame.Count > 1)
         {
-            List<Bummie> bummies = RandomizeBummieList();
+            bummies = RandomizeBummieList();
 
-            for (int i = 0; i < bummies.Count - 1; i++)
-            {
-                PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "ConfettiBomb"), bummies[i].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0);
-                bummies.RemoveAt(i);
-            }
-            bomb = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bomb Variant"), bummies[0].transform.position + new Vector3(0, 5, 0), Quaternion.identity, 0).GetComponent<Bomb>();
-
-            pV.RPC("TheBomb", RpcTarget.All, bomb.gameObject.GetComponent<PhotonView>().ViewID);
+            pV.RPC("RPC_BombSpawn", RpcTarget.All, bummies);
         }
         else if (PlayersInGame.Count == 1)
         {
             pV.RPC("GameOver", RpcTarget.All, PlayersInGame[0].gameObject.GetComponent<PhotonView>().ViewID);
         }
+    }
+
+    [PunRPC]
+    private void RPC_BombSpawn(List<Bummie> _bummies)
+    {
+        Debug.Log("Holi");
+        bummies = _bummies;
+        for (int i = 0; i < bummies.Count - 1; i++)
+        {
+            Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
+            bummies.RemoveAt(i);
+        }
+        bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
     }
 
     private List<Bummie> RandomizeBummieList()
@@ -74,11 +77,6 @@ public class GameManager : MonoBehaviour
         return randomBummies;
     }
 
-    private void FillList()
-    {
-        PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
-    }
-
     [PunRPC]
     void GameOver(int IDwinner)
     {
@@ -89,9 +87,11 @@ public class GameManager : MonoBehaviour
     public void PlayersSpawn()
     {
         playersSpawned++;
+
         if(playersSpawned == PhotonRoom.room.playersInRoom)
         {
-            FillList();
+            PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+
             if (PhotonNetwork.IsMasterClient)
             {
                 GiveBombs();
