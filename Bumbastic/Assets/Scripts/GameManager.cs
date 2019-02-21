@@ -1,9 +1,6 @@
-﻿using Photon.Realtime;
-using Photon.Pun;
+﻿using Photon.Pun;
 using System.Collections.Generic;
-using System.Collections;
 using UnityEngine;
-using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,11 +43,6 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < bummies.Count; i++)
             {
                 _bummies[i] = bummies[i].gameObject.GetComponent<PhotonView>().ViewID;
-            }
-
-            for (int i = 0; i < _bummies.Length; i++)
-            {
-                Debug.Log(_bummies[i]);
             }
 
             pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies);
