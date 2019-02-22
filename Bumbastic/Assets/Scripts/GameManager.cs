@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
         PlayersInGame = new List<Bummie>();
+        bummies = new List<Bummie>();
     }
 
     public void GiveBombs()
@@ -56,15 +57,19 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies)
     {
-        for (int i = 0; i < _bummies.Length; i++)
-        {
-            Debug.Log(_bummies[i]);
-        }
+        //for (int i = 0; i < _bummies.Length; i++)
+        //{
+        //    Debug.Log(_bummies[i]);
+        //}
 
         for (int i = 0; i < _bummies.Length; i++)
         {
             int id = _bummies[i];
-            bummies.Add(PhotonView.Find(id).gameObject.GetComponent<Bummie>());
+            Bummie bummieFound = PhotonView.Find(id).gameObject.GetComponent<Bummie>();
+            if (bummieFound != null)
+            {
+                bummies.Add(bummieFound);
+            }
         }
 
         for (int i = 0; i < bummies.Count - 1; i++)
