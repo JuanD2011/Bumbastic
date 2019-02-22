@@ -35,6 +35,7 @@ public class Bummie : MonoBehaviour
     private PhotonView pV;
 
     bool canMove;
+    Animator m_Animator;
 
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
@@ -46,6 +47,7 @@ public class Bummie : MonoBehaviour
 
         pV = GetComponent<PhotonView>();
         joysticks = GetComponentsInChildren<FloatingJoystick>(true);
+        m_Animator = GetComponentInChildren<Animator>();
 
         GameManager.instance.Director.stopped += Director_stopped;
 
