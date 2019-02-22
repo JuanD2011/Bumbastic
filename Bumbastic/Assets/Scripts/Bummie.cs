@@ -34,31 +34,26 @@ public class Bummie : MonoBehaviour
     [SerializeField] private bool speedPU;
     private PhotonView pV;
 
-    bool canMove = true;
+    bool canMove;
 
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
+    public bool CanMove { private get => canMove; set => canMove = value; }
 
     private void Start()
     {
+        canMove = false;
+
         pV = GetComponent<PhotonView>();
         joysticks = GetComponentsInChildren<FloatingJoystick>(true);
 
-        if(joysticks == null)
-        {
-            Debug.Log("Ups");
-        }
+        GameManager.instance.Director.stopped += Director_stopped;
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
         m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
 
         foreach (FloatingJoystick joystick in joysticks)
         {
-            if (pV.IsMine)
-            {
-                joystick.gameObject.SetActive(true); 
-            }
-
             if (joystick.type == JoystickType.Movement)
             {
                 joystick.OnResetTime += ResetTime;
@@ -68,6 +63,18 @@ public class Bummie : MonoBehaviour
             {
                 joystickAiming = joystick;
                 joystickAiming.OnPathShown += SetPath;
+            }
+        }
+    }
+
+    private void Director_stopped(UnityEngine.Playables.PlayableDirector obj)
+    {
+        canMove = true;
+        foreach (Joystick joystick in joysticks)
+        {
+            if (pV.IsMine)
+            {
+                joystick.gameObject.SetActive(true);
             }
         }
     }
@@ -86,7 +93,7 @@ public class Bummie : MonoBehaviour
     {
         if (pV.IsMine)
         {
-            if (canMove)
+            if (CanMove)
             {
                 input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
                 inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
@@ -204,9 +211,9 @@ public class Bummie : MonoBehaviour
     public IEnumerator CantMove(float _time)
     {
         WaitForSeconds wait = new WaitForSeconds(_time);
-        canMove = false;
+        CanMove = false;
         yield return wait;
-        canMove = true;
+        CanMove = true;
     }
 
     [PunRPC]

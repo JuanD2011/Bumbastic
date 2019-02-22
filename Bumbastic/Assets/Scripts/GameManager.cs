@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
     public PowerUp powerUp;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
+    public PlayableDirector Director { get => director; private set => director = value; }
 
     private PhotonView pV;
     private int playersSpawned;
@@ -26,12 +28,15 @@ public class GameManager : MonoBehaviour
     public List<Transform> spawnPoints;
 
     private List<Bummie> bummies;
+    PlayableDirector director;//My timeline
+
 
     private void Start()
     {
         pV = GetComponent<PhotonView>();
         PlayersInGame = new List<Bummie>();
         bummies = new List<Bummie>();
+        Director = GetComponent<PlayableDirector>();
     }
 
     public void GiveBombs()
