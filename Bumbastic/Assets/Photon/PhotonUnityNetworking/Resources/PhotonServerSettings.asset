@@ -42,5 +42,6 @@ MonoBehaviour:
   - RPC_SyncSpawns
   - RPC_ThrowBomb
   - ConfettiBomb
+  - RPC_BombSpawn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
