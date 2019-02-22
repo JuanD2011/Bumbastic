@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies)
     {
+        bummies.Clear();
         for (int i = 0; i < _bummies.Length; i++)
         {
             int id = _bummies[i];
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        Debug.Log(bummies.Count);
         for (int i = 1; i < bummies.Count; i++)
         {
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);

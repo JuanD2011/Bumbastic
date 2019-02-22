@@ -24,17 +24,17 @@ public class CircleRenderer : MonoBehaviour
 
     private void SetCircle()
     {
-        if(!mLineRenderer.enabled)
+        if (!mLineRenderer.enabled)
             mLineRenderer.enabled = true;
         mLineRenderer.widthMultiplier = lineWidth;
 
         if (circleFillScreen)
         {
-            radius = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0f,Camera.main.pixelRect.yMax,0f)),
-                Camera.main.ScreenToWorldPoint(new Vector3(0f, Camera.main.pixelRect.yMin,0f)))* 0.5f - lineWidth;
+            radius = Vector3.Distance(Camera.main.ScreenToWorldPoint(new Vector3(0f, Camera.main.pixelRect.yMax, 0f)),
+                Camera.main.ScreenToWorldPoint(new Vector3(0f, Camera.main.pixelRect.yMin, 0f))) * 0.5f - lineWidth;
         }
 
-        float deltaTheta = (2f * Mathf.PI)/ vertexCount;
+        float deltaTheta = (2f * Mathf.PI) / vertexCount;
         float theta = 0f;
 
         mLineRenderer.positionCount = vertexCount;
@@ -46,7 +46,7 @@ public class CircleRenderer : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         float deltaTheta = (2f * Mathf.PI) / vertexCount;
@@ -61,6 +61,7 @@ public class CircleRenderer : MonoBehaviour
 
             theta += deltaTheta;
         }
-#endif
     }
+    #endif
 }
+
