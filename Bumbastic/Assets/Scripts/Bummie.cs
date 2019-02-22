@@ -159,7 +159,7 @@ public class Bummie : MonoBehaviour
         transform.Translate(movement * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
 
-        //m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
+        m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
     }
 
     public void ThrowBomb()
