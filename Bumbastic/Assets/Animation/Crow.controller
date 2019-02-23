@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca527c88cf2acb459a48323872b8f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flyingVel: 25
+  flyingVel: 30
   inGame: {fileID: 11400000, guid: 8dbda846fd8462c43812bcc38aca06ee, type: 2}
 --- !u!114 &114078827127106522
 MonoBehaviour:
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9ebb47b9247b8a40b77f93c91f36647, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToUp: 2
+  timeToUp: 1
   inGame: {fileID: 11400000, guid: 8dbda846fd8462c43812bcc38aca06ee, type: 2}
 --- !u!1101 &1101237768728081062
 AnimatorStateTransition:

@@ -14,8 +14,8 @@ public class DropPU : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.localPosition = Vector3.MoveTowards(animator.transform.localPosition, inGame.posDropPU.position, (Time.deltaTime * distance)/timeToDrop);
-        if (animator.transform.localPosition == inGame.posDropPU.position)
+        animator.transform.position = Vector3.MoveTowards(animator.transform.position, inGame.posDropPU.position, (Time.deltaTime * distance)/timeToDrop);
+        if (animator.transform.position == inGame.posDropPU.position)
         {
             if (animator.transform.childCount > 1) {
                 animator.transform.GetChild(1).parent = null;
