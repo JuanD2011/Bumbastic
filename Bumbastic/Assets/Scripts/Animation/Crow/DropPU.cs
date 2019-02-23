@@ -5,10 +5,11 @@ public class DropPU : StateMachineBehaviour
     [SerializeField] float timeToDrop;
     [SerializeField] InGame inGame;
     float distance;
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateinfo, int layerindex)
     {
-        distance = Vector3.Distance(animator.transform.localPosition, inGame.posDropPU.position);
+        distance = Vector3.Distance(animator.transform.position, inGame.posDropPU.position);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
