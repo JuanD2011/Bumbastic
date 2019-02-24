@@ -28,7 +28,7 @@ public class Bummie : MonoBehaviour
 
     #region Bomb
     [SerializeField] private bool hasBomb = false;
-    float throwForce = 10f;
+    float throwForce = 20f;
     #endregion
 
     [SerializeField] private bool speedPU;
