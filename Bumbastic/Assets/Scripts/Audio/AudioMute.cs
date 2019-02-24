@@ -12,6 +12,7 @@ public class AudioMute : MonoBehaviour {
     float mutedVolume = -80f; //Volume for the group that is going to be muted
 
     Color disabledColor = new Color(1f, 0.3f, 0.3f);
+    [SerializeField] Color enableColor = new Color();
     [SerializeField] Image musicImage, sFxImage;
 
     private void Start()
@@ -52,7 +53,7 @@ public class AudioMute : MonoBehaviour {
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("MusicVol");
-                    musicImage.color = Color.white;
+                    musicImage.color = enableColor;
                     settings.isMusicActive = true;
                 }
                 break;
@@ -67,7 +68,7 @@ public class AudioMute : MonoBehaviour {
                 else if (value <= mutedVolume)
                 {
                     audioMixer.ClearFloat("SFxVol");
-                    sFxImage.color = Color.white;
+                    sFxImage.color = enableColor;
                     settings.isSfxActive = true;
                 }
                 break;
