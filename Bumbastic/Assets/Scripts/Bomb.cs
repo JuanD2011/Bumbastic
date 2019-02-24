@@ -3,28 +3,40 @@
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
-    float timer;
-    float t = 0f;
-    bool exploded = false;
-    Rigidbody m_rigidBody;
-    float minTime = 20f, maxTime = 28f;
+    private float t = 0f;
+    private bool exploded = false;
+    private float minTime = 20f, maxTime = 28f;
 
-    Animator m_Animator;
-    bool oneState = false;
+    private float timer;
+    private Rigidbody m_rigidBody;
 
     public float Timer { get => timer; set => timer = value; }
     public Rigidbody RigidBody { get => m_rigidBody; set => m_rigidBody = value; }
+
+    private Animator m_Animator;
+
+    private AnimationCurve animationCurve = new AnimationCurve();
+    private float speed = 4f;
 
     private void Start()
     {
         m_rigidBody = GetComponent<Rigidbody>();
         m_Animator = GetComponent<Animator>();
         timer = Random.Range(minTime, maxTime);
+        SetKeys();
+    }
+
+    private void SetKeys()
+    {
+        animationCurve.AddKey(0, 0f);
+        animationCurve.AddKey(timer, 1f);
     }
 
     private void Update()
     {
-        if(!exploded && transform.parent != null)
+        m_Animator.speed = animationCurve.Evaluate(t) * speed;
+
+        if (!exploded && transform.parent != null)
         {
             t += Time.deltaTime;
         }
