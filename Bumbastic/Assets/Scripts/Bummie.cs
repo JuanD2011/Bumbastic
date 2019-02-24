@@ -171,11 +171,13 @@ public class Bummie : MonoBehaviour
     }
 
     [PunRPC]
-    void RPC_ThrowBomb()
+    void RPC_ThrowBomb(PhotonMessageInfo info)
     {
+        float lag = (float)(PhotonNetwork.Time - info.SentServerTime);
         GameManager.instance.bomb.transform.parent = null;
         GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
-        GameManager.instance.bomb.RigidBody.AddForce(GameManager.instance.bombHolder.transform.forward * throwForce);
+        GameManager.instance.bomb.RigidBody.velocity = GameManager.instance.bombHolder.transform.forward * throwForce;
+        GameManager.instance.bomb.RigidBody.position += GameManager.instance.bomb.RigidBody.velocity * lag;
         hasBomb = false;
     }
 
