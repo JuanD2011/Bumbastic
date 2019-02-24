@@ -9,12 +9,16 @@ public class Bomb : MonoBehaviour
     Rigidbody m_rigidBody;
     float minTime = 20f, maxTime = 28f;
 
+    Animator m_Animator;
+    bool oneState = false;
+
     public float Timer { get => timer; set => timer = value; }
     public Rigidbody RigidBody { get => m_rigidBody; set => m_rigidBody = value; }
 
     private void Start()
     {
         m_rigidBody = GetComponent<Rigidbody>();
+        m_Animator = GetComponent<Animator>();
         timer = Random.Range(minTime, maxTime);
     }
 
