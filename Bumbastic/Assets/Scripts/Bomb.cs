@@ -1,5 +1,4 @@
-﻿using EZCameraShake;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
@@ -8,7 +7,7 @@ public class Bomb : MonoBehaviour
     float t = 0f;
     bool exploded = false;
     Rigidbody m_rigidBody;
-    float minTime = 25f, maxTime = 35f;
+    float minTime = 20f, maxTime = 28f;
 
     public float Timer { get => timer; set => timer = value; }
     public Rigidbody RigidBody { get => m_rigidBody; set => m_rigidBody = value; }
@@ -17,7 +16,6 @@ public class Bomb : MonoBehaviour
     {
         m_rigidBody = GetComponent<Rigidbody>();
         timer = Random.Range(minTime, maxTime);
-        Debug.Log(timer);
     }
 
     private void Update()
@@ -26,7 +24,6 @@ public class Bomb : MonoBehaviour
         {
             t += Time.deltaTime;
         }
-
 
         if (t > Timer && !exploded)
         {
@@ -37,7 +34,7 @@ public class Bomb : MonoBehaviour
     void Explode()
     {
         exploded = true;
-        CameraShaker.Instance.ShakeOnce(4f, 2.5f, 0.1f, 1f);
+        StartCoroutine(CameraShake.instance.ShakeCamera(0.4f, 6f, 1.2f));
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
     }

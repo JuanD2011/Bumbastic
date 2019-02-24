@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca527c88cf2acb459a48323872b8f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flyingVel: 30
+  flyingVel: 25
   inGame: {fileID: 11400000, guid: 8dbda846fd8462c43812bcc38aca06ee, type: 2}
 --- !u!114 &114078827127106522
 MonoBehaviour:
