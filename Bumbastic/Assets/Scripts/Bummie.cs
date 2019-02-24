@@ -28,7 +28,7 @@ public class Bummie : MonoBehaviour
 
     #region Bomb
     [SerializeField] private bool hasBomb = false;
-    float throwForce = 700f;
+    float throwForce = 10f;
     #endregion
 
     [SerializeField] private bool speedPU;
@@ -166,7 +166,7 @@ public class Bummie : MonoBehaviour
     {
         if (HasBomb && pV.IsMine)
         {
-            pV.RPC("RPC_ThrowBomb", RpcTarget.AllBuffered);
+            pV.RPC("RPC_ThrowBomb", RpcTarget.AllViaServer);
         }
     }
 
