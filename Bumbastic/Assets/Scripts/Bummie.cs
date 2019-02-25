@@ -41,18 +41,30 @@ public class Bummie : MonoBehaviour
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
     public bool CanMove { private get => canMove; set => canMove = value; }
 
+#if UNITY_EDITOR
+    [SerializeField] string lJoystickHorizontal = "LJoystickHorizontal", lJoystickVertical = "LJoystickVertical";
+    [SerializeField] string rJoystickHorizontal = "RJoystickHorizontal", rJoystickVertical = "RJoystickVertical";
+    [SerializeField] string rTriggerAxis = "RTrigger";
+#endif
+
     private void Start()
     {
         canMove = false;
 
-        pV = GetComponent<PhotonView>();
-        joysticks = GetComponentsInChildren<FloatingJoystick>(true);
         m_Animator = GetComponentInChildren<Animator>();
 
         GameManager.instance.Director.stopped += Director_stopped;
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
-        m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
+        m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/2f));
+
+        if (!Settings.isLocal)
+        {
+            pV = GetComponent<PhotonView>();
+        }
+#if UNITY_ANDROID
+
+        joysticks = GetComponentsInChildren<FloatingJoystick>(true);
 
         foreach (FloatingJoystick joystick in joysticks)
         {
@@ -67,11 +79,14 @@ public class Bummie : MonoBehaviour
                 joystickAiming.OnPathShown += SetPath;
             }
         }
+#endif
     }
 
     private void Director_stopped(UnityEngine.Playables.PlayableDirector obj)
     {
         canMove = true;
+
+# if UNITY_ANDROID
         foreach (Joystick joystick in joysticks)
         {
             if (pV.IsMine)
@@ -79,8 +94,8 @@ public class Bummie : MonoBehaviour
                 joystick.gameObject.SetActive(true);
             }
         }
+#endif
     }
-
     private void ResetTime()
     {
         elapsedTime = 0f;
@@ -93,14 +108,41 @@ public class Bummie : MonoBehaviour
 
     private void Update()
     {
-        if (pV.IsMine)
+        if (CanMove)
         {
-            if (CanMove)
+            if (!Settings.isLocal)
             {
-                input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
-                inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
+                if (pV.IsMine)
+                {
+#if UNITY_ANDROID
+                    input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
+                    inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
+#elif UNITY_EDITOR
+                    input = new Vector2(Input.GetAxisRaw(lJoystickHorizontal), Input.GetAxisRaw(lJoystickVertical));
+                    inputAiming = new Vector2(Input.GetAxisRaw(rJoystickHorizontal), Input.GetAxisRaw(rJoystickVertical));
+
+                    if (Input.GetAxis(rTriggerAxis) != 0)
+                    {
+                        ThrowBomb();
+                    }
+#endif
+                }
             }
+            else
+            {
+#if UNITY_EDITOR
+                input = new Vector2(Input.GetAxisRaw(lJoystickHorizontal), Input.GetAxisRaw(lJoystickVertical));
+                inputAiming = new Vector2(Input.GetAxisRaw(rJoystickHorizontal), Input.GetAxisRaw(rJoystickVertical));
+
+                if (Input.GetAxis(rTriggerAxis) != 0)
+                {
+                    ThrowBomb();
+                }
+#endif
+            }
+
         }
+
 
         //Move Or Bum
         //if (!joystickMovement.IsMoving && !exploded)
@@ -126,10 +168,6 @@ public class Bummie : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Space))
-            ThrowBomb();
-#endif
     }
 
     private void Move()
@@ -164,9 +202,23 @@ public class Bummie : MonoBehaviour
 
     public void ThrowBomb()
     {
-        if (HasBomb && pV.IsMine)
+        if (HasBomb)
         {
-            pV.RPC("RPC_ThrowBomb", RpcTarget.AllViaServer);
+            if (!Settings.isLocal)
+            {
+                if (pV.IsMine)
+                {
+#if UNITY_ANDROID
+                    pV.RPC("RPC_ThrowBomb", RpcTarget.AllViaServer);
+#elif UNITY_EDITOR
+                    GameManager.instance.bomb.transform.parent = null;
+                    GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
+                    GameManager.instance.bomb.RigidBody.velocity = GameManager.instance.bombHolder.transform.forward * throwForce;
+                    hasBomb = false;
+#endif
+                } 
+            }
+
         }
     }
 
@@ -209,7 +261,22 @@ public class Bummie : MonoBehaviour
     private void PassBomb()
     {
         GameManager.instance.bombHolder = this;
+
+#if UNITY_ANDROID
         pV.RPC("RPC_SyncBomb", RpcTarget.AllBuffered, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+#endif
+
+#if UNITY_EDITOR
+        foreach (Bummie bummie in GameManager.instance.PlayersInGame)
+        {
+            bummie.HasBomb = false;
+        }
+        GameManager.instance.bombHolder.HasBomb = true;
+        GameManager.instance.bomb.transform.parent = null;
+        GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
+        GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
+        GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+#endif
     }
 
     public IEnumerator CantMove(float _time)
