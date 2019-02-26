@@ -17,12 +17,17 @@ public class CameraShake : MonoBehaviour
     CinemachineVirtualCamera virtualCamera;
     CinemachineBasicMultiChannelPerlin virtualCameraNoise;
 
+    public delegate IEnumerator DelCamera(float _duration, float _shakeAmplitude, float _shakeFrequency);
+    public DelCamera OnShake;
+
     void Start()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
 
         if (virtualCamera != null)
             virtualCameraNoise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        OnShake += ShakeCamera;
     }
 
     public IEnumerator ShakeCamera(float _duration, float _shakeAmplitude, float _shakeFrequency)
