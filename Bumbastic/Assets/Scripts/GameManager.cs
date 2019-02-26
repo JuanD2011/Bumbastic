@@ -137,10 +137,10 @@ public class GameManager : MonoBehaviour
 
     public void EverybodyReady()
     {
-        if(players.Count == PhotonRoom.room.playersInRoom)
+        if(playersSpawned == PhotonRoom.room.playersInRoom)
         {
             PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
-            Debug.Log(PlayersInGame.Count);
+            Debug.Log(PhotonRoom.room.playersInRoom);
 
             if (PhotonNetwork.IsMasterClient)
             {
