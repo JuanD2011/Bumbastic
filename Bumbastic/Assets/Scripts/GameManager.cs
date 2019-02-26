@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Bomb bomb;
     [SerializeField] private ConfettiBomb confettiBomb;
     public PowerUp powerUp;
+    private int playersSpawned = 0;
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
     public PlayableDirector Director { get => director; private set => director = value; }
@@ -40,7 +41,6 @@ public class GameManager : MonoBehaviour
         Director = GetComponent<PlayableDirector>();
 
         Invoke("AssignSpawnPoints", 1f);
-        Invoke("EverybodyReady", 3f);
     }
 
     private void AssignSpawnPoints()
@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
         PhotonPlayer player = PhotonView.Find(id).GetComponent<PhotonPlayer>();
         player.SpawnPoint = _spawnPoint;
         player.SpawnAvatar();
+        playersSpawned++;
+        EverybodyReady();
     }
 
     public void GiveBombs()
