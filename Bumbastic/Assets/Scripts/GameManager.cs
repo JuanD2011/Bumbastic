@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
 
         Director = GetComponent<PlayableDirector>();
 
-        Invoke("SpawnPlayers", 1f);
+        Invoke("AssignSpawnPoints", 1f);
         Invoke("SpawnAvatars", 2f);
         Invoke("EverybodyReady", 3f);
     }
