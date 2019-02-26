@@ -40,12 +40,12 @@ public class GameManager : MonoBehaviour
         Director = GetComponent<PlayableDirector>();
 
         Invoke("SpawnPlayers", 1f);
+        Invoke("PlayersSpawn", 3f);
     }
 
     private void SpawnPlayers()
     {
         players.AddRange(FindObjectsOfType<PhotonPlayer>());
-        Debug.Log(players.Count);
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -59,8 +59,6 @@ public class GameManager : MonoBehaviour
         {
             player.SpawnAvatar();
         }
-
-        PlayersSpawn();
     }
 
     public void GiveBombs()
@@ -136,6 +134,7 @@ public class GameManager : MonoBehaviour
         if(players.Count == PhotonRoom.room.playersInRoom)
         {
             PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+            Debug.Log(PlayersInGame.Count);
 
             if (PhotonNetwork.IsMasterClient)
             {
