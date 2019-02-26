@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Photon.Pun;
+using System.IO;
 
 public class LobbyBummie : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class LobbyBummie : MonoBehaviour
     [PunRPC]
     private void InstantiateBummie()
     {
-        Instantiate(bummie, bummiePositions[count].position, Quaternion.Euler(initRot));
-        count++;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
+            count++; 
+        }
     }
 }

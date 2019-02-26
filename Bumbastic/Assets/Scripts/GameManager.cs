@@ -45,11 +45,13 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayers()
     {
         players.AddRange(FindObjectsOfType<PhotonPlayer>());
+        Debug.Log(players.Count);
 
         if (PhotonNetwork.IsMasterClient)
         {
             foreach (PhotonPlayer player in players)
             {
+                Debug.Log("Player");
                 player.SpawnPoint = GetSpawnPoint();
                 player.SpawnAvatar();
             }
