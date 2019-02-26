@@ -37,6 +37,13 @@ public class GameManager : MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
 
+        Director = GetComponent<PlayableDirector>();
+
+        Invoke("SpawnPlayers", 1f);
+    }
+
+    private void SpawnPlayers()
+    {
         players.AddRange(FindObjectsOfType<PhotonPlayer>());
 
         if (PhotonNetwork.IsMasterClient)
@@ -45,12 +52,10 @@ public class GameManager : MonoBehaviour
             {
                 player.SpawnPoint = GetSpawnPoint();
                 player.SpawnAvatar();
-            } 
+            }
         }
 
         PlayersSpawn();
-
-        Director = GetComponent<PlayableDirector>();
     }
 
     public void GiveBombs()
