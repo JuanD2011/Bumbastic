@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
         else Destroy(this);
     }
 
-    List<Bummie> playersInGame;
+    List<Bummie> playersInGame = new List<Bummie>();
     public Bummie bombHolder;
     public Bomb bomb;
     [SerializeField] private ConfettiBomb confettiBomb;
@@ -23,12 +23,11 @@ public class GameManager : MonoBehaviour
     public PlayableDirector Director { get => director; private set => director = value; }
 
     private PhotonView pV;
-    private int playersSpawned;
 
     public List<Transform> spawnPoints;
     private List<PhotonPlayer> players = new List<PhotonPlayer>();
 
-    private List<Bummie> bummies;
+    private List<Bummie> bummies = new List<Bummie>();
     PlayableDirector director;//My timeline
 
     private float minTime = 20f, maxTime = 28f;
@@ -38,9 +37,10 @@ public class GameManager : MonoBehaviour
     {
         pV = GetComponent<PhotonView>();
 
+        players.AddRange(FindObjectsOfType<PhotonPlayer>());
+
         if (PhotonNetwork.IsMasterClient)
         {
-            players.AddRange(FindObjectsOfType<PhotonPlayer>());
             foreach (PhotonPlayer player in players)
             {
                 player.SpawnPoint = GetSpawnPoint();
@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour
             } 
         }
 
-        PlayersInGame = new List<Bummie>();
-        bummies = new List<Bummie>();
+        PlayersSpawn();
+
         Director = GetComponent<PlayableDirector>();
     }
 
@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
             bummies.RemoveAt(i);
-            Debug.Log("+1");
         }
         bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
         bomb.Timer = _timer;
@@ -124,9 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayersSpawn()
     {
-        playersSpawned++;
-
-        if(playersSpawned == PhotonRoom.room.playersInRoom)
+        if(players.Count == PhotonRoom.room.playersInRoom)
         {
             PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
 
