@@ -40,10 +40,11 @@ public class GameManager : MonoBehaviour
         Director = GetComponent<PlayableDirector>();
 
         Invoke("SpawnPlayers", 1f);
-        Invoke("PlayersSpawn", 3f);
+        Invoke("SpawnAvatars", 2f);
+        Invoke("EverybodyReady", 3f);
     }
 
-    private void SpawnPlayers()
+    private void AssignSpawnPoints()
     {
         players.AddRange(FindObjectsOfType<PhotonPlayer>());
 
@@ -52,9 +53,13 @@ public class GameManager : MonoBehaviour
             foreach (PhotonPlayer player in players)
             {
                 player.SpawnPoint = GetSpawnPoint();
+                Debug.Log(player.SpawnPoint);
             }
         }
+    }
 
+    private void SpawnAvatars()
+    {
         foreach (PhotonPlayer player in players)
         {
             player.SpawnAvatar();
@@ -129,7 +134,7 @@ public class GameManager : MonoBehaviour
         winner.transform.localScale *= 2; 
     }
 
-    public void PlayersSpawn()
+    public void EverybodyReady()
     {
         if(players.Count == PhotonRoom.room.playersInRoom)
         {
