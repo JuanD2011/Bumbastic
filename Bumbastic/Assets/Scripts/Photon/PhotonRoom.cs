@@ -95,11 +95,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
                     lessThanMaxPlayers = atMaxPlayers;
                     timeToStart = atMaxPlayers;
                 }
-                else if (readyToCount)
-                {
-                    lessThanMaxPlayers -= Time.deltaTime;
-                    timeToStart = lessThanMaxPlayers;
-                }
+                //else if (readyToCount)
+                //{
+                //    lessThanMaxPlayers -= Time.deltaTime;
+                //    timeToStart = lessThanMaxPlayers;
+                //}
                 //Debug.Log("Display time to start to the players " + timeToStart);
 
                 if (timeToStart <= 0)
@@ -124,10 +124,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + multiplayerSetting.maxPlayers + ")");
             matchMaking.text = playersInRoom + " / " + multiplayerSetting.maxPlayers + " Players";
 
-            if (playersInRoom > 1)
-            {
-                readyToCount = true;
-            }
+            //if (playersInRoom > 1)
+            //{
+            //    readyToCount = true;
+            //}
             if(playersInRoom == multiplayerSetting.maxPlayers)
             {
                 readyToStart = true;
@@ -157,10 +157,10 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
             Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + multiplayerSetting.maxPlayers + ")");
             matchMaking.text = playersInRoom + " / " + multiplayerSetting.maxPlayers + " Players";
 
-            if (playersInRoom > 1)
-            {
-                readyToCount = true;
-            }
+            //if (playersInRoom > 1)
+            //{
+            //    readyToCount = true;
+            //}
             if (playersInRoom == multiplayerSetting.maxPlayers)
             {
                 readyToStart = true;

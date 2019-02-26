@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Photon.Pun;
-using System.IO;
 
 public class LobbyBummie : MonoBehaviour
 {
+    [SerializeField] GameObject bummie;
     [SerializeField] Transform[] bummiePositions;
     byte count = 0;
     Vector3 initRot = new Vector3(0, 180, 0);
@@ -15,7 +15,7 @@ public class LobbyBummie : MonoBehaviour
 
     [PunRPC]
     private void InstantiateBummie() {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
+        Instantiate(bummie, bummiePositions[count].position, Quaternion.Euler(initRot));
         count++;
     }
 }

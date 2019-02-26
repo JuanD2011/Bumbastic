@@ -1847,6 +1847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d7425cb2ecc1a4e819791f68224d64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bummie: {fileID: 886320975484427649, guid: 65df53e2b54029947b4b97c4cb47aed8, type: 3}
   bummiePositions:
   - {fileID: 1108974222}
   - {fileID: 1715329275}
