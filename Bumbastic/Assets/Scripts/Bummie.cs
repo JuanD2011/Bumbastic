@@ -41,11 +41,9 @@ public class Bummie : MonoBehaviour
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
     public bool CanMove { private get => canMove; set => canMove = value; }
 
-#if UNITY_EDITOR
     [SerializeField] string lJoystickHorizontal = "LJoystickHorizontal", lJoystickVertical = "LJoystickVertical";
     [SerializeField] string rJoystickHorizontal = "RJoystickHorizontal", rJoystickVertical = "RJoystickVertical";
     [SerializeField] string rTriggerAxis = "RTrigger";
-#endif
 
     private void Start()
     {
@@ -58,12 +56,12 @@ public class Bummie : MonoBehaviour
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
         m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/2f));
 
-        if (!Settings.isLocal)
+        if (Settings.isOnline)
         {
             pV = GetComponent<PhotonView>();
         }
-#if UNITY_ANDROID
 
+#if UNITY_ANDROID
         joysticks = GetComponentsInChildren<FloatingJoystick>(true);
 
         foreach (FloatingJoystick joystick in joysticks)
@@ -86,7 +84,7 @@ public class Bummie : MonoBehaviour
     {
         canMove = true;
 
-# if UNITY_ANDROID
+#if UNITY_ANDROID
         foreach (Joystick joystick in joysticks)
         {
             if (pV.IsMine)
@@ -110,7 +108,7 @@ public class Bummie : MonoBehaviour
     {
         if (CanMove)
         {
-            if (!Settings.isLocal)
+            if (Settings.isOnline)
             {
                 if (pV.IsMine)
                 {
@@ -177,6 +175,7 @@ public class Bummie : MonoBehaviour
 
         if (inputAim != Vector2.zero)
         {
+#if UNITY_ANDROID
             if (joystickAiming.Direction.magnitude >= 0.2f)
             {
                 m_AimPath.gameObject.SetActive(true);
@@ -184,6 +183,15 @@ public class Bummie : MonoBehaviour
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
             }
             else m_AimPath.gameObject.SetActive(false);
+#elif UNITY_EDITOR
+            if (inputAiming.magnitude >= 0.2f)
+            {
+                m_AimPath.gameObject.SetActive(true);
+                targetRotation = Mathf.Atan2(inputAiming.x, inputAiming.y) * Mathf.Rad2Deg;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVel, turnSmooth);
+            }
+            else m_AimPath.gameObject.SetActive(false);
+#endif
         }
         else if (inputDirection != Vector2.zero)
         {
@@ -204,21 +212,22 @@ public class Bummie : MonoBehaviour
     {
         if (HasBomb)
         {
-            if (!Settings.isLocal)
+            if (Settings.isOnline)
             {
                 if (pV.IsMine)
                 {
-#if UNITY_ANDROID
                     pV.RPC("RPC_ThrowBomb", RpcTarget.AllViaServer);
-#elif UNITY_EDITOR
-                    GameManager.instance.bomb.transform.parent = null;
-                    GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
-                    GameManager.instance.bomb.RigidBody.velocity = GameManager.instance.bombHolder.transform.forward * throwForce;
-                    hasBomb = false;
-#endif
-                } 
+                }
             }
-
+#if UNITY_EDITOR
+            else
+            {
+                GameManager.instance.bomb.transform.parent = null;
+                GameManager.instance.bomb.RigidBody.constraints = RigidbodyConstraints.None;
+                GameManager.instance.bomb.RigidBody.velocity = GameManager.instance.bombHolder.transform.forward * throwForce;
+                hasBomb = false;
+            }
+#endif
         }
     }
 
@@ -262,20 +271,24 @@ public class Bummie : MonoBehaviour
     {
         GameManager.instance.bombHolder = this;
 
-#if UNITY_ANDROID
-        pV.RPC("RPC_SyncBomb", RpcTarget.AllBuffered, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
-#endif
-
-#if UNITY_EDITOR
-        foreach (Bummie bummie in GameManager.instance.PlayersInGame)
+        if (Settings.isOnline)
         {
-            bummie.HasBomb = false;
+            pV.RPC("RPC_SyncBomb", RpcTarget.AllBuffered, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+
         }
-        GameManager.instance.bombHolder.HasBomb = true;
-        GameManager.instance.bomb.transform.parent = null;
-        GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
-        GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
-        GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+#if UNITY_EDITOR
+        else
+        {
+            foreach (Bummie bummie in GameManager.instance.PlayersInGame)
+            {
+                bummie.HasBomb = false;
+            }
+            GameManager.instance.bombHolder.HasBomb = true;
+            GameManager.instance.bomb.transform.parent = null;
+            GameManager.instance.bomb.transform.SetParent(GameManager.instance.bombHolder.transform);
+            GameManager.instance.bomb.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
+            GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        }
 #endif
     }
 

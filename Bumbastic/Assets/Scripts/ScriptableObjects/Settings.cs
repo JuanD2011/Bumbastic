@@ -7,7 +7,7 @@ public class Settings : ScriptableObject
     public bool isSfxActive;
     public bool isJoysitckLocked;
 
-    public static bool isLocal;
+    public static bool isOnline;
 
     public void SetLockedJoystick() {
         if (isJoysitckLocked) isJoysitckLocked = false;
