@@ -53,8 +53,10 @@ public class Bomb : MonoBehaviour
     {
         exploded = true;
         StartCoroutine(CameraShake.instance.ShakeCamera(0.4f, 6f, 1.2f));
+        transform.SetParent(null);
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
+        gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -70,6 +72,5 @@ public class Bomb : MonoBehaviour
 
     private void OnDisable()
     {
-        transform.SetParent(null);
     }
 }
