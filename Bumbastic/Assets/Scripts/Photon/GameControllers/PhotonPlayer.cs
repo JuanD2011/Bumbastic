@@ -6,22 +6,20 @@ public class PhotonPlayer : MonoBehaviour
 {
     private PhotonView pV;
     public GameObject myAvatar;
+    private Vector3 spawnPoint;
+
+    public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
 
     void Start()
     {
-        pV = GetComponent<PhotonView>();
-
-        if (pV.IsMine)
-        {
-            Vector3 spawnPoint = GameManager.instance.GetSpawnPoint();
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), spawnPoint, Quaternion.identity, 0);
-            pV.RPC("SyncPlayerSpawn", RpcTarget.All);
-        }
+        pV = GetComponent<PhotonView>();      
     }
 
-    [PunRPC]
-    void SyncPlayerSpawn()
+    public void SpawnAvatar()
     {
-        GameManager.instance.PlayersSpawn();
+        if (pV.IsMine)
+        {
+            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), SpawnPoint, Quaternion.identity, 0);
+        }
     }
 }

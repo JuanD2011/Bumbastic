@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     private int playersSpawned;
 
     public List<Transform> spawnPoints;
+    private List<PhotonPlayer> players = new List<PhotonPlayer>();
 
     private List<Bummie> bummies;
     PlayableDirector director;//My timeline
@@ -36,6 +37,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pV = GetComponent<PhotonView>();
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            players.AddRange(FindObjectsOfType<PhotonPlayer>());
+            foreach (PhotonPlayer player in players)
+            {
+                player.SpawnPoint = GetSpawnPoint();
+                player.SpawnAvatar();
+            } 
+        }
+
         PlayersInGame = new List<Bummie>();
         bummies = new List<Bummie>();
         Director = GetComponent<PlayableDirector>();
@@ -77,7 +89,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        Debug.Log(bummies.Count);
         for (int i = 1; i < bummies.Count; i++)
         {
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
@@ -130,13 +141,7 @@ public class GameManager : MonoBehaviour
     {
         int random = Random.Range(0, spawnPoints.Count);
         Vector3 spawnPos = spawnPoints[random].position;
-        pV.RPC("RPC_SyncSpawns", RpcTarget.All, random);
+        spawnPoints.RemoveAt(random);
         return spawnPos;
-    }
-
-    [PunRPC]
-    void RPC_SyncSpawns(int _random)
-    {
-        spawnPoints.RemoveAt(_random);
     }
 }

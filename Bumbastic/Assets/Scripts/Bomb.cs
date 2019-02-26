@@ -69,8 +69,4 @@ public class Bomb : MonoBehaviour
             RigidBody.constraints = RigidbodyConstraints.FreezeAll;
         }
     }
-
-    private void OnDisable()
-    {
-    }
 }
