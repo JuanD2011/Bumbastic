@@ -19,7 +19,6 @@ public class PhotonPlayer : MonoBehaviour
     {
         if (pV.IsMine)
         {
-            Debug.Log("Spawn!");
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), SpawnPoint, Quaternion.identity, 0);
         }
     }

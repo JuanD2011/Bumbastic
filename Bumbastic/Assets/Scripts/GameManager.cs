@@ -51,10 +51,13 @@ public class GameManager : MonoBehaviour
         {
             foreach (PhotonPlayer player in players)
             {
-                Debug.Log("Player");
                 player.SpawnPoint = GetSpawnPoint();
-                player.SpawnAvatar();
             }
+        }
+
+        foreach (PhotonPlayer player in players)
+        {
+            player.SpawnAvatar();
         }
 
         PlayersSpawn();
