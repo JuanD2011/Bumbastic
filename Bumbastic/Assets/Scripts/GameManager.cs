@@ -45,10 +45,10 @@ public class GameManager : MonoBehaviour
 
     private void AssignSpawnPoints()
     {
-        players.AddRange(FindObjectsOfType<PhotonPlayer>());
-
         if (PhotonNetwork.IsMasterClient)
         {
+            players.AddRange(FindObjectsOfType<PhotonPlayer>());
+
             foreach (PhotonPlayer player in players)
             {
                 player.SpawnPoint = GetSpawnPoint();
