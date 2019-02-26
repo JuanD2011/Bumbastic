@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
         Director = GetComponent<PlayableDirector>();
 
         Invoke("AssignSpawnPoints", 1f);
-        Invoke("SpawnAvatars", 2f);
         Invoke("EverybodyReady", 3f);
     }
 
@@ -53,17 +52,17 @@ public class GameManager : MonoBehaviour
             foreach (PhotonPlayer player in players)
             {
                 player.SpawnPoint = GetSpawnPoint();
-                Debug.Log(player.SpawnPoint);
+                pV.RPC("SpawnPlayer", RpcTarget.AllViaServer, player.GetComponent<PhotonView>().ViewID, player.SpawnPoint);
             }
         }
     }
 
-    private void SpawnAvatars()
+    [PunRPC]
+    private void SpawnPlayer(int id, Vector3 _spawnPoint)
     {
-        foreach (PhotonPlayer player in players)
-        {
-            player.SpawnAvatar();
-        }
+        PhotonPlayer player = PhotonView.Find(id).GetComponent<PhotonPlayer>();
+        player.SpawnPoint = _spawnPoint;
+        player.SpawnAvatar();
     }
 
     public void GiveBombs()
