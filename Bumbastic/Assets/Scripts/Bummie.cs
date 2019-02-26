@@ -52,7 +52,7 @@ public class Bummie : MonoBehaviour
         GameManager.instance.Director.stopped += Director_stopped;
 
         m_AimPath = transform.GetChild(2).GetComponent<LineRenderer>();
-        m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/90f));
+        m_AimPath.SetPosition(1, new Vector3(0, 0, throwForce/1.8f));
 
         foreach (FloatingJoystick joystick in joysticks)
         {
