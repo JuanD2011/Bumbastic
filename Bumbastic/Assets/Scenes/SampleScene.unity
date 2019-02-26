@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.82138056, g: 0.9118399, b: 0.90150696, a: 1}
+  m_IndirectSpecularColor: {r: 0.81896436, g: 0.9132278, b: 0.89508796, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -368,6 +368,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InstantiationId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4112519135983392989, guid: e9d8ac2baecbffb4489b74145bca3a4c,
         type: 3}
       propertyPath: m_Name
@@ -462,14 +470,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ReceiveShadows
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: viewIdField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: InstantiationId
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 810669241302706264, guid: e9d8ac2baecbffb4489b74145bca3a4c, type: 3}
@@ -1296,7 +1296,7 @@ PlayableDirector:
   m_Enabled: 1
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: ad6712f1c41d44f408333b0e2d163f88, type: 2}
-  m_InitialState: 1
+  m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
