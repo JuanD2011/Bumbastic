@@ -5,7 +5,6 @@ public class Bomb : MonoBehaviour
 {
     private float t = 0f;
     private bool exploded = false;
-    private float minTime = 20f, maxTime = 28f;
 
     private float timer;
     private Rigidbody m_rigidBody;
@@ -22,7 +21,10 @@ public class Bomb : MonoBehaviour
     {
         m_rigidBody = GetComponent<Rigidbody>();
         m_Animator = GetComponent<Animator>();
-        timer = Random.Range(minTime, maxTime);
+    }
+
+    private void OnEnable()
+    {
         SetKeys();
     }
 
@@ -64,5 +66,10 @@ public class Bomb : MonoBehaviour
             gameObject.transform.position = GameManager.instance.bombHolder.transform.GetChild(1).transform.position;
             RigidBody.constraints = RigidbodyConstraints.FreezeAll;
         }
+    }
+
+    private void OnDisable()
+    {
+        transform.SetParent(null);
     }
 }

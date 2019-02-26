@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     private List<Bummie> bummies;
     PlayableDirector director;//My timeline
 
+    private float minTime = 20f, maxTime = 28f;
+
 
     private void Start()
     {
@@ -51,7 +53,9 @@ public class GameManager : MonoBehaviour
                 _bummies[i] = bummies[i].gameObject.GetComponent<PhotonView>().ViewID;
             }
 
-            pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies);
+            bomb.Timer = Random.Range(minTime, maxTime);
+
+            pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies, bomb.Timer);
         }
         else if (PlayersInGame.Count == 1)
         {
@@ -60,7 +64,7 @@ public class GameManager : MonoBehaviour
     }
 
     [PunRPC]
-    private void RPC_BombSpawn(int[] _bummies)
+    private void RPC_BombSpawn(int[] _bummies, float _timer)
     {
         bummies.Clear();
         for (int i = 0; i < _bummies.Length; i++)
@@ -81,6 +85,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("+1");
         }
         bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
+        bomb.Timer = _timer;
         bomb.gameObject.SetActive(true);
     }
 

@@ -14,7 +14,8 @@ public class LobbyBummie : MonoBehaviour
     }
 
     [PunRPC]
-    private void InstantiateBummie() {
+    private void InstantiateBummie()
+    {
         Instantiate(bummie, bummiePositions[count].position, Quaternion.Euler(initRot));
         count++;
     }
