@@ -146,6 +146,7 @@ public class GameManager : MonoBehaviour
             {
                 GiveBombs();
             }
+            director.Play();
         }
     }
 
