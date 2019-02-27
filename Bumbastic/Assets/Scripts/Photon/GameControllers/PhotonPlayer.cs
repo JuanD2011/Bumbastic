@@ -1,14 +1,24 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using System.IO;
+using ExitGames.Client.Photon;
 
-public class PhotonPlayer : MonoBehaviour
+public class PhotonPlayer : MonoBehaviour, IOnEventCallback
 {
     private PhotonView pV;
     public GameObject myAvatar;
     private Vector3 spawnPoint;
 
-    public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
 
     void Start()
     {
@@ -19,8 +29,26 @@ public class PhotonPlayer : MonoBehaviour
     {
         if (pV.IsMine)
         {
-            Debug.Log(SpawnPoint);
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), SpawnPoint, Quaternion.identity, 0);
+            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), spawnPoint, Quaternion.identity, 0);
+        }
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == GameManager.instance.spawnPlayersEvent)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+
+            Vector3[] spawnPoints = (Vector3[])data[0];
+            spawnPoint = spawnPoints[PhotonRoom.room.myNumberInRoom];
+
+            SpawnAvatar();
+
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent(GameManager.instance.onPlayerSpawn, null, raiseEventOptions, sendOptions);
         }
     }
 }

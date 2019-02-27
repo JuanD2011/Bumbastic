@@ -1,11 +1,16 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour, IOnEventCallback
 {
     public static GameManager instance;
+
+    public readonly byte spawnPlayersEvent = 0;
+    public readonly byte onPlayerSpawn = 1;
 
     private void Awake()
     {
@@ -33,7 +38,6 @@ public class GameManager : MonoBehaviour
 
     private float minTime = 20f, maxTime = 28f;
 
-
     private void Start()
     {
         pV = GetComponent<PhotonView>();
@@ -43,28 +47,37 @@ public class GameManager : MonoBehaviour
         Invoke("AssignSpawnPoints", 1f);
     }
 
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
     private void AssignSpawnPoints()
     {
         if (PhotonNetwork.IsMasterClient)
         {
             players.AddRange(FindObjectsOfType<PhotonPlayer>());
 
-            foreach (PhotonPlayer player in players)
-            {
-                player.SpawnPoint = GetSpawnPoint();
-                pV.RPC("SpawnPlayer", RpcTarget.AllViaServer, player.GetComponent<PhotonView>().ViewID, player.SpawnPoint);
-            }
-        }
-    }
+            Vector3[] spawnPoints = new Vector3[players.Count];
 
-    [PunRPC]
-    private void SpawnPlayer(int id, Vector3 _spawnPoint)
-    {
-        PhotonPlayer player = PhotonView.Find(id).GetComponent<PhotonPlayer>();
-        player.SpawnPoint = _spawnPoint;
-        player.SpawnAvatar();
-        playersSpawned++;
-        EverybodyReady();
+            for (int i = 0; i < players.Count; i++)
+            {
+                spawnPoints[i] = GetSpawnPoint();
+            }
+
+            object[] content = new object[]
+            {
+                spawnPoints
+            };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent(spawnPlayersEvent, content, raiseEventOptions, sendOptions);
+        }
     }
 
     public void GiveBombs()
@@ -135,26 +148,30 @@ public class GameManager : MonoBehaviour
         winner.transform.localScale *= 2; 
     }
 
-    public void EverybodyReady()
-    {
-        if(playersSpawned == PhotonRoom.room.playersInRoom)
-        {
-            PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
-            Debug.Log(PhotonRoom.room.playersInRoom);
-
-            if (PhotonNetwork.IsMasterClient)
-            {
-                GiveBombs();
-            }
-            director.Play();
-        }
-    }
-
     public Vector3 GetSpawnPoint()
     {
         int random = Random.Range(0, spawnPoints.Count);
         Vector3 spawnPos = spawnPoints[random].position;
         spawnPoints.RemoveAt(random);
         return spawnPos;
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == onPlayerSpawn)
+        {
+            playersSpawned++;
+
+            if (playersSpawned == PhotonRoom.room.playersInRoom)
+            {
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    GiveBombs();
+                }
+                director.Play();
+            }
+        }
     }
 }
