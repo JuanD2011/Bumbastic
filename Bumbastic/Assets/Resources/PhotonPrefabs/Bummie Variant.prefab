@@ -1186,6 +1186,11 @@ PrefabInstance:
       propertyPath: powerUpSpeed
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 83312015963148779, guid: 3a7744a78c083f4449554adb6cccc2f7,
+        type: 3}
+      propertyPath: speedPU
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 83312015963148778, guid: 3a7744a78c083f4449554adb6cccc2f7,
         type: 3}
       propertyPath: m_Constraints

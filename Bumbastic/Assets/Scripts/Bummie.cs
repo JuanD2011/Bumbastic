@@ -126,10 +126,6 @@ public class Bummie : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.Space))
-            ThrowBomb();
-#endif
     }
 
     private void Move()
@@ -159,13 +155,14 @@ public class Bummie : MonoBehaviour
         transform.Translate(movement * currentSpeed * Time.deltaTime, Space.World);
         animationSpeedPercent = ((SpeedPU) ? 1 : 0.5f) * inputDirection.magnitude;
 
-        m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime); 
+        m_Animator.SetFloat("speed", animationSpeedPercent, speedSmooothTime, Time.deltaTime);
     }
 
     public void ThrowBomb()
     {
         if (HasBomb && pV.IsMine)
         {
+            m_Animator.SetTrigger("Launch");
             pV.RPC("RPC_ThrowBomb", RpcTarget.AllViaServer);
         }
     }
