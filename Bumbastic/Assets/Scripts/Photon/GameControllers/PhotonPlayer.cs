@@ -42,7 +42,7 @@ public class PhotonPlayer : MonoBehaviour, IOnEventCallback
             object[] data = (object[])photonEvent.CustomData;
 
             Vector3[] spawnPoints = (Vector3[])data[0];
-            spawnPoint = spawnPoints[PhotonRoom.room.myNumberInRoom];
+            spawnPoint = spawnPoints[PhotonRoom.room.myNumberInRoom - 1];
 
             SpawnAvatar();
 
