@@ -164,8 +164,13 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         {
             playersSpawned++;
 
+            Debug.Log("Players spawned: " + playersSpawned + ". Players in room: " + PhotonRoom.room.playersInRoom);
+
             if (playersSpawned == PhotonRoom.room.playersInRoom)
             {
+                PlayersInGame.Clear();
+                PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+
                 if (PhotonNetwork.IsMasterClient)
                 {
                     GiveBombs();

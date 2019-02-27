@@ -30,6 +30,10 @@ public class PhotonPlayer : MonoBehaviour, IOnEventCallback
         if (pV.IsMine)
         {
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Bummie Variant"), spawnPoint, Quaternion.identity, 0);
+            Debug.Log("Aló1");
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent(GameManager.instance.onPlayerSpawn, null, raiseEventOptions, sendOptions);
         }
     }
 
@@ -45,10 +49,6 @@ public class PhotonPlayer : MonoBehaviour, IOnEventCallback
             spawnPoint = spawnPoints[PhotonRoom.room.myNumberInRoom - 1];
 
             SpawnAvatar();
-
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent(GameManager.instance.onPlayerSpawn, null, raiseEventOptions, sendOptions);
         }
     }
 }
