@@ -52,7 +52,7 @@ public class Bomb : MonoBehaviour
     void Explode()
     {
         exploded = true;
-        StartCoroutine(CameraShake.instance.OnShake(0.4f, 6f, 1.2f));
+        CameraShake.instance.OnShake(0.4f, 6f, 1.2f);
         transform.SetParent(null);
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
