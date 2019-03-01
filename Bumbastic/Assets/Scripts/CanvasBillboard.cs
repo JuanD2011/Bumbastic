@@ -1,7 +1,23 @@
 ﻿using UnityEngine;
+using Photon.Pun;
+using TMPro;
 
 public class CanvasBillboard : MonoBehaviour
 {
+    PhotonView pV;
+    TextMeshProUGUI nickname;
+
+    private void Start()
+    {
+        pV = GetComponentInParent<PhotonView>();
+        nickname = GetComponentInChildren<TextMeshProUGUI>();
+
+        if (pV.IsMine && nickname != null)
+        {
+            nickname.text = PhotonNetwork.NickName;
+        }
+    }
+
     private void Update()
     {
         if (Camera.main != null)
