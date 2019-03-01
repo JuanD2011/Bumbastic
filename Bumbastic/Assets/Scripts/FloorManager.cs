@@ -18,7 +18,7 @@ public class FloorManager : MonoBehaviour
     float time = 0;
 
     [SerializeField]
-    float dropTime, dropInterval;
+    float dropTime, dropInterval,anticipationTime;
 
     [SerializeField]
     Gradient colorAnticipation;
@@ -87,7 +87,7 @@ public class FloorManager : MonoBehaviour
     {
         anticipationRing = ring;
         anticipation = true;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(anticipationTime);
         StartCoroutine(Drop(ring));
     }
 
