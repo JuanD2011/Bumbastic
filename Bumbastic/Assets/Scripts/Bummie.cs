@@ -53,7 +53,7 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     private void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
-        GameManager.instance.PlayersInGame.Remove(this);
+        Destroy(this);
     }
 
     private void Start()

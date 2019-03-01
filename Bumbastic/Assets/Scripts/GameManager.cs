@@ -191,9 +191,11 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             {
                 Debug.Log("Hey!");
                 playersSpawned++;
-
+                PlayersInGame.Clear();
+                PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+                Debug.Log("Players spawned: " + playersSpawned + ". Players in room: " + PlayersInGame.Count);
                 if (playersSpawned == PlayersInGame.Count)
-                {
+                {        
                     GiveBombs();
                     director.Play();
                 } 
