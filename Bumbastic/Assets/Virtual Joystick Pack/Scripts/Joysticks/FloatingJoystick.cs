@@ -16,6 +16,7 @@ public class FloatingJoystick : Joystick
     float magnitude;
     Vector2 pointerPos;
     [SerializeField] Settings settings;
+    float velMov = 4f;
 
     void Start()
     {
@@ -41,14 +42,19 @@ public class FloatingJoystick : Joystick
         {
             if (type == JoystickType.Movement)
             {
-                Vector2 vector = pointerPos - joystickCenter;
+                Vector2 distance = pointerPos - joystickCenter;
                 if (Vector2.Distance(pointerPos, joystickCenter) > 2f && Direction.magnitude > handleLimit)
                 {
-                    background.anchoredPosition += Direction.normalized * (vector.magnitude / 20f);
-                    joystickCenter += Direction.normalized * (vector.magnitude / 20f);
+                    background.transform.Translate(distance * Time.deltaTime * velMov);
+                    joystickCenter = Vector2.MoveTowards(joystickCenter, pointerPos, distance.magnitude * Time.deltaTime * velMov);
                 }
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(joystickCenter, pointerPos);
     }
 
     public override void OnPointerDown(PointerEventData eventData)
