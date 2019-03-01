@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MultiplayerSetting
   m_EditorClassIdentifier: 
   delayStart: 1
-  maxPlayers: 2
+  maxPlayers: 3
   menuScene: 0
   multiplayerScene: 1

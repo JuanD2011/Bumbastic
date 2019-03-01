@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback
 
     public readonly byte spawnPlayersEvent = 0;
     public readonly byte onPlayerSpawn = 1;
+    public readonly byte onBummieReady = 3;
+
+    private RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+    private SendOptions sendOptions = new SendOptions { Reliability = true };
 
     private void Awake()
     {
@@ -27,6 +31,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
     public PlayableDirector Director { get => director; private set => director = value; }
+    public RaiseEventOptions RaiseEventOptions { get => raiseEventOptions; set => raiseEventOptions = value; }
+    public SendOptions SendOptions { get => sendOptions; set => sendOptions = value; }
 
     private PhotonView pV;
 
@@ -74,9 +80,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             {
                 spawnPoints
             };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent(spawnPlayersEvent, content, raiseEventOptions, sendOptions);
+            PhotonNetwork.RaiseEvent(spawnPlayersEvent, content, RaiseEventOptions, SendOptions);
         }
     }
 
@@ -105,6 +109,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies, float _timer)
     {
+        playersSpawned = 0;
         bummies.Clear();
         for (int i = 0; i < _bummies.Length; i++)
         {
@@ -145,7 +150,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback
     void GameOver(int IDwinner)
     {
         GameObject winner = PhotonView.Find(IDwinner).gameObject; 
-        winner.transform.localScale *= 2; 
+        winner.transform.localScale *= 2;
+        Debug.Log("There's a winner!");
     }
 
     public Vector3 GetSpawnPoint()
@@ -171,6 +177,19 @@ public class GameManager : MonoBehaviour, IOnEventCallback
                 PlayersInGame.Clear();
                 PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
 
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    GiveBombs();
+                }
+                director.Play();
+            }
+        }
+        if (eventCode == onBummieReady)
+        {
+            playersSpawned++;
+
+            if (playersSpawned == PlayersInGame.Count)
+            {
                 if (PhotonNetwork.IsMasterClient)
                 {
                     GiveBombs();

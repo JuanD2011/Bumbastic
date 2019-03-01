@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
+    public readonly byte onBombExploded = 2;
+
     private float t = 0f;
     private bool exploded = false;
 
@@ -57,6 +62,7 @@ public class Bomb : MonoBehaviour
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
         gameObject.SetActive(false);
+        PhotonNetwork.RaiseEvent(onBombExploded, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions);
     }
 
     private void OnCollisionEnter(Collision collision)
