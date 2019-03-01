@@ -121,8 +121,9 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             }
         }
 
-        for (int i = 1; i < bummies.Count; i++)
+        for (int i = 0; i < bummies.Count; i++)
         {
+            Debug.Log("Toma bomba");
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
             bummies.RemoveAt(i);
         }
@@ -186,16 +187,16 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         }
         if (eventCode == onBummieReady)
         {
-            Debug.Log("Hey!");
-            playersSpawned++;
-
-            if (playersSpawned == PlayersInGame.Count)
+            if (PhotonNetwork.IsMasterClient)
             {
-                if (PhotonNetwork.IsMasterClient)
+                Debug.Log("Hey!");
+                playersSpawned++;
+
+                if (playersSpawned == PlayersInGame.Count)
                 {
                     GiveBombs();
-                }
-                director.Play();
+                    director.Play();
+                } 
             }
         }
     }

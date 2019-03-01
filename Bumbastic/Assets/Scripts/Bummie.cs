@@ -253,7 +253,10 @@ public class Bummie : MonoBehaviour, IOnEventCallback
         joystickAiming.gameObject.SetActive(false);
         joystickMovement.gameObject.SetActive(false);
         transform.position = spawnPoint;
-        PhotonNetwork.RaiseEvent(GameManager.instance.onBummieReady, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions);
+        if (pV.IsMine)
+        {
+            PhotonNetwork.RaiseEvent(GameManager.instance.onBummieReady, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions); 
+        }
     }
 
     public void OnEvent(EventData photonEvent)
