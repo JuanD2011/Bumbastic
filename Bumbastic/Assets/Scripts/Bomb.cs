@@ -62,7 +62,11 @@ public class Bomb : MonoBehaviour
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
         gameObject.SetActive(false);
-        PhotonNetwork.RaiseEvent(onBombExploded, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("EventoBomba");
+            PhotonNetwork.RaiseEvent(onBombExploded, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions); 
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

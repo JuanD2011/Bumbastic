@@ -186,6 +186,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         }
         if (eventCode == onBummieReady)
         {
+            Debug.Log("Hey!");
             playersSpawned++;
 
             if (playersSpawned == PlayersInGame.Count)

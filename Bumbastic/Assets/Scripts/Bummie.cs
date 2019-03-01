@@ -262,6 +262,7 @@ public class Bummie : MonoBehaviour, IOnEventCallback
 
         if (eventCode == GameManager.instance.bomb.onBombExploded)
         {
+            Debug.Log("Escuché la bomba");
             NewRound();
         }
     }
