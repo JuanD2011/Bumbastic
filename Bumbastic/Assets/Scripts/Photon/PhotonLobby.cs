@@ -45,6 +45,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public void OnPlayButtonClicked()
     {
+        if (!PhotonNetwork.InLobby)
+        {
+            Debug.Log("Joining Lobby");
+            PhotonNetwork.JoinLobby();
+        }
+
         Debug.Log("Number of rooms: " + roomList.Count);
         if (roomList.Count != 0)
         {
@@ -76,6 +82,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public override void OnRoomListUpdate(List<RoomInfo> _roomList)
     {
+        Debug.Log("Room Update");
         roomList = _roomList;
     }
 
