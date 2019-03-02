@@ -30,7 +30,7 @@ public class LobbyBummie : MonoBehaviour
         if (pV.IsMine)
         {
             Debug.Log("Aló");
-            bummieJoined = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
+            bummieJoined = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[PhotonNetwork.PlayerList.Length-1].position, Quaternion.Euler(initRot), 0);
             if (PhotonNetwork.IsMasterClient)
             {
                 bummiesInLobby.Add(bummieJoined.GetPhotonView());
