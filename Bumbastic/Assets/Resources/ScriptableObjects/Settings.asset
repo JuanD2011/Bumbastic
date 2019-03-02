@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc4698faecb12040b1d0dfd0f746c0d, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  delayStart: 1
+  delayStart: 0
   maxPlayers: 3
   menuScene: 0
   multiplayerScene: 1
   isMusicActive: 1
   isSfxActive: 0
   isJoysitckLocked: 0
+  isNicknameSet: 0

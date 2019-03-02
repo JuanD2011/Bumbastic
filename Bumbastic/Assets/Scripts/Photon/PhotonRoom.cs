@@ -76,6 +76,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         lessThanMaxPlayers = startingTime;
         atMaxPlayers = 4;
         timeToStart = startingTime;
+
+        SetNickname();
     }
 
     // Update is called once per frame
@@ -113,7 +115,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     public void SetNickname()
     {
         PhotonNetwork.NickName = settings.Nickname;
-        Debug.Log(settings.Nickname);
     }
 
     public override void OnJoinedRoom()

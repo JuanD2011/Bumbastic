@@ -30,7 +30,7 @@ public class OkButton : MonoBehaviour
     {
         if (canSet)
         {
-            settings.IsNicknameSet = true;
+            settings.isNicknameSet = true;
             menuUI.NicknameSet();
         }
     }

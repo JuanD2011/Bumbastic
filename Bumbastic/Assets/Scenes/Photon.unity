@@ -3517,9 +3517,9 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11400000, guid: dd47fd0117451524b8d6fdb96e8be998, type: 2}
-        m_MethodName: set_Nickname
-        m_Mode: 0
+      - m_Target: {fileID: 237436304}
+        m_MethodName: VerifyInputText
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3528,9 +3528,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 237436304}
-        m_MethodName: VerifyInputText
-        m_Mode: 1
+      - m_Target: {fileID: 11400000, guid: dd47fd0117451524b8d6fdb96e8be998, type: 2}
+        m_MethodName: set_Nickname
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

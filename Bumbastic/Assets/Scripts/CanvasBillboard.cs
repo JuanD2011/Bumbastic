@@ -5,16 +5,16 @@ using TMPro;
 public class CanvasBillboard : MonoBehaviour
 {
     PhotonView pV;
-    TextMeshProUGUI nickname;
+    TextMeshProUGUI nicknameText;
 
     private void Start()
     {
         pV = GetComponentInParent<PhotonView>();
-        nickname = GetComponentInChildren<TextMeshProUGUI>();
+        nicknameText = GetComponentInChildren<TextMeshProUGUI>();
 
-        if (pV.IsMine && nickname != null)
+        if (pV.IsMine && nicknameText != null)
         {
-            nickname.text = PhotonNetwork.NickName;
+            nicknameText.text = PhotonNetwork.NickName;
         }
     }
 
