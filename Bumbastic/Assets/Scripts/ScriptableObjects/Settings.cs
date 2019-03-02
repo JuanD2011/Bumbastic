@@ -24,6 +24,9 @@ public class Settings : ScriptableObject
     }
     #endregion
 
+    bool isNicknameSet = false;
     string nickname;
+
     public string Nickname { get => nickname; set => nickname = value; }
+    public bool IsNicknameSet { get => isNicknameSet; set => isNicknameSet = value; }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   delayStart: 1
-  maxPlayers: 2
+  maxPlayers: 3
   menuScene: 0
   multiplayerScene: 1
   isMusicActive: 1

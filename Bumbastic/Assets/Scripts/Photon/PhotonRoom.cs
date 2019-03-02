@@ -112,8 +112,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public void SetNickname()
     {
-        Debug.Log(settings.Nickname);
         PhotonNetwork.NickName = settings.Nickname;
+        Debug.Log(settings.Nickname);
     }
 
     public override void OnJoinedRoom()
