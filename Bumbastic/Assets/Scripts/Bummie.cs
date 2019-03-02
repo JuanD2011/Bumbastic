@@ -1,9 +1,11 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Bummie : MonoBehaviour
+public class Bummie : MonoBehaviour, IOnEventCallback
 {
     #region Movement
     private float targetRotation;
@@ -36,10 +38,23 @@ public class Bummie : MonoBehaviour
 
     bool canMove;
     Animator m_Animator;
+    private Vector3 spawnPoint;
 
     public bool HasBomb { get => hasBomb; set => hasBomb = value; }
     public bool SpeedPU { get => speedPU; set => speedPU = value; }
     public bool CanMove { private get => canMove; set => canMove = value; }
+    public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
+
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+        Destroy(this);
+    }
 
     private void Start()
     {
@@ -232,9 +247,26 @@ public class Bummie : MonoBehaviour
         GameManager.instance.bomb.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
     }
 
-    private void OnDisable()
+    private void NewRound()
     {
-        GameManager.instance.PlayersInGame.Remove(this);
-        //GameManager.instance.GiveBombs();
+        canMove = false;
+        joystickAiming.gameObject.SetActive(false);
+        joystickMovement.gameObject.SetActive(false);
+        transform.position = spawnPoint;
+        if (pV.IsMine)
+        {
+            PhotonNetwork.RaiseEvent(GameManager.instance.onBummieReady, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions); 
+        }
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == GameManager.instance.bomb.onBombExploded)
+        {
+            Debug.Log("Escuché la bomba");
+            NewRound();
+        }
     }
 }

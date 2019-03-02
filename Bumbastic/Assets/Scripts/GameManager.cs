@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour, IOnEventCallback
 
     public readonly byte spawnPlayersEvent = 0;
     public readonly byte onPlayerSpawn = 1;
+    public readonly byte onBummieReady = 3;
+
+    private RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+    private SendOptions sendOptions = new SendOptions { Reliability = true };
 
     private void Awake()
     {
@@ -27,6 +31,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback
 
     public List<Bummie> PlayersInGame { get => playersInGame; set => playersInGame = value; }
     public PlayableDirector Director { get => director; private set => director = value; }
+    public RaiseEventOptions RaiseEventOptions { get => raiseEventOptions; set => raiseEventOptions = value; }
+    public SendOptions SendOptions { get => sendOptions; set => sendOptions = value; }
 
     private PhotonView pV;
 
@@ -74,9 +80,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             {
                 spawnPoints
             };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            PhotonNetwork.RaiseEvent(spawnPlayersEvent, content, raiseEventOptions, sendOptions);
+            PhotonNetwork.RaiseEvent(spawnPlayersEvent, content, RaiseEventOptions, SendOptions);
         }
     }
 
@@ -105,6 +109,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
     [PunRPC]
     private void RPC_BombSpawn(int[] _bummies, float _timer)
     {
+        playersSpawned = 0;
         bummies.Clear();
         for (int i = 0; i < _bummies.Length; i++)
         {
@@ -116,8 +121,9 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             }
         }
 
-        for (int i = 1; i < bummies.Count; i++)
+        for (int i = 0; i < bummies.Count; i++)
         {
+            Debug.Log("Toma bomba");
             Instantiate(confettiBomb, bummies[i].transform.position + new Vector3(0, 4, 0), Quaternion.identity);
             bummies.RemoveAt(i);
         }
@@ -145,7 +151,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback
     void GameOver(int IDwinner)
     {
         GameObject winner = PhotonView.Find(IDwinner).gameObject; 
-        winner.transform.localScale *= 2; 
+        winner.transform.localScale *= 2;
+        Debug.Log("There's a winner!");
     }
 
     public Vector3 GetSpawnPoint()
@@ -176,6 +183,22 @@ public class GameManager : MonoBehaviour, IOnEventCallback
                     GiveBombs();
                 }
                 director.Play();
+            }
+        }
+        if (eventCode == onBummieReady)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("Hey!");
+                playersSpawned++;
+                PlayersInGame.Clear();
+                PlayersInGame.AddRange(FindObjectsOfType<Bummie>());
+                Debug.Log("Players spawned: " + playersSpawned + ". Players in room: " + PlayersInGame.Count);
+                if (playersSpawned == PlayersInGame.Count)
+                {        
+                    GiveBombs();
+                    director.Play();
+                } 
             }
         }
     }

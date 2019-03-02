@@ -7,7 +7,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public MultiplayerSetting multiplayerSetting;
+    public Settings multiplayerSetting;
 
     [SerializeField] private GameObject playButton, cancelButton;
 
