@@ -3,8 +3,10 @@ using Photon.Pun;
 using System.IO;
 using TMPro;
 using System.Collections.Generic;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 
-public class LobbyBummie : MonoBehaviour
+public class LobbyBummie : MonoBehaviour, IOnEventCallback
 {
     private PhotonView pV;
     [SerializeField] Transform[] bummiePositions;
@@ -15,9 +17,24 @@ public class LobbyBummie : MonoBehaviour
     GameObject bummieJoined;
     int[] ids;
 
-    private void Start()
+    private readonly byte onPlayerJoined = 4;
+    private readonly byte onUpdateList = 5;
+    private RaiseEventOptions raiseEventOptionsM = new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient };
+    private RaiseEventOptions raiseEventOptionsO = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+    private SendOptions sendOptions = new SendOptions { Reliability = true };
+
+    private void OnEnable()
     {
-        
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
+    }
+
+    private void Start()
+    {      
         PhotonRoom.room.OnPvJoinedRoom += JoinedRoom;
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
     }
@@ -37,19 +54,21 @@ public class LobbyBummie : MonoBehaviour
             }
             else
             {
-                pV.RPC("SetIdToMaster", RpcTarget.MasterClient,bummieJoined.GetPhotonView().ViewID);
+                object[] content = new object[]
+                {
+                    bummieJoined.GetPhotonView().ViewID
+                };
+                PhotonNetwork.RaiseEvent(onPlayerJoined, content, raiseEventOptionsM, sendOptions);
             }
         }
     }
 
-    [PunRPC]
     private void SetIdToMaster(int _id)
     {
         bummiesInLobby.Add(PhotonView.Find(_id));
         OtherPlayersJoined();
     }
 
-    [PunRPC]
     private void UpdateBummieList(int[] _ids)
     {
         bummiesInLobby.Clear();
@@ -70,7 +89,11 @@ public class LobbyBummie : MonoBehaviour
             {
                 ids[i] = bummiesInLobby[i].ViewID;
             }
-            pV.RPC("UpdateBummieList", RpcTarget.Others, ids);
+            object[] content = new object[]
+            {
+                ids
+            };
+            PhotonNetwork.RaiseEvent(onUpdateList, content, raiseEventOptionsO, sendOptions);
             Lobby_Nicknames();
         }
     }
@@ -80,5 +103,23 @@ public class LobbyBummie : MonoBehaviour
         int count = PhotonNetwork.PlayerList.Length;
         nicknames[count-1].gameObject.SetActive(true);
         nicknames[count-1].text = PhotonNetwork.PlayerList[count-1].NickName;
+    }
+
+    public void OnEvent(EventData photonEvent)
+    {
+        byte eventCode = photonEvent.Code;
+
+        if (eventCode == onPlayerJoined)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int _id = (int)data[0];
+            SetIdToMaster(_id);
+        }
+        if (eventCode == onUpdateList)
+        {
+            object[] data = (object[])photonEvent.CustomData;
+            int[] _ids = (int[])data[0];
+            UpdateBummieList(_ids);
+        }
     }
 }
