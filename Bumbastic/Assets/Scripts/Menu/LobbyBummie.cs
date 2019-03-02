@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class LobbyBummie : MonoBehaviour
 {
-    [SerializeField] PhotonView pV;
+    private PhotonView pV;
     [SerializeField] Transform[] bummiePositions;
     [SerializeField] TextMeshProUGUI[] nicknames;
     byte count = 0;
@@ -18,10 +18,14 @@ public class LobbyBummie : MonoBehaviour
 
     private void Start()
     {
-        var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
-        pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
         PhotonRoom.room.OnPvJoinedRoom += JoinedRoom;
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
+        PhotonLobby.lobby.OnConnected += GetPhotonView;
+    }
+
+    private void GetPhotonView(PhotonView _pV)
+    {
+        pV = _pV;
     }
 
     private void JoinedRoom()

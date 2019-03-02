@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.IO;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
@@ -15,6 +16,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     [SerializeField] private Text matchMaking;
 
     List<RoomInfo> roomList = new List<RoomInfo>();
+
+    public delegate void Connected(PhotonView _pV);
+    public Connected OnConnected; 
 
     private void Awake()
     {
@@ -45,6 +49,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             Debug.Log("Joining Lobby");
             PhotonNetwork.JoinLobby();
         }
+        var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
+        PhotonView _pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
+        OnConnected(_pV);
     }
 
     public override void OnJoinedLobby()
