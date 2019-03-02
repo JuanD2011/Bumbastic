@@ -40,12 +40,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         Debug.Log("Player has connected to the Photon server");
         PhotonNetwork.AutomaticallySyncScene = true;
-        playButton.GetComponent<Button>().interactable = true;
         if (!PhotonNetwork.InLobby)
         {
             Debug.Log("Joining Lobby");
             PhotonNetwork.JoinLobby();
         }
+    }
+
+    public override void OnJoinedLobby()
+    {
+        Debug.Log("Estoy en el lobby");
+        playButton.GetComponent<Button>().interactable = true;
     }
 
     public void OnPlayButtonClicked()
