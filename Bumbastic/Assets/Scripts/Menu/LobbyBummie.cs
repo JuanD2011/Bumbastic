@@ -18,18 +18,16 @@ public class LobbyBummie : MonoBehaviour
 
     private void Start()
     {
+        
         PhotonRoom.room.OnPvJoinedRoom += JoinedRoom;
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
-        PhotonLobby.lobby.OnConnected += GetPhotonView;
-    }
-
-    private void GetPhotonView(PhotonView _pV)
-    {
-        pV = _pV;
     }
 
     private void JoinedRoom()
     {
+        var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
+        pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
+
         if (pV.IsMine)
         {
             Debug.Log("Aló");

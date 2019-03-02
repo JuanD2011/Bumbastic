@@ -17,9 +17,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     List<RoomInfo> roomList = new List<RoomInfo>();
 
-    public delegate void Connected(PhotonView _pV);
-    public Connected OnConnected; 
-
     private void Awake()
     {
         lobby = this;
@@ -49,9 +46,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             Debug.Log("Joining Lobby");
             PhotonNetwork.JoinLobby();
         }
-        var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
-        PhotonView _pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
-        OnConnected(_pV);
     }
 
     public override void OnJoinedLobby()
