@@ -34,7 +34,8 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     [SerializeField] private Text matchMaking;
 
     public delegate void DelEnteredRoom();
-    public static DelEnteredRoom OnPlayerEntered;
+    public DelEnteredRoom OnPlayerEntered;
+    public DelEnteredRoom OnFirstPlayerJoined;
 
     private void Awake()
     {
@@ -124,7 +125,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
-        //PhotonNetwork.NickName = myNumberInRoom.ToString();
+        OnFirstPlayerJoined?.Invoke();//Lobby bummie hears it.
 
         if(settings.delayStart)
         {
@@ -157,7 +158,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom++;
 
-        OnPlayerEntered?.Invoke();//Event to instantiate a player in principal menu
+        OnPlayerEntered?.Invoke();//Lobby bummie hears it.
 
         if (settings.delayStart)
         {
