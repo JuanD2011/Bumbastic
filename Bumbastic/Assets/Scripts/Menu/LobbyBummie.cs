@@ -5,7 +5,7 @@ using TMPro;
 
 public class LobbyBummie : MonoBehaviour
 {
-    [SerializeField] GameObject bummie;
+    [SerializeField] PhotonView pV;
     [SerializeField] Transform[] bummiePositions;
     [SerializeField] TextMeshProUGUI[] nicknames;
     byte count = 0;
@@ -17,10 +17,9 @@ public class LobbyBummie : MonoBehaviour
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
     }
 
-    [PunRPC]
     private void InstantiateBummie()
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (pV.IsMine)
         {
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
             count++;
