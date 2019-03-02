@@ -10,6 +10,11 @@ public class Settings : ScriptableObject
 
     public int menuScene;
     public int multiplayerScene;
+
+    public void SetMaxPlayers(int _max)
+    {
+        maxPlayers = _max;
+    }
     #endregion
 
     [Header("Configuration Settings")]
