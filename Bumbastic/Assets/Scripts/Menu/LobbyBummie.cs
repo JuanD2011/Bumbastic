@@ -9,7 +9,6 @@ public class LobbyBummie : MonoBehaviour
     private PhotonView pV;
     [SerializeField] Transform[] bummiePositions;
     [SerializeField] TextMeshProUGUI[] nicknames;
-    byte count = 0;
     Vector3 initRot = new Vector3(0, 180, 0);
 
     List<PhotonView> bummiesInLobby = new List<PhotonView>();
@@ -78,9 +77,8 @@ public class LobbyBummie : MonoBehaviour
 
     private void Lobby_Nicknames()
     {
-        Debug.Log(PhotonNetwork.PlayerList.Length);
-        nicknames[count].gameObject.SetActive(true);
-        nicknames[count].text = PhotonNetwork.PlayerList[count].NickName;
-        count++;
+        int count = PhotonNetwork.PlayerList.Length;
+        nicknames[count-1].gameObject.SetActive(true);
+        nicknames[count-1].text = PhotonNetwork.PlayerList[count-1].NickName;
     }
 }
