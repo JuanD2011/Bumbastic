@@ -19,4 +19,4 @@ MonoBehaviour:
   isMusicActive: 1
   isSfxActive: 0
   isJoysitckLocked: 0
-  isNicknameSet: 0
+  isNicknameSet: 1

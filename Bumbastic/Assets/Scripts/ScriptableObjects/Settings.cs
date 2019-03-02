@@ -24,7 +24,7 @@ public class Settings : ScriptableObject
     }
     #endregion
 
-    [Header("Is nickname set?")]
+    [Header("Nickname")]
     public bool isNicknameSet = false;
     private string nickname;
     public string Nickname { get => nickname; set => nickname = value; }
