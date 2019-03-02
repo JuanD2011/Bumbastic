@@ -55,6 +55,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     public void OnPlayButtonClicked()
     {
+        bool joined = false;
         Debug.Log("Number of rooms: " + roomList.Count);
         if (roomList.Count != 0)
         {
@@ -65,11 +66,15 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
                     if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers)
                     {
                         PhotonNetwork.JoinRoom(i.ToString(), null);
+                        joined = true;
                         break;
                     }
                 }
             }
-            CreateRoom();
+            if (!joined)
+            {
+                CreateRoom();
+            }
         }
         else
         {
