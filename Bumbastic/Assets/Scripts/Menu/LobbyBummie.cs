@@ -18,7 +18,8 @@ public class LobbyBummie : MonoBehaviour
 
     private void Start()
     {
-        //PhotonRoom.room.OnPlayerEntered += OtherPlayersJoined;
+        var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
+        pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
         PhotonRoom.room.OnPvJoinedRoom += JoinedRoom;
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
     }
@@ -27,6 +28,7 @@ public class LobbyBummie : MonoBehaviour
     {
         if (pV.IsMine)
         {
+            Debug.Log("Aló");
             bummieJoined = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[count].position, Quaternion.Euler(initRot), 0);
             if (PhotonNetwork.IsMasterClient)
             {
