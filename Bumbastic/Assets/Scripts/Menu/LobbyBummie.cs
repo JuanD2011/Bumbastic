@@ -14,7 +14,7 @@ public class LobbyBummie : MonoBehaviour
     private void Start()
     {
         PhotonRoom.room.OnPlayerEntered += InstantiateBummie;
-        PhotonRoom.room.OnFirstPlayerJoined += Lobby_Nicknames;
+        MenuUI.OnCompleteAnimation += Lobby_Nicknames;
     }
 
     [PunRPC]

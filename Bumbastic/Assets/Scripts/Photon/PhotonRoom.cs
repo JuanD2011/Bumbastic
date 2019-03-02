@@ -35,7 +35,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     public delegate void DelEnteredRoom();
     public DelEnteredRoom OnPlayerEntered;
-    public DelEnteredRoom OnFirstPlayerJoined;
 
     private void Awake()
     {
@@ -125,7 +124,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
-        OnFirstPlayerJoined?.Invoke();//Lobby bummie hears it.
 
         if(settings.delayStart)
         {
