@@ -16,7 +16,7 @@ MonoBehaviour:
     AppIdRealtime: 3ac05a10-74fb-4e47-8a0b-6fed95d8eb95
     AppIdChat: 
     AppIdVoice: 
-    AppVersion: 0
+    AppVersion: 1
     UseNameServer: 1
     FixedRegion: 
     Server: 
@@ -29,22 +29,11 @@ MonoBehaviour:
   EnableSupportLogger: 0
   RunInBackground: 1
   RpcList:
+  - GameOver
+  - RPC_BombSpawn
   - RPC_CreatePlayer
   - RPC_LoadedGameScene
-  - WhoHasTheBomb
-  - GameOver
-  - SyncBomb
-  - SyncPlayerSpawn
-  - SyncSpawns
-  - TheBomb
-  - InstantiateBummie
   - RPC_SyncBomb
-  - RPC_SyncSpawns
   - RPC_ThrowBomb
-  - ConfettiBomb
-  - RPC_BombSpawn
-  - SpawnPlayer
-  - UpdateBummieList
-  - SetIdToMaster
   DisableAutoOpenWizard: 1
   ShowSettings: 1
