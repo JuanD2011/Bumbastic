@@ -51,6 +51,7 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
             if (PhotonNetwork.IsMasterClient)
             {
                 bummiesInLobby.Add(bummieJoined.GetPhotonView());
+                Lobby_Nicknames();
             }
             else
             {
