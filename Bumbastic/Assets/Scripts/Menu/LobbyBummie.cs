@@ -104,6 +104,15 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
         //int count = PhotonNetwork.PlayerList.Length;
         //nicknames[count-1].gameObject.SetActive(true);
         //nicknames[count-1].text = PhotonNetwork.PlayerList[count-1].NickName;
+
+        Debug.Log("Hay " + bummiesInLobby.Count + "jugadores");
+
+        if (bummiesInLobby.Count == 1)
+        {
+            nicknames[0].gameObject.SetActive(true);
+            nicknames[0].text = bummiesInLobby[0].Owner.NickName;
+        }
+
         for (int i = 0; i < bummiesInLobby.Count; i++)
         {
             nicknames[i].gameObject.SetActive(true);
