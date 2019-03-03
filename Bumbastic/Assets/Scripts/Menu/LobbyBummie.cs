@@ -46,11 +46,11 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
 
         if (pV.IsMine)
         {
-            Debug.Log("Aló");
             bummieJoined = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Cactus Variant"), bummiePositions[PhotonNetwork.PlayerList.Length-1].position, Quaternion.Euler(initRot), 0);
             if (PhotonNetwork.IsMasterClient)
             {
                 bummiesInLobby.Add(bummieJoined.GetPhotonView());
+                Lobby_Nicknames();
             }
             else
             {
@@ -100,9 +100,17 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
 
     private void Lobby_Nicknames()
     {
-        int count = PhotonNetwork.PlayerList.Length;
-        nicknames[count-1].gameObject.SetActive(true);
-        nicknames[count-1].text = PhotonNetwork.PlayerList[count-1].NickName;
+        if (bummiesInLobby.Count == 1)
+        {
+            nicknames[0].gameObject.SetActive(true);
+            nicknames[0].text = bummiesInLobby[0].Owner.NickName;
+        }
+
+        for (int i = 0; i < bummiesInLobby.Count; i++)
+        {
+            nicknames[i].gameObject.SetActive(true);
+            nicknames[i].text = bummiesInLobby[i].Owner.NickName;
+        }
     }
 
     public void OnEvent(EventData photonEvent)
