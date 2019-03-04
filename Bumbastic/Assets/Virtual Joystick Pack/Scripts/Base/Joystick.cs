@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using Photon.Pun;
 using UnityEngine.Playables;
 
-public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [Header("Options")]
     [Range(0f, 2f)] public float handleLimit = 1f;
@@ -57,10 +57,13 @@ public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler,
 
     protected virtual void DisableJoystick()
     {
-        joystick.enabled = false;
-        handle.anchoredPosition = Vector2.zero;
-        inputVector = Vector2.zero;
-        background.gameObject.SetActive(false);
+        if (pV.IsMine)
+        {
+            joystick.enabled = false;
+            handle.anchoredPosition = Vector2.zero;
+            inputVector = Vector2.zero;
+            background.gameObject.SetActive(false);
+        }
     }
 
     public virtual void OnDrag(PointerEventData eventData)
