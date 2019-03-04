@@ -6,7 +6,7 @@ public class FixedJoystick : Joystick
     Vector2 joystickPosition = Vector2.zero;
     private Camera cam = new Camera();
 
-    void Start()
+    protected override void Start()
     {
         joystickPosition = RectTransformUtility.WorldToScreenPoint(cam, background.position);
     }
@@ -28,5 +28,10 @@ public class FixedJoystick : Joystick
     {
         inputVector = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
+    }
+
+    protected override void DisableJoystick()
+    {
+        throw new System.NotImplementedException();
     }
 }

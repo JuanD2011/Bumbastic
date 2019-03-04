@@ -45,6 +45,9 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     public bool CanMove { private get => canMove; set => canMove = value; }
     public Vector3 SpawnPoint { get => spawnPoint; set => spawnPoint = value; }
 
+    public delegate void DelBummie();
+    public DelBummie OnDisableJoystick;
+
     private void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
@@ -87,13 +90,6 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     private void Director_stopped(UnityEngine.Playables.PlayableDirector obj)
     {
         canMove = true;
-        foreach (Joystick joystick in joysticks)
-        {
-            if (pV.IsMine)
-            {
-                joystick.gameObject.SetActive(true);
-            }
-        }
     }
 
     private void ResetTime()
@@ -250,8 +246,7 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     private void NewRound()
     {
         canMove = false;
-        joystickAiming.gameObject.SetActive(false);
-        joystickMovement.gameObject.SetActive(false);
+        OnDisableJoystick();//Joystick
         transform.position = spawnPoint;
         if (pV.IsMine)
         {

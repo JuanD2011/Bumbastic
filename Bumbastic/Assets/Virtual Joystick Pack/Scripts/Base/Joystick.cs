@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using Photon.Pun;
+using UnityEngine.Playables;
 
-public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
+public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
     [Header("Options")]
     [Range(0f, 2f)] public float handleLimit = 1f;
@@ -16,16 +18,51 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     protected bool isMoving;
 
+    private Bummie p_Bummie;
+    private PhotonView pV;
+
+    protected Joystick joystick;
+
     public float Horizontal { get { return inputVector.x; } }
     public float Vertical { get { return inputVector.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
-    public bool IsMoving { get => isMoving; }
+    public bool IsMoving { get => isMoving; private set => isMoving = value; }
+    protected PhotonView PV { get => pV; private set => pV = value; }
 
     public delegate void DelJoystick();
     public DelJoystick OnResetTime;
 
     public delegate void DelJoystickAim(bool _show);
     public DelJoystickAim OnPathShown;
+
+
+    protected virtual void Start()
+    {
+        joystick = GetComponent<Joystick>();
+        joystick.enabled = false;
+        p_Bummie = GetComponentInParent<Bummie>();
+        PV = GetComponentInParent<PhotonView>();
+
+        p_Bummie.OnDisableJoystick += DisableJoystick;
+        GameManager.instance.Director.stopped += InitJoystick;
+    }
+
+    private void InitJoystick(PlayableDirector obj)
+    {
+        if (PV.IsMine && PV != null)
+        {
+            background.gameObject.SetActive(true);
+            joystick.enabled = true;
+        }
+    }
+
+    protected virtual void DisableJoystick()
+    {
+        joystick.enabled = false;
+        handle.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+        background.gameObject.SetActive(false);
+    }
 
     public virtual void OnDrag(PointerEventData eventData)
     {
@@ -34,11 +71,17 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     public virtual void OnPointerDown(PointerEventData eventData)
     {
+        isMoving = true;
+        background.gameObject.SetActive(true);
+        background.position = eventData.position;
+        handle.anchoredPosition = Vector2.zero;
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-
+        isMoving = false;
+        handle.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
     }
 
     protected void ClampJoystick()

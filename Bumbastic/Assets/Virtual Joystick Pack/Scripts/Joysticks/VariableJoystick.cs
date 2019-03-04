@@ -9,7 +9,7 @@ public class VariableJoystick : Joystick
 
     Vector2 joystickCenter = Vector2.zero;
 
-    void Start()
+    protected override void Start()
     {
         if (isFixed)
             OnFixed();
@@ -67,5 +67,10 @@ public class VariableJoystick : Joystick
     {
         handle.anchoredPosition = Vector2.zero;
         background.gameObject.SetActive(false);
+    }
+
+    protected override void DisableJoystick()
+    {
+        throw new System.NotImplementedException();
     }
 }
