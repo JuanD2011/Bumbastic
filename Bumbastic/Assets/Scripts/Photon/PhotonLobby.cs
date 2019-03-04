@@ -65,16 +65,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             for (int i = 0; i < roomList.Count; i++)
             {
-                Debug.Log("Room: " + roomList[i].Name + " == " + i.ToString() + "?");
-                if (roomList[i].Name == i.ToString())
+                if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers && roomList[i].IsOpen)
                 {
-                    if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers && roomList[i].IsOpen)
-                    {
-                        Debug.Log("Joining room: " + i.ToString());
-                        PhotonNetwork.JoinRoom(i.ToString(), null);
-                        joined = true;
-                        break;
-                    }
+                    Debug.Log("Joining room: " + i.ToString());
+                    PhotonNetwork.JoinRoom(i.ToString(), null);
+                    joined = true;
+                    break;
                 }
             }
             if (!joined)
