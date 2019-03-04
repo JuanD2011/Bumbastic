@@ -68,7 +68,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
                 Debug.Log("Room: " + roomList[i].Name + " == " + i.ToString() + "?");
                 if (roomList[i].Name == i.ToString())
                 {
-                    if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers)
+                    if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers && roomList[i].IsOpen)
                     {
                         Debug.Log("Joining room: " + i.ToString());
                         PhotonNetwork.JoinRoom(i.ToString(), null);
@@ -91,6 +91,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
+        Debug.Log("Joining room failed:" + message);
         CreateRoom();
     }
 
@@ -102,11 +103,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     private void CreateRoom()
     {
-        
-
         RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
-
-        Debug.Log(roomList.Count);
         
         if (roomList.Count == 0)
         {
