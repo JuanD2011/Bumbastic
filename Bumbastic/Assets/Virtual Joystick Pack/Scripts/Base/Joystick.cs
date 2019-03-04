@@ -21,8 +21,6 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     private Bummie p_Bummie;
     private PhotonView pV;
 
-    protected Joystick joystick;
-
     public float Horizontal { get { return inputVector.x; } }
     public float Vertical { get { return inputVector.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
@@ -37,33 +35,29 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     protected virtual void Start()
     {
-        joystick = GetComponent<Joystick>();
-        joystick.enabled = false;
+        enabled = false;
         p_Bummie = GetComponentInParent<Bummie>();
         pV = GetComponentInParent<PhotonView>();
 
-        p_Bummie.OnDisableJoystick += DisableJoystick;
-        GameManager.instance.Director.stopped += InitJoystick;
+        if (pV.IsMine)
+        {
+            p_Bummie.OnDisableJoystick += DisableJoystick;
+            GameManager.instance.Director.stopped += InitJoystick;
+        }
     }
 
     private void InitJoystick(PlayableDirector obj)
     {
-        if (pV.IsMine)
-        {
-            background.gameObject.SetActive(true);
-            joystick.enabled = true;
-        }
+        background.gameObject.SetActive(true);
+        enabled = true;
     }
 
     protected virtual void DisableJoystick()
     {
-        if (pV.IsMine)
-        {
-            joystick.enabled = false;
-            handle.anchoredPosition = Vector2.zero;
-            inputVector = Vector2.zero;
-            background.gameObject.SetActive(false);
-        }
+        enabled = false;
+        handle.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+        background.gameObject.SetActive(false);
     }
 
     public virtual void OnDrag(PointerEventData eventData)
