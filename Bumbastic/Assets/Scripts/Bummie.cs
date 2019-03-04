@@ -246,7 +246,7 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     private void NewRound()
     {
         canMove = false;
-        OnDisableJoystick();//Joystick
+        OnDisableJoystick?.Invoke();//Joystick
         transform.position = spawnPoint;
         if (pV.IsMine)
         {
