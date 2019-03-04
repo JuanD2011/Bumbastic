@@ -78,6 +78,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             }
             if (!joined)
             {
+                Debug.Log("Cannot join any room");
                 CreateRoom();
             }
         }
@@ -103,13 +104,19 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     private void CreateRoom()
     {
         bool iAproved = true;
-        for (int i = 0; i < 6; i++)
+
+        for (int i = 0; i < 5; i++)
         {
             for (int j = 0; j < roomList.Count; j++)
             {
                 if (roomList[j].Name == i.ToString())
                 {
                     iAproved = false;
+                    break;
+                }
+                else
+                {
+                    iAproved = true;
                     break;
                 }
             }
