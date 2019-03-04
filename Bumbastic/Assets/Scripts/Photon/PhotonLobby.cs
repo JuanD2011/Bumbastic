@@ -20,6 +20,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public delegate void DelPhotonLobby();
     public DelPhotonLobby OnDisableBummie;
 
+    RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
+
     private void Awake()
     {
         lobby = this;
@@ -65,7 +67,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             for (int i = 0; i < roomList.Count; i++)
             {
-                if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers && roomList[i].IsOpen)
+                if (roomList[i].PlayerCount < roomList[i].MaxPlayers && roomList[i].IsOpen)
                 {
                     Debug.Log("Joining room: " + i.ToString());
                     PhotonNetwork.JoinRoom(roomList[i].Name, null);
@@ -99,23 +101,28 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     private void CreateRoom()
     {
-        RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
-        
-        if (roomList.Count == 0)
+        bool iAproved = true;
+        for (int i = 0; i < 6; i++)
         {
-            Debug.Log("Trying to create a new room with name: 0");
-            PhotonNetwork.CreateRoom("0", roomOptions);
-        }
-        else
-        {
-            Debug.Log("Trying to create a new room with name: " + roomList.Count.ToString());
-            PhotonNetwork.CreateRoom(roomList.Count.ToString(), roomOptions);
+            for (int j = 0; j < roomList.Count; j++)
+            {
+                if (roomList[j].Name == i.ToString())
+                {
+                    iAproved = false;
+                    break;
+                }
+            }
+            if (iAproved)
+            {
+                Debug.Log("Creating room with name: " + i.ToString());
+                PhotonNetwork.CreateRoom(i.ToString(), roomOptions);
+            }
         }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("Trying to create a new room but failed, re trying");
+        Debug.Log("Create room failed" + message);
         CreateRoom();
     }
 
