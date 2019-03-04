@@ -68,7 +68,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
                 if (roomList[i].PlayerCount < multiplayerSetting.maxPlayers && roomList[i].IsOpen)
                 {
                     Debug.Log("Joining room: " + i.ToString());
-                    PhotonNetwork.JoinRoom(i.ToString(), null);
+                    PhotonNetwork.JoinRoom(roomList[i].Name, null);
                     joined = true;
                     break;
                 }
