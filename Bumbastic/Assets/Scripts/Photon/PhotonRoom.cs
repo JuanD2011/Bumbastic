@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
+public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmakingCallbacks
 {
     public static PhotonRoom room;
 

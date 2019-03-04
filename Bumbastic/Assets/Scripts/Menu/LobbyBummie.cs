@@ -37,10 +37,22 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
     {      
         PhotonRoom.room.OnPvJoinedRoom += JoinedRoom;
         MenuUI.OnCompleteAnimation += Lobby_Nicknames;
+        PhotonLobby.lobby.OnDisableBummie += DisableBummie;
+    }
+
+    private void DisableBummie()
+    {
+        foreach (TextMeshProUGUI nickname in nicknames)
+        {
+            nickname.gameObject.SetActive(false);
+        }
+        PhotonNetwork.Destroy(bummieJoined);
+        bummiesInLobby.Clear();
     }
 
     private void JoinedRoom()
     {
+        Debug.Log("hols");
         var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
         pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
 
@@ -50,7 +62,7 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
             if (PhotonNetwork.IsMasterClient)
             {
                 bummiesInLobby.Add(bummieJoined.GetPhotonView());
-                Lobby_Nicknames();
+                //Lobby_Nicknames();
             }
             else
             {

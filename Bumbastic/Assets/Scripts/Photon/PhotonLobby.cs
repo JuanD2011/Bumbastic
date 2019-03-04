@@ -17,6 +17,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     List<RoomInfo> roomList = new List<RoomInfo>();
 
+    public delegate void DelPhotonLobby();
+    public DelPhotonLobby OnDisableBummie;
+
     private void Awake()
     {
         lobby = this;
@@ -122,5 +125,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         matchMaking.text = "...";
         PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        OnDisableBummie?.Invoke();//LobbyBummie hears it.
     }
 }
