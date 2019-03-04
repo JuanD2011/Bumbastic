@@ -27,7 +27,6 @@ public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler,
     public float Vertical { get { return inputVector.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
     public bool IsMoving { get => isMoving; private set => isMoving = value; }
-    protected PhotonView PV { get => pV; private set => pV = value; }
 
     public delegate void DelJoystick();
     public DelJoystick OnResetTime;
@@ -41,7 +40,7 @@ public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler,
         joystick = GetComponent<Joystick>();
         joystick.enabled = false;
         p_Bummie = GetComponentInParent<Bummie>();
-        PV = GetComponentInParent<PhotonView>();
+        pV = GetComponentInParent<PhotonView>();
 
         p_Bummie.OnDisableJoystick += DisableJoystick;
         GameManager.instance.Director.stopped += InitJoystick;
@@ -49,7 +48,7 @@ public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler,
 
     private void InitJoystick(PlayableDirector obj)
     {
-        if (PV.IsMine && PV != null)
+        if (pV.IsMine && pV != null)
         {
             background.gameObject.SetActive(true);
             joystick.enabled = true;
