@@ -93,6 +93,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         CreateRoom();
     }
 
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+        CreateRoom();
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> _roomList)
     {
         Debug.Log("Room Update");

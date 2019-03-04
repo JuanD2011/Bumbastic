@@ -52,7 +52,6 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
 
     private void JoinedRoom()
     {
-        Debug.Log("hols");
         var triquiñuelaPath = Path.Combine("PhotonPrefabs", "Triquiñuela");
         pV = PhotonNetwork.Instantiate(triquiñuelaPath, Vector3.zero, Quaternion.identity).GetPhotonView();
 
@@ -62,7 +61,6 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
             if (PhotonNetwork.IsMasterClient)
             {
                 bummiesInLobby.Add(bummieJoined.GetPhotonView());
-                //Lobby_Nicknames();
             }
             else
             {
