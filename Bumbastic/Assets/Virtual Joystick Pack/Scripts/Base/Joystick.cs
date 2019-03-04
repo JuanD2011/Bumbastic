@@ -48,7 +48,7 @@ public abstract class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler,
 
     private void InitJoystick(PlayableDirector obj)
     {
-        if (pV.IsMine && pV != null)
+        if (pV.IsMine)
         {
             background.gameObject.SetActive(true);
             joystick.enabled = true;
