@@ -102,7 +102,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     private void CreateRoom()
     {
-        Debug.Log("Trying to create a new room");
+        
 
         RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
 
@@ -110,10 +110,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         
         if (roomList.Count == 0)
         {
+            Debug.Log("Trying to create a new room with name: 0");
             PhotonNetwork.CreateRoom("0", roomOptions);
         }
         else
         {
+            Debug.Log("Trying to create a new room with name: " + roomList.Count.ToString());
             PhotonNetwork.CreateRoom(roomList.Count.ToString(), roomOptions);
         }
     }
