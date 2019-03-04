@@ -20,7 +20,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public delegate void DelPhotonLobby();
     public DelPhotonLobby OnDisableBummie;
 
-    RoomOptions roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
+    RoomOptions roomOptions;
 
     private void Awake()
     {
@@ -30,6 +30,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings();
+        roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers };
     }
 
     public override void OnEnable()
@@ -116,6 +117,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             {
                 Debug.Log("Creating room with name: " + i.ToString());
                 PhotonNetwork.CreateRoom(i.ToString(), roomOptions);
+                break;
             }
         }
     }
