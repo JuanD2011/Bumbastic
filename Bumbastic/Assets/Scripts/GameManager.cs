@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour, IOnEventCallback
 
     private float minTime = 20f, maxTime = 28f;
 
+    public delegate void DelGameManager();
+    public DelGameManager OnCanvasEnd;
+
     private void Start()
     {
         pV = GetComponent<PhotonView>();
@@ -156,6 +159,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         GameObject winner = PhotonView.Find(IDwinner).gameObject; 
         winner.transform.localScale *= 2;
         Debug.Log("There's a winner!");
+        OnCanvasEnd?.Invoke();
     }
 
     public Vector3 GetSpawnPoint()
