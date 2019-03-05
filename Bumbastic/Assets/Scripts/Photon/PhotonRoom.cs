@@ -115,7 +115,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 
     public void SetNickname()
     {
-        PhotonNetwork.NickName = settings.Nickname;
+        PhotonNetwork.NickName = settings.nickname;
     }
 
     public override void OnJoinedRoom()
@@ -192,6 +192,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
 
+        Memento.instance.SaveData(0);
         PhotonNetwork.LoadLevel(settings.multiplayerScene);
     }
 

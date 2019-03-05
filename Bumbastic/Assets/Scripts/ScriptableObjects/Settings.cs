@@ -31,11 +31,10 @@ public class Settings : ScriptableObject
 
     [Header("Nickname")]
     public bool isNicknameSet = false;
-    private string nickname;
-    public string Nickname { get => nickname; set => nickname = value; }
+    public string nickname;
 
-    public void ReturnMenu()
+    public void Nickname(string _nickname)
     {
-        PhotonRoom.room.ReturnMenu();
+        nickname = _nickname;
     }
 }
