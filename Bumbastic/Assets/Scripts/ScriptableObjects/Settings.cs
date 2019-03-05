@@ -33,4 +33,9 @@ public class Settings : ScriptableObject
     public bool isNicknameSet = false;
     private string nickname;
     public string Nickname { get => nickname; set => nickname = value; }
+
+    public void ReturnMenu()
+    {
+        PhotonRoom.room.ReturnMenu();
+    }
 }
