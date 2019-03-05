@@ -14,7 +14,7 @@ public class OkButton : MonoBehaviour
 
     public void VerifyInputText()
     {
-        if (settings.Nickname == "")
+        if (settings.nickname == "")
         {
             menuUI.OkButton(false);
             canSet = false;

@@ -17,6 +17,7 @@ MonoBehaviour:
   menuScene: 0
   multiplayerScene: 1
   isMusicActive: 1
-  isSfxActive: 0
+  isSfxActive: 1
   isJoysitckLocked: 0
-  isNicknameSet: 0
+  isNicknameSet: 1
+  nickname: Danielito

@@ -4821,7 +4821,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: dd47fd0117451524b8d6fdb96e8be998, type: 2}
-        m_MethodName: set_Nickname
+        m_MethodName: Nickname
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
