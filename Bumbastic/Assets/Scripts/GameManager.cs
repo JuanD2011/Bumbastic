@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
             bomb.Timer = Random.Range(minTime, maxTime);
 
             pV.RPC("RPC_BombSpawn", RpcTarget.All, _bummies, bomb.Timer);
+            
         }
         else if (PlayersInGame.Count == 1)
         {
@@ -120,6 +121,8 @@ public class GameManager : MonoBehaviour, IOnEventCallback
                 bummies.Add(bummieFound);
             }
         }
+
+        director.Play();
 
         for (int i = 0; i < bummies.Count; i++)
         {
@@ -182,7 +185,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback
                 {
                     GiveBombs();
                 }
-                director.Play();
             }
         }
         if (eventCode == onBummieReady)
@@ -197,7 +199,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback
                 if (playersSpawned == PlayersInGame.Count)
                 {        
                     GiveBombs();
-                    director.Play();
                 } 
             }
         }
