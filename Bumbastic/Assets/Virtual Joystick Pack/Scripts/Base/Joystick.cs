@@ -48,6 +48,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     private void InitJoystick(PlayableDirector obj)
     {
+        Debug.Log("Prendo los joysticks");
         background.gameObject.SetActive(true);
         enabled = true;
     }
