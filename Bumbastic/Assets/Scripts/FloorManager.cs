@@ -8,6 +8,10 @@ public class FloorManager : MonoBehaviour
 
     Rings[] rings;
 
+
+    Collider[] props;
+
+
     [SerializeField]
     Transform[] colliders;
 
@@ -110,6 +114,13 @@ public class FloorManager : MonoBehaviour
         for (int i = rings[ring].module.Length -1 ; i >= 0 ; i--)
         {
             rings[ring].module[i].useGravity = true;
+
+            props = rings[ring].module[i].gameObject.GetComponentsInChildren<Collider>();
+            for (int j = 0; j < props.Length; j++)
+            {
+                props[j].enabled = false;
+            }
+
             StartCoroutine(Desactivate(rings[ring].module[i]));
             yield return new WaitForSeconds(dropInterval);
             if (i==0)
