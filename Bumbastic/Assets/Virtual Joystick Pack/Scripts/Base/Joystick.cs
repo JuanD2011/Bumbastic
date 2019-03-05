@@ -59,10 +59,10 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     protected virtual void DisableJoystick()
     {
-        enabled = false;
         handle.anchoredPosition = Vector2.zero;
         inputVector = Vector2.zero;
         background.gameObject.SetActive(false);
+        enabled = false;
     }
 
     public virtual void OnDrag(PointerEventData eventData)

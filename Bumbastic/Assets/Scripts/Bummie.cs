@@ -111,6 +111,11 @@ public class Bummie : MonoBehaviour, IOnEventCallback
                 input = new Vector2(joystickMovement.Horizontal, joystickMovement.Vertical);
                 inputAiming = new Vector2(joystickAiming.Horizontal, joystickAiming.Vertical);
             }
+            else
+            {
+                input = Vector2.zero;
+                inputAiming = Vector2.zero;
+            }
         }
 
         //Move Or Bum
