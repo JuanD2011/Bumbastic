@@ -121,7 +121,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("Joinning room succesful");
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom = photonPlayers.Length;
         myNumberInRoom = playersInRoom;
@@ -155,7 +154,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-        Debug.Log("A new player has joined the room");
         photonPlayers = PhotonNetwork.PlayerList;
         playersInRoom++;
 
