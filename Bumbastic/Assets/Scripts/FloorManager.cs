@@ -8,6 +8,9 @@ public class FloorManager : MonoBehaviour
 
     Rings[] rings;
 
+    [SerializeField]
+    Transform[] colliders;
+
 
     int nRings =0;
     int c = 0;
@@ -54,6 +57,11 @@ public class FloorManager : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            colliders[i].localPosition = colliders[i].forward*nRings;
+        }
+
 
     }
 
@@ -68,7 +76,13 @@ public class FloorManager : MonoBehaviour
 
         if (anticipation)
         {
+
             time += Time.deltaTime;
+
+            for (int i = 0; i < colliders.Length; i++)
+            {
+                colliders[i].localPosition = Vector3.MoveTowards(colliders[i].localPosition, colliders[i].forward * nRings, Time.deltaTime/anticipationTime);
+            }
 
             for (int i = 0; i < rings[anticipationRing].module.Length; i++)
             {
