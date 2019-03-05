@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using Photon.Pun;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointerDownHandler
 {
@@ -32,12 +33,14 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     public delegate void DelJoystickAim(bool _show);
     public DelJoystickAim OnPathShown;
 
+    Image image;
 
     protected virtual void Start()
     {
         enabled = false;
         p_Bummie = GetComponentInParent<Bummie>();
         pV = GetComponentInParent<PhotonView>();
+        image = GetComponent<Image>();
 
         if (pV.IsMine)
         {
@@ -51,6 +54,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         Debug.Log("Prendo los joysticks");
         background.gameObject.SetActive(true);
         enabled = true;
+        image.enabled = true;
     }
 
     protected virtual void DisableJoystick()
