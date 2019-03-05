@@ -24,7 +24,19 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
     private void Awake()
     {
-        lobby = this;
+        if (PhotonLobby.lobby == null)
+        {
+            PhotonLobby.lobby = this;
+        }
+        else
+        {
+            if (PhotonLobby.lobby != this)
+            {
+                Destroy(PhotonLobby.lobby.gameObject);
+                PhotonLobby.lobby = this;
+            }
+        }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Start()
