@@ -245,11 +245,11 @@ public class Bummie : MonoBehaviour, IOnEventCallback
 
     private void NewRound()
     {
-        canMove = false;
-        OnDisableJoystick?.Invoke();//Joystick
+        canMove = false;   
         transform.position = spawnPoint;
         if (pV.IsMine)
         {
+            OnDisableJoystick?.Invoke();//Joystick
             PhotonNetwork.RaiseEvent(GameManager.instance.onBummieReady, null, GameManager.instance.RaiseEventOptions, GameManager.instance.SendOptions); 
         }
     }
