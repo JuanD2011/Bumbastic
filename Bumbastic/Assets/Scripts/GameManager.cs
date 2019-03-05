@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         }
         bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
         bomb.Timer = _timer;
+        bomb.RigidBody.constraints = RigidbodyConstraints.None;
         bomb.gameObject.SetActive(true);
     }
 

@@ -217,7 +217,7 @@ public class Bummie : MonoBehaviour, IOnEventCallback
     private void PassBomb()
     {
         GameManager.instance.bombHolder = this;
-        pV.RPC("RPC_SyncBomb", RpcTarget.AllBuffered, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
+        pV.RPC("RPC_SyncBomb", RpcTarget.All, GameManager.instance.bombHolder.gameObject.GetComponent<PhotonView>().ViewID);
     }
 
     public IEnumerator CantMove(float _time)
