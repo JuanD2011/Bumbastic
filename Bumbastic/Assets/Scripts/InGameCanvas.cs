@@ -8,25 +8,14 @@ public class InGameCanvas : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<Animator>();
-        foreach (Bummie item in GameManager.instance.PlayersInGame)
-        {
-            PhotonView photonView = item.GetComponent<PhotonView>();
-            if (photonView.IsMine)
-            {
-            }
-        }
         GameManager.instance.OnCanvasEnd += SetEndAnimation;
     }
 
     private void SetEndAnimation()
     {
-        foreach (Bummie item in GameManager.instance.PlayersInGame)
+        if (PhotonNetwork.IsMasterClient)
         {
-            PhotonView photonView = item.GetComponent<PhotonView>();
-            if (photonView.IsMine)
-            {
-                m_Animator.SetBool("isGameOver", true);
-            }
+            m_Animator.SetBool("isGameOver", true);
         }
     }
 }
