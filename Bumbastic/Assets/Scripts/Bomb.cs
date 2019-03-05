@@ -62,6 +62,7 @@ public class Bomb : MonoBehaviour
         transform.SetParent(null);
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);
+        GameManager.instance.bombHolder = null;
         gameObject.SetActive(false);
         if (PhotonNetwork.IsMasterClient)
         {
