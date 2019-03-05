@@ -24,7 +24,7 @@ public class CanvasBillboard : MonoBehaviour,IOnEventCallback
             CanvasBillboard canvasBillboard = item.GetComponentInChildren<CanvasBillboard>();
             if (canvasBillboard != null)
             {
-                NicknameText.text = item.GetComponent<PhotonView>().Owner.NickName;
+                canvasBillboard.NicknameText.text = item.GetComponent<PhotonView>().Owner.NickName;
             }
         }
     }
