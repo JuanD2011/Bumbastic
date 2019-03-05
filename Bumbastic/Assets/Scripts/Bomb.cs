@@ -58,6 +58,7 @@ public class Bomb : MonoBehaviour
     {
         exploded = true;
         CameraShake.instance.OnShake(0.4f, 6f, 1.2f);
+        RigidBody.constraints = RigidbodyConstraints.None;
         transform.SetParent(null);
         GameManager.instance.bombHolder.gameObject.SetActive(false);
         GameManager.instance.PlayersInGame.Remove(GameManager.instance.bombHolder);

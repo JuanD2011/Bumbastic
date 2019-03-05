@@ -133,7 +133,6 @@ public class GameManager : MonoBehaviour, IOnEventCallback
         bomb.transform.position = bummies[0].transform.position + new Vector3(0, 4, 0);
         bomb.Timer = _timer;
         bomb.gameObject.SetActive(true);
-        bomb.RigidBody.constraints = RigidbodyConstraints.None;
     }
 
     private List<Bummie> RandomizeBummieList()
