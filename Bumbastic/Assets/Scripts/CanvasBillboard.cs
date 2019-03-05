@@ -22,9 +22,24 @@ public class CanvasBillboard : MonoBehaviour,IOnEventCallback
         foreach (Bummie item in GameManager.instance.PlayersInGame)
         {
             CanvasBillboard canvasBillboard = item.GetComponentInChildren<CanvasBillboard>();
-            if (canvasBillboard != null)
+            PhotonView photonView = item.GetComponent<PhotonView>();
+
+            print(item.GetComponent<PhotonView>().Owner.NickName);
+            if (photonView != null)
             {
-                canvasBillboard.NicknameText.text = item.GetComponent<PhotonView>().Owner.NickName;
+                canvasBillboard.NicknameText.text = photonView.Owner.NickName;
+            }
+            else
+            {
+                try
+                {
+                    canvasBillboard.nicknameText.text = item.GetComponent<PhotonView>().Owner.NickName;
+                }
+                catch (System.Exception e)
+                {
+                    Debug.Log(e, this);
+                    throw;
+                }
             }
         }
     }
