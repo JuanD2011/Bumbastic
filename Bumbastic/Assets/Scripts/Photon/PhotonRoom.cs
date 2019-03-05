@@ -242,9 +242,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 
     public void ReturnMenu()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel(settings.menuScene); 
-        }
+        SceneManager.LoadScene(settings.menuScene);
     }
 }
