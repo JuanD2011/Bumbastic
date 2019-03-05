@@ -47,7 +47,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
         {
             if(PhotonRoom.room != this)
             {
-                Destroy(PhotonRoom.room.gameObject);
+                PhotonNetwork.Destroy(PhotonRoom.room.gameObject);
                 PhotonRoom.room = this;
             }
         }

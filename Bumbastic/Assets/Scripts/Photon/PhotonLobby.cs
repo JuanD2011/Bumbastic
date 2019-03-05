@@ -32,7 +32,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             if (PhotonLobby.lobby != this)
             {
-                Destroy(PhotonLobby.lobby.gameObject);
+                PhotonNetwork.Destroy(PhotonLobby.lobby.gameObject);
                 PhotonLobby.lobby = this;
             }
         }
