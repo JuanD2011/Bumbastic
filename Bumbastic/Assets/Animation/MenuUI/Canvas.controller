@@ -71,6 +71,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: dd47fd0117451524b8d6fdb96e8be998, type: 2}
+--- !u!114 &114203777311550798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e2494fa8a04cf6478d6476a87302ae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114869425626930868
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1109,7 +1121,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayButton
+  m_Name: Matchmaking
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102284947664007816}
@@ -1134,7 +1146,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ConfigurationPanel
+  m_Name: Settings
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102395039048007400}

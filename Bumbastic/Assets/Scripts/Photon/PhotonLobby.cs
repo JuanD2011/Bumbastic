@@ -42,7 +42,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 
         roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers, PublishUserId = true };
         PhotonNetwork.ConnectUsingSettings();
-        Memento.instance.LoadData();
     }
 
     public override void OnEnable()

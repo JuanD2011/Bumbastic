@@ -14,10 +14,27 @@ public class Memento : MonoBehaviour
             Destroy(this);
     }
 
+    private void Start()
+    {
+        MenuUI.OnLoadData += LoadData;
+    }
+
     public bool ExistsDirectory()
     {
         return Directory.Exists(Application.persistentDataPath + "/game_save");
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.S))
+    //    {
+    //        SaveData(0);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.L))
+    //    {
+    //        LoadData();
+    //    }
+    //}
 
     /// <summary>
     /// 

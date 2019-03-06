@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class MenuUI : MonoBehaviour
 {
     [SerializeField] Animator canvasAnimator;
+    [SerializeField] Settings settings;
+    [SerializeField] TextMeshProUGUI menuNickname;
 
     public delegate void DelMenu();
     public static DelMenu OnCompleteAnimation;
+    public static DelMenu OnLoadData;
+
+    public void CanLoadData()
+    {
+        OnLoadData?.Invoke();
+        menuNickname.text = settings.nickname;
+    }
 
     public void AnimationSearchComplete()
     {
