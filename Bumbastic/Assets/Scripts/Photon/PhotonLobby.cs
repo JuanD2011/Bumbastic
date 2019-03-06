@@ -3,6 +3,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Facebook.Unity;
 using System.IO;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
@@ -37,12 +38,9 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
             }
         }
         DontDestroyOnLoad(this.gameObject);
-    }
 
-    void Start()
-    {
-        PhotonNetwork.ConnectUsingSettings();
         roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers, PublishUserId = true };
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnEnable()
@@ -157,5 +155,74 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
     {
         base.OnLeftRoom();
         OnDisableBummie?.Invoke();//LobbyBummie hears it.
+    }
+
+    private void InitCallback()
+    {
+        if (FB.IsInitialized)
+        {
+            FacebookLogin();
+        }
+        else
+        {
+            Debug.Log("Failed to initialize the Facebook SDK");
+        }
+    }
+
+    private void FacebookLogin()
+    {
+        if (FB.IsLoggedIn)
+        {
+            OnFacebookLoggedIn();
+        }
+        else
+        {
+            var perms = new List<string>() { "public_profile", "email", "user_friends" };
+            FB.LogInWithReadPermissions(perms, AuthCallback);
+        }
+    }
+
+    private void AuthCallback(ILoginResult result)
+    {
+        if (FB.IsLoggedIn)
+        {
+            OnFacebookLoggedIn();
+        }
+        else
+        {
+            Debug.LogErrorFormat("Error in Facebook login {0}", result.Error);
+        }
+    }
+
+    private void OnFacebookLoggedIn()
+    {
+        // AccessToken class will have session details
+        string aToken = AccessToken.CurrentAccessToken.TokenString;
+        string facebookId = AccessToken.CurrentAccessToken.UserId;
+        PhotonNetwork.AuthValues = new AuthenticationValues();
+        PhotonNetwork.AuthValues.AuthType = CustomAuthenticationType.Facebook;
+        PhotonNetwork.AuthValues.UserId = facebookId; // alternatively set by server
+        PhotonNetwork.AuthValues.AddAuthParameter("token", aToken);
+        roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers, PublishUserId = true };
+        Debug.Log(facebookId);
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public override void OnCustomAuthenticationFailed(string debugMessage)
+    {
+        Debug.LogErrorFormat("Error authenticating to Photon using facebook: {0}", debugMessage);
+    }
+
+    public void LoginWithFacebook()
+    {
+        if (!FB.IsInitialized)
+        {
+            // Initialize the Facebook SDK
+            FB.Init(InitCallback);
+        }
+        else
+        {
+            FacebookLogin();
+        }
     }
 }
