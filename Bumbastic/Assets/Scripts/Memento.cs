@@ -14,6 +14,9 @@ public class Memento : MonoBehaviour
             Destroy(this);
     }
 
+    public delegate void DelMemento();
+    public DelMemento OnLoadedData;
+
     private void Start()
     {
         MenuUI.OnLoadData += LoadData;
@@ -24,17 +27,19 @@ public class Memento : MonoBehaviour
         return Directory.Exists(Application.persistentDataPath + "/game_save");
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.S))
-    //    {
-    //        SaveData(0);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.L))
-    //    {
-    //        LoadData();
-    //    }
-    //}
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            SaveData(0);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadData();
+        }
+    }
+#endif
 
     /// <summary>
     /// 
@@ -77,6 +82,7 @@ public class Memento : MonoBehaviour
             FileStream file = File.Open(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt", FileMode.Open);
             JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), Resources.Load("ScriptableObjects/Settings"));
             file.Close();
-        }  
+            OnLoadedData?.Invoke();//AudioMute,.
+        }
     }
 }

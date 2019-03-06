@@ -13,7 +13,7 @@ public class MenuUI : MonoBehaviour
 
     public void CanLoadData()
     {
-        OnLoadData?.Invoke();
+        OnLoadData?.Invoke();//Memento hears it.
         menuNickname.text = settings.nickname;
     }
 

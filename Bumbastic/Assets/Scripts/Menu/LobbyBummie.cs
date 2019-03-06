@@ -42,10 +42,6 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
 
     private void DisableBummie()
     {
-        foreach (TextMeshProUGUI nickname in nicknames)
-        {
-            nickname.gameObject.SetActive(false);
-        }
         PhotonNetwork.Destroy(bummieJoined);
         bummiesInLobby.Clear();
     }
@@ -112,13 +108,11 @@ public class LobbyBummie : MonoBehaviour, IOnEventCallback
     {
         if (bummiesInLobby.Count == 1)
         {
-            nicknames[0].gameObject.SetActive(true);
             nicknames[0].text = bummiesInLobby[0].Owner.NickName;
         }
 
         for (int i = 0; i < bummiesInLobby.Count; i++)
         {
-            nicknames[i].gameObject.SetActive(true);
             nicknames[i].text = bummiesInLobby[i].Owner.NickName;
         }
     }
