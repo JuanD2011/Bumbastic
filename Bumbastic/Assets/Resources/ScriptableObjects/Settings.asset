@@ -16,8 +16,8 @@ MonoBehaviour:
   maxPlayers: 4
   menuScene: 0
   multiplayerScene: 1
-  isMusicActive: 0
+  isMusicActive: 1
   isSfxActive: 0
   isJoysitckLocked: 0
-  isNicknameSet: 1
-  nickname: Daniliwis
+  isNicknameSet: 0
+  nickname: Danielillo
