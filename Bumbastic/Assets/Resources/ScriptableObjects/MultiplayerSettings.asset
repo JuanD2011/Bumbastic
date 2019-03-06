@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fc4698faecb12040b1d0dfd0f746c0d, type: 3}
-  m_Name: Settings
+  m_Script: {fileID: 11500000, guid: c96a49909f8f2f3468b028133d712694, type: 3}
+  m_Name: MultiplayerSettings
   m_EditorClassIdentifier: 
-  isMusicActive: 1
-  isSfxActive: 1
-  isJoysitckLocked: 1
-  isNicknameSet: 1
-  nickname: Danielito
+  delayStart: 1
+  maxPlayers: 4
+  menuScene: 0
+  multiplayerScene: 1

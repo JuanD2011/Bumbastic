@@ -17,6 +17,8 @@ public class Memento : MonoBehaviour
     public delegate void DelMemento();
     public DelMemento OnLoadedData;
 
+    string resourceSettings = "ScriptableObjects/Settings";
+
     private void Start()
     {
         MenuUI.OnLoadData += LoadData;
@@ -60,7 +62,7 @@ public class Memento : MonoBehaviour
                 }
                 FileStream file = File.Create(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt");
                 BinaryFormatter bf = new BinaryFormatter();
-                var json = JsonUtility.ToJson(Resources.Load("ScriptableObjects/Settings"));
+                var json = JsonUtility.ToJson(Resources.Load(resourceSettings));
                 Debug.Log(json.ToString());
                 bf.Serialize(file, json);
                 file.Close();
@@ -80,7 +82,7 @@ public class Memento : MonoBehaviour
         if (File.Exists(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt"))
         {
             FileStream file = File.Open(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt", FileMode.Open);
-            JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), Resources.Load("ScriptableObjects/Settings"));
+            JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), Resources.Load(resourceSettings));
             file.Close();
             OnLoadedData?.Invoke();//AudioMute,.
         }

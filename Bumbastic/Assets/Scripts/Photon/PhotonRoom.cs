@@ -9,6 +9,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 {
     public static PhotonRoom room;
 
+    public MultiplayerSettings multiplayerSettings;
     public Settings settings;
 
     private PhotonView pV;
@@ -84,7 +85,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
     // Update is called once per frame
     void Update()
     {
-        if (settings.delayStart)
+        if (multiplayerSettings.delayStart)
         {
             if (playersInRoom == 1)
             {
@@ -127,16 +128,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 
         OnPvJoinedRoom?.Invoke();//Lobby bummie hears it.
 
-        if(settings.delayStart)
+        if(multiplayerSettings.delayStart)
         {
-            Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + settings.maxPlayers + ")");
-            matchMaking.text = playersInRoom + " / " + settings.maxPlayers + " Players";
+            Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + multiplayerSettings.maxPlayers + ")");
+            matchMaking.text = playersInRoom + " / " + multiplayerSettings.maxPlayers + " Players";
 
             //if (playersInRoom > 1)
             //{
             //    readyToCount = true;
             //}
-            if(playersInRoom == settings.maxPlayers)
+            if(playersInRoom == multiplayerSettings.maxPlayers)
             {
                 readyToStart = true;
 
@@ -159,16 +160,16 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 
         OnPlayerEntered?.Invoke();//Lobby bummie hears it.
 
-        if (settings.delayStart)
+        if (multiplayerSettings.delayStart)
         {
-            Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + settings.maxPlayers + ")");
-            matchMaking.text = playersInRoom + " / " + settings.maxPlayers + " Players";
+            Debug.Log("Players in room out of max players possible (" + playersInRoom + ":" + multiplayerSettings.maxPlayers + ")");
+            matchMaking.text = playersInRoom + " / " + multiplayerSettings.maxPlayers + " Players";
 
             //if (playersInRoom > 1)
             //{
             //    readyToCount = true;
             //}
-            if (playersInRoom == settings.maxPlayers)
+            if (playersInRoom == multiplayerSettings.maxPlayers)
             {
                 readyToStart = true;
 
@@ -187,12 +188,12 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
             return;
         }
 
-        if(settings.delayStart)
+        if(multiplayerSettings.delayStart)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
 
-        PhotonNetwork.LoadLevel(settings.multiplayerScene);
+        PhotonNetwork.LoadLevel(multiplayerSettings.multiplayerScene);
     }
 
     private void RestartTimer()
@@ -207,11 +208,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
     private void OnSceneFinishLoading(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene.buildIndex;
-        if(currentScene == settings.multiplayerScene)
+        if(currentScene == multiplayerSettings.multiplayerScene)
         {
             isGameLoaded = true;
 
-            if(settings.delayStart)
+            if(multiplayerSettings.delayStart)
             {
                 pV.RPC("RPC_LoadedGameScene", RpcTarget.MasterClient);
             }
@@ -240,6 +241,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
 
     public void ReturnMenu()
     {
-        SceneManager.LoadScene(settings.menuScene);
+        SceneManager.LoadScene(multiplayerSettings.menuScene);
     }
 }

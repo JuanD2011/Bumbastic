@@ -10,7 +10,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
 {
     public static PhotonLobby lobby;
 
-    public Settings multiplayerSetting;
+    public MultiplayerSettings multiplayerSetting;
 
     [SerializeField] private GameObject playButton, cancelButton;
 
