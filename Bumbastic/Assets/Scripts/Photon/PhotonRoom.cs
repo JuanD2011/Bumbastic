@@ -192,7 +192,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks, IMatchmak
             PhotonNetwork.CurrentRoom.IsOpen = false;
         }
 
-        Memento.instance.SaveData(0);
         PhotonNetwork.LoadLevel(settings.multiplayerScene);
     }
 

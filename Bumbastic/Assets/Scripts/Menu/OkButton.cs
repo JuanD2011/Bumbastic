@@ -31,6 +31,7 @@ public class OkButton : MonoBehaviour
         if (canSet)
         {
             settings.isNicknameSet = true;
+            Memento.instance.SaveData(0);
             menuUI.NicknameSet();
         }
     }
