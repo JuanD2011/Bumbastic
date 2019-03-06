@@ -23,7 +23,8 @@ public class Memento : MonoBehaviour
     /// 
     /// </summary>
     /// <param name="_TypeToSave">0 is for Settings</param>
-    public void SaveData(int _TypeToSave) {
+    public void SaveData(int _TypeToSave)
+    {
         if (!ExistsDirectory())
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/game_save");
@@ -47,7 +48,8 @@ public class Memento : MonoBehaviour
         }
     }
 
-    private void LoadData() {
+    public void LoadData()
+    {
         if (!Directory.Exists(Application.persistentDataPath + "/game_save/settings_data"))
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/game_save/settings_data");
