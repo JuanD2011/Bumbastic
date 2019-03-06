@@ -36,4 +36,20 @@ public class MenuUI : MonoBehaviour
     {
         canvasAnimator.SetTrigger("NicknameSet");
     }
+
+    public void QuitPanel(bool _bool)
+    {
+        canvasAnimator.SetBool("QuitPanel", _bool);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (canvasAnimator.GetCurrentAnimatorStateInfo(0).IsName("PrincipalMenu"))
+            {
+                QuitPanel(true);
+            }
+        }
+    }
 }

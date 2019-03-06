@@ -19,5 +19,5 @@ MonoBehaviour:
   isMusicActive: 1
   isSfxActive: 1
   isJoysitckLocked: 0
-  isNicknameSet: 1
+  isNicknameSet: 0
   nickname: Danielito

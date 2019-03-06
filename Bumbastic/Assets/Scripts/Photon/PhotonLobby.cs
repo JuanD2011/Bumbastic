@@ -159,6 +159,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         OnDisableBummie?.Invoke();//LobbyBummie hears it.
     }
 
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
     private void InitCallback()
     {
         if (FB.IsInitialized)
