@@ -21,7 +21,7 @@ public class Props : MonoBehaviour
 
         for (int i = 1; i < modules.Length; i++)
         {
-            if (Vector3.Distance(transform.position, modules[i].transform.position) < distance)
+            if (Vector3.Distance(transform.position, modules[i].transform.position) < distance && modules[i].gameObject.tag=="Floor")
             {
                 distance = (Vector3.Distance(transform.position, modules[i].transform.position));
                 padre = modules[i].gameObject;

@@ -9,8 +9,6 @@ public class FloorManager : MonoBehaviour
     Rings[] rings;
 
 
-    Collider[] props;
-
 
     [SerializeField]
     Transform[] colliders;
@@ -29,6 +27,13 @@ public class FloorManager : MonoBehaviour
 
     [SerializeField]
     Gradient colorAnticipation;
+
+
+    //mientras el suelo no tenga textura
+
+    Color color;
+
+    //mientras el suelo no tenga textura
 
     // Start is called before the first frame update
     void Start()
@@ -66,6 +71,17 @@ public class FloorManager : MonoBehaviour
             colliders[i].localPosition = colliders[i].forward*nRings;
         }
 
+        for (int i = 0; i < modules.Length; i++)
+        {
+            modules[i].transform.position += new Vector3(0, Random.Range(0f,0.07f), 0);
+        }
+
+
+        //mientras el suelo no tenga textura
+
+        color = modules[0].gameObject.GetComponent<Renderer>().material.color;
+
+        //mientras el suelo no tenga textura
 
     }
 
@@ -90,7 +106,8 @@ public class FloorManager : MonoBehaviour
 
             for (int i = 0; i < rings[anticipationRing].module.Length; i++)
             {
-                rings[anticipationRing].module[i].gameObject.GetComponent<Renderer>().material.color = colorAnticipation.Evaluate(time);
+                //corregir cuando se le ponga textura al suelo
+                rings[anticipationRing].module[i].gameObject.GetComponent<Renderer>().material.color = color*colorAnticipation.Evaluate(time);
             }
 
             if (time >= 1)
@@ -115,11 +132,14 @@ public class FloorManager : MonoBehaviour
         {
             rings[ring].module[i].useGravity = true;
 
+            Collider[] props;
             props = rings[ring].module[i].gameObject.GetComponentsInChildren<Collider>();
             for (int j = 0; j < props.Length; j++)
             {
                 props[j].enabled = false;
             }
+
+            rings[ring].module[i].constraints = RigidbodyConstraints.None;
 
             StartCoroutine(Desactivate(rings[ring].module[i]));
             yield return new WaitForSeconds(dropInterval);
