@@ -39,9 +39,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks, ILobbyCallbacks
         }
         DontDestroyOnLoad(this.gameObject);
 
-
         roomOptions = new RoomOptions { IsVisible = true, IsOpen = true, MaxPlayers = (byte)multiplayerSetting.maxPlayers, PublishUserId = true };
-        PhotonNetwork.ConnectUsingSettings();
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings(); 
+        }
+        else
+        {
+            playButton.GetComponent<Button>().interactable = true;
+        }
+
     }
 
     public override void OnEnable()
