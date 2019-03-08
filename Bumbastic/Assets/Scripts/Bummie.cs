@@ -113,11 +113,8 @@ public class Bummie : MonoBehaviour, IOnEventCallback
             }
             else
             {
-                if (input != Vector2.zero && inputAiming != Vector2.zero)
-                {
-                    input = Vector2.zero;
-                    inputAiming = Vector2.zero;
-                }
+                input = Vector2.zero;
+                inputAiming = Vector2.zero;
             }
         }
 

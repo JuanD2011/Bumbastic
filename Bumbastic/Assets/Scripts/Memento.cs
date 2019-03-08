@@ -6,18 +6,23 @@ public class Memento : MonoBehaviour
 {
     public static Memento instance;
 
+    string path;
+    Settings settings;
+
     private void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Destroy(this);
+
+        path = Application.persistentDataPath + "/game_save/settings_data/settings_save.txt";
+         settings = Resources.Load<Settings>("ScriptableObjects/Settings");
     }
 
     public delegate void DelMemento();
     public DelMemento OnLoadedData;
 
-    string resourceSettings = "ScriptableObjects/Settings";
 
     private void Start()
     {
@@ -60,12 +65,25 @@ public class Memento : MonoBehaviour
                 {
                     Directory.CreateDirectory(Application.persistentDataPath + "/game_save/settings_data");
                 }
-                FileStream file = File.Create(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt");
-                BinaryFormatter bf = new BinaryFormatter();
-                var json = JsonUtility.ToJson(Resources.Load(resourceSettings));
-                Debug.Log(json.ToString());
-                bf.Serialize(file, json);
-                file.Close();
+
+                string savedJson = JsonUtility.ToJson(settings);
+
+                if (File.Exists(path))
+                {
+                    File.WriteAllText(path, savedJson);
+                }
+                else
+                {
+                    FileStream file = File.Create(path);
+                    File.WriteAllText(path, savedJson);
+                    file.Close();
+                }
+
+                Debug.Log(savedJson);
+
+                //BinaryFormatter bf = new BinaryFormatter();
+                //var json = JsonUtility.ToJson(Resources.Load(resourceSettings));
+                //bf.Serialize(file, json);
                 break;
             default:
                 break;
@@ -78,12 +96,13 @@ public class Memento : MonoBehaviour
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/game_save/settings_data");
         }
-        BinaryFormatter bf = new BinaryFormatter();
-        if (File.Exists(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt"))
+        //BinaryFormatter bf = new BinaryFormatter();
+        if (File.Exists(path))
         {
-            FileStream file = File.Open(Application.persistentDataPath + "/game_save/settings_data/settings_save.txt", FileMode.Open);
-            JsonUtility.FromJsonOverwrite((string)bf.Deserialize(file), Resources.Load(resourceSettings));
-            file.Close();
+            string file = File.ReadAllText(path);
+            Debug.Log(file);
+            //Settings settings = JsonUtility.FromJson<Settings>(file);
+             
             OnLoadedData?.Invoke();//AudioMute,.
         }
     }
