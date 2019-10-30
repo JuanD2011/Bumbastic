@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
         else if(playersSpawned > PhotonRoom.room.playersInRoom)
         {
-            Debug.Log("Ay amá");
+            
         }
     }
 
